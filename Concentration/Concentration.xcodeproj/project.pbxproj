@@ -13,6 +13,8 @@
 		474657B3200EAED500F45192 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 474657B2200EAED500F45192 /* Assets.xcassets */; };
 		474657B6200EAED500F45192 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 474657B4200EAED500F45192 /* LaunchScreen.storyboard */; };
 		474657C1200EAED500F45192 /* ConcentrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474657C0200EAED500F45192 /* ConcentrationTests.swift */; };
+		474657CD200F73FC00F45192 /* Concentration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474657CC200F73FC00F45192 /* Concentration.swift */; };
+		474657CF200F740900F45192 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474657CE200F740900F45192 /* Card.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +38,8 @@
 		474657BC200EAED500F45192 /* ConcentrationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ConcentrationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		474657C0200EAED500F45192 /* ConcentrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcentrationTests.swift; sourceTree = "<group>"; };
 		474657C2200EAED500F45192 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		474657CC200F73FC00F45192 /* Concentration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Concentration.swift; sourceTree = "<group>"; };
+		474657CE200F740900F45192 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,9 +82,11 @@
 			isa = PBXGroup;
 			children = (
 				474657CB200EB08F00F45192 /* Supporting files */,
-				474657AD200EAED500F45192 /* ViewController.swift */,
 				474657AF200EAED500F45192 /* Main.storyboard */,
 				474657B7200EAED500F45192 /* Info.plist */,
+				474657AD200EAED500F45192 /* ViewController.swift */,
+				474657CC200F73FC00F45192 /* Concentration.swift */,
+				474657CE200F740900F45192 /* Card.swift */,
 			);
 			path = Concentration;
 			sourceTree = "<group>";
@@ -209,6 +215,8 @@
 			files = (
 				474657AE200EAED500F45192 /* ViewController.swift in Sources */,
 				474657AC200EAED500F45192 /* AppDelegate.swift in Sources */,
+				474657CD200F73FC00F45192 /* Concentration.swift in Sources */,
+				474657CF200F740900F45192 /* Card.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
