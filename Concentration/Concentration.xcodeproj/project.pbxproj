@@ -77,11 +77,9 @@
 		474657AA200EAED500F45192 /* Concentration */ = {
 			isa = PBXGroup;
 			children = (
-				474657AB200EAED500F45192 /* AppDelegate.swift */,
+				474657CB200EB08F00F45192 /* Supporting files */,
 				474657AD200EAED500F45192 /* ViewController.swift */,
 				474657AF200EAED500F45192 /* Main.storyboard */,
-				474657B2200EAED500F45192 /* Assets.xcassets */,
-				474657B4200EAED500F45192 /* LaunchScreen.storyboard */,
 				474657B7200EAED500F45192 /* Info.plist */,
 			);
 			path = Concentration;
@@ -94,6 +92,16 @@
 				474657C2200EAED500F45192 /* Info.plist */,
 			);
 			path = ConcentrationTests;
+			sourceTree = "<group>";
+		};
+		474657CB200EB08F00F45192 /* Supporting files */ = {
+			isa = PBXGroup;
+			children = (
+				474657AB200EAED500F45192 /* AppDelegate.swift */,
+				474657B2200EAED500F45192 /* Assets.xcassets */,
+				474657B4200EAED500F45192 /* LaunchScreen.storyboard */,
+			);
+			path = "Supporting files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
