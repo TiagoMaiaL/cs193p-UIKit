@@ -24,7 +24,7 @@ struct Card {
   
   // MARK: Static properties and methods
   
-  private static var identifiersCount = 0
+  private static var identifiersCount = -1
   
   static func getNewIdentifier() -> Int {
     identifiersCount += 1
