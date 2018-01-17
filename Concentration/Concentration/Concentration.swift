@@ -14,7 +14,7 @@ class Concentration {
   
   var cards: [Card] = []
   
-  private var flippedCard: Card?
+  private var previousFlippedCardIndex: Int?
   
   // MARK: Initialization
   
@@ -32,10 +32,31 @@ class Concentration {
   // MARK: Imperatives
   
   func flipCard(with index: Int) {
-    // It's going to take care of which card is flipped.
-    // And Check if there's a match.
+    var selectedCard = cards[index]
     
-    cards[index].flipped = !cards[index].flipped
+    guard !selectedCard.isMatched else { return }
+    
+    if let flippedIndex = previousFlippedCardIndex {
+      var flippedCard = cards[flippedIndex]
+      
+      if flippedCard.identifier == selectedCard.identifier {
+        flippedCard.isMatched = true
+        selectedCard.isMatched = true
+      }
+
+      self.previousFlippedCardIndex = nil
+      
+      cards[flippedIndex] = flippedCard
+    } else {
+      for index in cards.indices {
+        cards[index].setFaceDown()
+      }
+      
+      previousFlippedCardIndex = index
+    }
+    
+    selectedCard.flipCard()
+    cards[index] = selectedCard
   }
   
 }

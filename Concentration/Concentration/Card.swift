@@ -13,8 +13,8 @@ struct Card {
   // MARK: Properties
   
   let identifier: Int
-  var matched = false
-  var flipped = false
+  var isMatched = false
+  var isFaceUp = false
   
   // MARK: Initializer
   
@@ -30,4 +30,15 @@ struct Card {
     identifiersCount += 1
     return identifiersCount
   }
+  
+  mutating func flipCard() {
+    isFaceUp = !isFaceUp
+  }
+  
+  mutating func setFaceDown() {
+    if isFaceUp {
+      isFaceUp = false
+    }
+  }
+
 }
