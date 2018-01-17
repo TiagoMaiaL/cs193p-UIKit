@@ -12,9 +12,11 @@ class Concentration {
   
   // MARK: Properties
   
-  var cards: [Card] = []
+  var cards = [Card]()
   
   private var previousFlippedCardIndex: Int?
+  
+  private(set) var flipsCount = 0
   
   // MARK: Initialization
   
@@ -56,6 +58,7 @@ class Concentration {
     }
     
     selectedCard.flipCard()
+    flipsCount += 1
     cards[index] = selectedCard
   }
   
