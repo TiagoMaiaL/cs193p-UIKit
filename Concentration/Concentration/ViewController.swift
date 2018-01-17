@@ -28,7 +28,7 @@ class ViewController: UIViewController {
 
   // MARK: Actions
   
-  var cardsMap = [Int : String]()
+  var cardsEmojisMap = [Int : String]()
   
   @IBAction func didTapCard(_ sender: UIButton) {
     guard let index = cardButtons.index(of: sender) else { return }
@@ -38,8 +38,8 @@ class ViewController: UIViewController {
     
     guard emojis.indices.contains(card.identifier) else { return }
     
-    if cardsMap[card.identifier] == nil {
-      cardsMap[card.identifier] = emojis[card.identifier]
+    if cardsEmojisMap[card.identifier] == nil {
+      cardsEmojisMap[card.identifier] = emojis[card.identifier]
     }
     
     concentration.flipCard(with: index)
@@ -56,7 +56,7 @@ class ViewController: UIViewController {
       let card = concentration.cards[index]
       
       if card.isFaceUp {
-        cardButton.setTitle(cardsMap[card.identifier], for: .normal)
+        cardButton.setTitle(cardsEmojisMap[card.identifier], for: .normal)
         cardButton.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
       } else {
         cardButton.setTitle("", for: .normal)
