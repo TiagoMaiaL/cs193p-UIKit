@@ -54,7 +54,8 @@ class Concentration {
     
     guard !selectedCard.isMatched else { return }
     
-    if let flippedIndex = previousFlippedCardIndex {
+    if let flippedIndex = previousFlippedCardIndex, flippedIndex != index {
+      
       var flippedCard = cards[flippedIndex]
       
       if flippedCard.identifier == selectedCard.identifier {
