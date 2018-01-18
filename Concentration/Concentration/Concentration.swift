@@ -18,6 +18,7 @@ class Concentration {
   private var previousFlippedCardIndex: Int?
   
   private(set) var flipsCount = 0
+  private(set) var score = 0
   
   // MARK: Initialization
   
@@ -28,6 +29,9 @@ class Concentration {
   // MARK: Imperatives
   
   func resetGame() {
+    flipsCount = 0
+    score = 0
+    
     Card.resetIdentifiersCount()
     let pairsCount = cards.count / 2
     cards = []
@@ -56,20 +60,36 @@ class Concentration {
       if flippedCard.identifier == selectedCard.identifier {
         flippedCard.isMatched = true
         selectedCard.isMatched = true
+        score += 2
       }
 
       self.previousFlippedCardIndex = nil
       
       cards[flippedIndex] = flippedCard
     } else {
+      var didPenalize = false
       for index in cards.indices {
-        cards[index].setFaceDown()
+        var currentCard = cards[index]
+        
+        if currentCard.isFaceUp {
+          if currentCard.wasSeen && !didPenalize {
+            score -= 1
+            didPenalize = true
+          }
+          
+          currentCard.wasFlipped = true
+          currentCard.setFaceDown()
+        }
+        
+        cards[index] = currentCard
       }
       
       previousFlippedCardIndex = index
     }
     
     selectedCard.flipCard()
+    
+    
     flipsCount += 1
     cards[index] = selectedCard
   }

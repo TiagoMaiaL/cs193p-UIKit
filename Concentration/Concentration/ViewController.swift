@@ -45,19 +45,24 @@ class ViewController: UIViewController {
     }
     
     concentration.flipCard(with: index)
-    flipsLabel.text = "Flips: \(concentration.flipsCount)"
+    
     displayCards()
+    displayLabels()
   }
   
   @IBAction func didTapNewGame(_ sender: UIButton) {
     concentration.resetGame()
     displayCards()
-    flipsLabel.text = "Flips: 0"
-    scoreLabel.text = "Score: 0"
+    displayLabels()
     cardsEmojisMap = [:]
   }
   
   // MARK: Imperatives
+  
+  func displayLabels() {
+    flipsLabel.text = "Flips: \(concentration.flipsCount)"
+    scoreLabel.text = "Score: \(concentration.score)"
+  }
   
   func displayCards() {
     for (index, cardButton) in cardButtons.enumerated() {
