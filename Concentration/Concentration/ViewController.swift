@@ -16,6 +16,8 @@ class ViewController: UIViewController {
   
   @IBOutlet weak var flipsLabel: UILabel!
   
+  @IBOutlet weak var scoreLabel: UILabel!
+  
   lazy var concentration = Concentration(numberOfPairs: (cardButtons.count / 2))
   
   var emojis = ["🇧🇷", "🇧🇪", "🇯🇵", "🇨🇦", "🇺🇸", "🇵🇪", "🇮🇪", "🇦🇷"]
@@ -45,6 +47,10 @@ class ViewController: UIViewController {
     concentration.flipCard(with: index)
     self.flipsLabel.text = "Flips: \(concentration.flipsCount)"
     displayCards()
+  }
+  
+  @IBAction func didTapNewGame(_ sender: UIButton) {
+    // TODO:
   }
   
   // MARK: Imperatives
