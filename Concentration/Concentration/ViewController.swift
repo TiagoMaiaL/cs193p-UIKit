@@ -20,12 +20,22 @@ class ViewController: UIViewController {
   
   lazy var concentration = Concentration(numberOfPairs: (cardButtons.count / 2))
   
-  var emojis = ["🇧🇷", "🇧🇪", "🇯🇵", "🇨🇦", "🇺🇸", "🇵🇪", "🇮🇪", "🇦🇷"]
+  var themes = [
+    ["🇧🇷", "🇧🇪", "🇯🇵", "🇨🇦", "🇺🇸", "🇵🇪", "🇮🇪", "🇦🇷"],
+    ["😀", "🙄", "😡", "🤢", "🤡", "😱", "😍", "🤠"],
+    ["🏌️", "🤼‍♂️", "🥋", "🏹", "🥊", "🏊", "🤾🏿‍♂️", "🏇🏿"],
+    ["🦊", "🐼", "🦁", "🐘", "🐓", "🦀", "🐷", "🦉"],
+    ["🥑", "🍍", "🍆", "🍠", "🍉", "🍇", "🥝", "🍒"],
+    ["💻", "🖥", "⌚️", "☎️", "🖨", "🖱", "📱", "⌨️"]
+  ]
+  
+  var pickedThemeEmojis = ["🇧🇷", "🇧🇪", "🇯🇵", "🇨🇦", "🇺🇸", "🇵🇪", "🇮🇪", "🇦🇷"]
   
   // MARK: Life cycle
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    setRandomTheme()
   }
 
   // MARK: Actions
@@ -38,10 +48,10 @@ class ViewController: UIViewController {
     
     let card = concentration.cards[index]
     
-    guard emojis.indices.contains(card.identifier) else { return }
+    guard pickedThemeEmojis.indices.contains(card.identifier) else { return }
     
     if cardsEmojisMap[card.identifier] == nil {
-      cardsEmojisMap[card.identifier] = emojis[card.identifier]
+      cardsEmojisMap[card.identifier] = pickedThemeEmojis[card.identifier]
     }
     
     concentration.flipCard(with: index)
@@ -51,6 +61,7 @@ class ViewController: UIViewController {
   }
   
   @IBAction func didTapNewGame(_ sender: UIButton) {
+    setRandomTheme()
     concentration.resetGame()
     displayCards()
     displayLabels()
@@ -58,6 +69,17 @@ class ViewController: UIViewController {
   }
   
   // MARK: Imperatives
+  
+  func setRandomTheme() {
+    let randomThemeIndex = Int(arc4random_uniform(UInt32(themes.count)))
+    
+    guard themes.indices.contains(randomThemeIndex) else {
+      pickedThemeEmojis = themes[0]
+      return
+    }
+    
+    pickedThemeEmojis = themes[randomThemeIndex]
+  }
   
   func displayLabels() {
     flipsLabel.text = "Flips: \(concentration.flipsCount)"
