@@ -19,14 +19,18 @@ struct Card {
   // MARK: Initializer
   
   init() {
-    identifier = Card.getNewIdentifier()
+    identifier = Card.makeIdentifier()
   }
   
   // MARK: Static properties and methods
   
   private static var identifiersCount = -1
   
-  static func getNewIdentifier() -> Int {
+  static func resetIdentifiersCount() {
+    identifiersCount = -1
+  }
+  
+  static func makeIdentifier() -> Int {
     identifiersCount += 1
     return identifiersCount
   }

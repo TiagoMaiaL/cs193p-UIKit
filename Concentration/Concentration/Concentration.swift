@@ -22,17 +22,28 @@ class Concentration {
   // MARK: Initialization
   
   init(numberOfPairs: Int) {
+    setPairs(withCount: numberOfPairs)
+  }
+  
+  // MARK: Imperatives
+  
+  func resetGame() {
+    Card.resetIdentifiersCount()
+    let pairsCount = cards.count / 2
+    cards = []
+    setPairs(withCount: pairsCount)
+  }
+  
+  private func setPairs(withCount numberOfPairs: Int) {
     for _ in 0..<numberOfPairs {
       let currentCard = Card()
-
+      
       cards.append(currentCard)
       cards.append(currentCard)
     }
     
     cards = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: cards) as! [Card]
   }
-  
-  // MARK: Imperatives
   
   func flipCard(with index: Int) {
     var selectedCard = cards[index]
