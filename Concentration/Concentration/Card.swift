@@ -12,9 +12,9 @@ struct Card {
   
   // MARK: Properties
   
-  var wasFlipped = false
   let identifier: Int
   var isMatched = false
+  var wasFlipped = false
   var isFaceUp = false
   var wasSeen: Bool {
     get {
