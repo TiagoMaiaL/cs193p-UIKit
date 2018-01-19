@@ -69,7 +69,7 @@ class ViewController: UIViewController {
       cardsAndEmojisMap[card.identifier] = pickedTheme[card.identifier]
     }
     
-    concentration.flipCard(with: index)
+    concentration.flipCard(at: index)
     
     displayCards()
     displayLabels()
