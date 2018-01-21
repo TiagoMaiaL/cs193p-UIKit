@@ -8,6 +8,10 @@
 
 import UIKit
 
+// The following Theme code is part of one of the extra credit tasks.
+// MARK: Extra credit 1
+// -------------------------
+
 typealias Emojis = [String]
 
 /// Enum representing all the possible card themes.
@@ -95,6 +99,8 @@ enum Theme: Int {
   }
   
 }
+// -------------------------
+// -------------------------
 
 class ViewController: UIViewController {
 

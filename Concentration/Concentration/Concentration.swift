@@ -26,6 +26,11 @@ class Concentration {
   /// The number of times the player flipped a card.
   private(set) var flipsCount = 0
   
+  /// The date used to give a higher score to the player.
+  /// It's set when the first card is flipped, and depending on the
+  /// time taken for a match, we give a higher score or not.
+  private var scoringDate: Date?
+  
   /// The player's score.
   private(set) var score = 0
   
@@ -83,7 +88,7 @@ class Concentration {
       if firstCard.identifier == selectedCard.identifier {
         firstCard.isMatched = true
         selectedCard.isMatched = true
-        score += 2
+        increaseScore()
       }
 
       // No single card is faced up anymore.
@@ -96,11 +101,11 @@ class Concentration {
       // in case it's not the first flip.
       setCurrentPairToFaceDown()
 
+      scoringDate = Date()
       oneAndOnlyFlippedCard = index
     }
     
     selectedCard.flipCard()
-    
     
     flipsCount += 1
     cards[index] = selectedCard
@@ -109,7 +114,7 @@ class Concentration {
   /// Flips back the previous chosen pair,
   /// If the chosen cards were already seen,
   /// we should apply a penalization.
-  func setCurrentPairToFaceDown() {
+  private func setCurrentPairToFaceDown() {
     /// Indicates if the penalty was already applied.
     var didPenalize = false
     
@@ -137,8 +142,31 @@ class Concentration {
     }
   }
   
+  /// Increases the player's score.
+  /// The incrememnt is also based on the time
+  /// taken between two flips.
+  private func increaseScore() {
+    
+    // The following Theme code is part of one of the extra credit tasks.
+    // MARK: Extra credit 2
+    // -------------------------
+    if let scoringDate = scoringDate {
+      let secondsBetweenFlips = Int(Date().timeIntervalSince(scoringDate))
+      
+      if secondsBetweenFlips < 4 {
+        score += 3
+      } else {
+        score += 2
+      }
+      self.scoringDate = nil
+    } else {
+      score += 2
+    }
+    // -------------------------
+  }
+  
   /// Penalizes the player by one point.
-  func penalize() {
+  private func penalize() {
     score -= 1
   }
   
