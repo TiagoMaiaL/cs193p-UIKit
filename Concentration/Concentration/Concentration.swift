@@ -20,8 +20,40 @@ class Concentration {
   /// the first chosen card of a pair.
   ///
   /// This variable is used to verify if
-  /// it's time to check for match or not.
-  private var oneAndOnlyFlippedCard: Int?
+  /// it's time to check for a match or not.
+  private var oneAndOnlyFlippedCardIndex: Int? {
+    get {
+      var oneAndOnlyFlippedCardIndex: Int? = nil
+      
+      // Goes through all cards to find the faced up one.
+      for cardIndex in cards.indices {
+        let currentCard = cards[cardIndex]
+        
+        if currentCard.isFaceUp {
+          
+          if oneAndOnlyFlippedCardIndex == nil {
+            oneAndOnlyFlippedCardIndex = cardIndex
+          } else {
+            // If there's already a faced up card,
+            // it means that there's not one and only faced up card,
+            // and this property is nil.
+            oneAndOnlyFlippedCardIndex = nil
+            break
+          }
+        }
+      }
+      
+      return oneAndOnlyFlippedCardIndex
+    }
+    set {
+      // Turns down any faced up pair.
+      setCurrentPairToFaceDown()
+      
+      // Starts to compute the time the player is
+      // taking to flip the next card.
+      scoringDate = Date()
+    }
+  }
   
   /// The number of times the player flipped a card.
   private(set) var flipsCount = 0
@@ -80,7 +112,7 @@ class Concentration {
     // If we already have one previously flipped card,
     // This also means that we now have two faced up cards.
     // Thus we need to check for a match.
-    if let firstCardIndex = oneAndOnlyFlippedCard, firstCardIndex != index {
+    if let firstCardIndex = oneAndOnlyFlippedCardIndex, firstCardIndex != index {
       
       var firstCard = cards[firstCardIndex]
       
@@ -90,19 +122,13 @@ class Concentration {
         selectedCard.isMatched = true
         increaseScore()
       }
-
-      // No single card is faced up anymore.
-      oneAndOnlyFlippedCard = nil
       
       cards[firstCardIndex] = firstCard
     } else {
       // We don't have a single flipped card, it's time to set one.
       // And the player missed the right cards,
       // in case it's not the first flip.
-      setCurrentPairToFaceDown()
-
-      scoringDate = Date()
-      oneAndOnlyFlippedCard = index
+      oneAndOnlyFlippedCardIndex = index
     }
     
     selectedCard.flipCard()
