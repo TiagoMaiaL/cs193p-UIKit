@@ -173,6 +173,7 @@ class ViewController: UIViewController {
   func chooseRandomTheme() {
     pickedTheme = Theme.getRandom()
     view.backgroundColor = pickedTheme.backgroundColor
+    displayCards()
   }
   
   /// Method used to refresh the scores and flips UI labels.

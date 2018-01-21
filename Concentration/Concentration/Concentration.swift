@@ -153,7 +153,7 @@ class Concentration {
     if let scoringDate = scoringDate {
       let secondsBetweenFlips = Int(Date().timeIntervalSince(scoringDate))
       
-      if secondsBetweenFlips < 4 {
+      if secondsBetweenFlips < 2 {
         score += 3
       } else {
         score += 2
