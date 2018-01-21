@@ -90,12 +90,11 @@ enum Theme: Int {
   
   /// The count of possible themes.
   static var count: Int {
-    return Theme.Appliances.rawValue
+    return Theme.Appliances.rawValue + 1
   }
   
   static func getRandom() -> Theme {
-    let randomRawValue = Int(arc4random_uniform(UInt32(Theme.count + 1)))
-    return Theme(rawValue: randomRawValue)!
+    return Theme(rawValue: Theme.count.arc4random)!
   }
   
 }

@@ -23,7 +23,7 @@ class Concentration {
   /// it's time to check for a match or not.
   private var oneAndOnlyFlippedCardIndex: Int? {
     get {
-      var oneAndOnlyFlippedCardIndex: Int? = nil
+      var foundFlippedIndex: Int? = nil
       
       // Goes through all cards to find the faced up one.
       for cardIndex in cards.indices {
@@ -31,19 +31,19 @@ class Concentration {
         
         if currentCard.isFaceUp {
           
-          if oneAndOnlyFlippedCardIndex == nil {
-            oneAndOnlyFlippedCardIndex = cardIndex
+          if foundFlippedIndex == nil {
+            foundFlippedIndex = cardIndex
           } else {
             // If there's already a faced up card,
             // it means that there's not one and only faced up card,
             // and this property is nil.
-            oneAndOnlyFlippedCardIndex = nil
+            foundFlippedIndex = nil
             break
           }
         }
       }
       
-      return oneAndOnlyFlippedCardIndex
+      return foundFlippedIndex
     }
     set {
       // Turns down any faced up pair.
