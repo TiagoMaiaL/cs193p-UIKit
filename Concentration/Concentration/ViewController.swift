@@ -116,11 +116,11 @@ class ViewController: UIViewController {
   @IBOutlet weak var scoreLabel: UILabel!
   
   /// The model encapsulating the concentration game's logic.
-  lazy var concentration = Concentration(numberOfPairs: (cardButtons.count / 2))
+  private lazy var concentration = Concentration(numberOfPairs: (cardButtons.count / 2))
   
   /// The randomly picked theme.
   /// The theme is chosen every time a new game starts.
-  var pickedTheme: Theme!
+  private var pickedTheme: Theme!
   
   // MARK: Life cycle
   
@@ -134,7 +134,7 @@ class ViewController: UIViewController {
   /// The map between a card identifier and the emoji used with it.
   /// This is the dictionary responsible for mapping
   /// which emoji is going to be displayed by a which card.
-  var cardsAndEmojisMap = [Int : String]()
+  private var cardsAndEmojisMap = [Int : String]()
   
   /// Action fired when a card button is tapped.
   /// It flips a card checks if there's a match or not.
@@ -170,21 +170,21 @@ class ViewController: UIViewController {
   // MARK: Imperatives
   
   /// Method used to randomly choose the game's theme.
-  func chooseRandomTheme() {
+  private func chooseRandomTheme() {
     pickedTheme = Theme.getRandom()
     view.backgroundColor = pickedTheme.backgroundColor
     displayCards()
   }
   
   /// Method used to refresh the scores and flips UI labels.
-  func displayLabels() {
+  private func displayLabels() {
     flipsLabel.text = "Flips: \(concentration.flipsCount)"
     scoreLabel.text = "Score: \(concentration.score)"
   }
   
   /// Method in charge of displaying each card's state
   /// with the assciated card button.
-  func displayCards() {
+  private func displayCards() {
     for (index, cardButton) in cardButtons.enumerated() {
       guard concentration.cards.indices.contains(index) else { continue }
       

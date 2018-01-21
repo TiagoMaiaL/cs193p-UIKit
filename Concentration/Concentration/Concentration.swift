@@ -14,7 +14,7 @@ class Concentration {
   // MARK: Properties
   
   /// The cards used in the game.
-  var cards = [Card]()
+  private(set) var cards = [Card]()
   
   /// The only flipped card index. Used to track
   /// the first chosen card of a pair.
