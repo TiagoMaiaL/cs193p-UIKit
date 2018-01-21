@@ -8,6 +8,94 @@
 
 import UIKit
 
+typealias Emojis = [String]
+
+/// Enum representing all the possible card themes.
+enum Theme: Int {
+  
+  case Flags, Faces, Sports, Animals, Fruits, Appliances
+  
+  /// The color of the back of the card
+  var cardColor: UIColor {
+    switch self {
+    case .Flags:
+      return #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+      
+    case .Faces:
+      return #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1)
+      
+    case .Sports:
+      return #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1)
+      
+    case .Animals:
+      return #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+      
+    case .Fruits:
+      return #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+      
+    case .Appliances:
+      return #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 1)
+    }
+  }
+  
+  /// The color of the background view
+  var backgroundColor: UIColor {
+    switch self {
+    case .Flags:
+      return #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+      
+    case .Faces:
+      return #colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1)
+      
+    case .Sports:
+      return #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
+      
+    case .Animals:
+      return #colorLiteral(red: 0.9568627477, green: 0.6588235497, blue: 0.5450980663, alpha: 1)
+      
+    case .Fruits:
+      return #colorLiteral(red: 0.721568644, green: 0.8862745166, blue: 0.5921568871, alpha: 1)
+      
+    case .Appliances:
+      return #colorLiteral(red: 0.09019608051, green: 0, blue: 0.3019607961, alpha: 1)
+    }
+  }
+  
+  /// The emojis used by this theme
+  var emojis: Emojis {
+    switch self {
+    case .Flags:
+      return ["🇧🇷", "🇧🇪", "🇯🇵", "🇨🇦", "🇺🇸", "🇵🇪", "🇮🇪", "🇦🇷"]
+      
+    case .Faces:
+      return ["😀", "🙄", "😡", "🤢", "🤡", "😱", "😍", "🤠"]
+      
+    case .Sports:
+      return ["🏌️", "🤼‍♂️", "🥋", "🏹", "🥊", "🏊", "🤾🏿‍♂️", "🏇🏿"]
+      
+    case .Animals:
+      return ["🦊", "🐼", "🦁", "🐘", "🐓", "🦀", "🐷", "🦉"]
+      
+    case .Fruits:
+      return ["🥑", "🍍", "🍆", "🍠", "🍉", "🍇", "🥝", "🍒"]
+      
+    case .Appliances:
+      return ["💻", "🖥", "⌚️", "☎️", "🖨", "🖱", "📱", "⌨️"]
+    }
+  }
+  
+  /// The count of possible themes.
+  static var count: Int {
+    return Theme.Appliances.rawValue
+  }
+  
+  static func getRandom() -> Theme {
+    let randomRawValue = Int(arc4random_uniform(UInt32(Theme.count + 1)))
+    return Theme(rawValue: randomRawValue)!
+  }
+  
+}
+
 class ViewController: UIViewController {
 
   // MARK: Properties
@@ -24,21 +112,9 @@ class ViewController: UIViewController {
   /// The model encapsulating the concentration game's logic.
   lazy var concentration = Concentration(numberOfPairs: (cardButtons.count / 2))
   
-  /// A set of themes with emojis used in the cards.
-  /// There are 6 themes, one of them is choosed randomly
-  /// every time a new game starts.
-  var themes = [
-    ["🇧🇷", "🇧🇪", "🇯🇵", "🇨🇦", "🇺🇸", "🇵🇪", "🇮🇪", "🇦🇷"],
-    ["😀", "🙄", "😡", "🤢", "🤡", "😱", "😍", "🤠"],
-    ["🏌️", "🤼‍♂️", "🥋", "🏹", "🥊", "🏊", "🤾🏿‍♂️", "🏇🏿"],
-    ["🦊", "🐼", "🦁", "🐘", "🐓", "🦀", "🐷", "🦉"],
-    ["🥑", "🍍", "🍆", "🍠", "🍉", "🍇", "🥝", "🍒"],
-    ["💻", "🖥", "⌚️", "☎️", "🖨", "🖱", "📱", "⌨️"]
-  ]
-  
   /// The randomly picked theme.
-  /// Each emoji in a card is picked from these emojis.
-  var pickedTheme = [String]()
+  /// The theme is chosen every time a new game starts.
+  var pickedTheme: Theme!
   
   // MARK: Life cycle
   
@@ -63,10 +139,10 @@ class ViewController: UIViewController {
     let card = concentration.cards[index]
     
     // TODO: Put this in a specific function.
-    guard pickedTheme.indices.contains(card.identifier) else { return }
+    guard pickedTheme.emojis.indices.contains(card.identifier) else { return }
     
     if cardsAndEmojisMap[card.identifier] == nil {
-      cardsAndEmojisMap[card.identifier] = pickedTheme[card.identifier]
+      cardsAndEmojisMap[card.identifier] = pickedTheme.emojis[card.identifier]
     }
     
     concentration.flipCard(at: index)
@@ -89,14 +165,8 @@ class ViewController: UIViewController {
   
   /// Method used to randomly choose the game's theme.
   func chooseRandomTheme() {
-    let randomThemeIndex = Int(arc4random_uniform(UInt32(themes.count)))
-    
-    guard themes.indices.contains(randomThemeIndex) else {
-      pickedTheme = themes[0]
-      return
-    }
-    
-    pickedTheme = themes[randomThemeIndex]
+    pickedTheme = Theme.getRandom()
+    view.backgroundColor = pickedTheme.backgroundColor
   }
   
   /// Method used to refresh the scores and flips UI labels.
@@ -118,7 +188,7 @@ class ViewController: UIViewController {
         cardButton.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
       } else {
         cardButton.setTitle("", for: .normal)
-        cardButton.backgroundColor = card.isMatched ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0) : #colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1)
+        cardButton.backgroundColor = card.isMatched ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0) : pickedTheme.cardColor
       }
     }
   }

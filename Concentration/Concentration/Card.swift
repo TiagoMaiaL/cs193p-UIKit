@@ -32,7 +32,7 @@ struct Card {
   init() {
     identifier = Card.makeIdentifier()
   }
-  
+
   // MARK: Imperatives
   
   /// Toggles the flipped state of the card.
