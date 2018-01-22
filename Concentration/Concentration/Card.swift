@@ -9,12 +9,12 @@
 import Foundation
 
 struct Card {
-  
+
   // MARK: Properties
   
   /// The card's identifier.
   /// Used to check for a match.
-  let identifier: Int
+  private let identifier: Int
   
   /// Determines if the card has already been matched.
   var isMatched = false
@@ -65,4 +65,17 @@ struct Card {
     return identifiersCount
   }
 
+}
+
+// MARK: Hashable protocol implementation
+
+extension Card: Hashable {
+  
+  var hashValue: Int {
+    return identifier
+  }
+  
+  static func ==(lhs: Card, rhs: Card) -> Bool {
+    return lhs.identifier == rhs.identifier
+  }
 }

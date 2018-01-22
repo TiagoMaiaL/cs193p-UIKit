@@ -23,27 +23,7 @@ class Concentration {
   /// it's time to check for a match or not.
   private var oneAndOnlyFlippedCardIndex: Int? {
     get {
-      var foundFlippedIndex: Int? = nil
-      
-      // Goes through all cards to find the faced up one.
-      for cardIndex in cards.indices {
-        let currentCard = cards[cardIndex]
-        
-        if currentCard.isFaceUp {
-          
-          if foundFlippedIndex == nil {
-            foundFlippedIndex = cardIndex
-          } else {
-            // If there's already a faced up card,
-            // it means that there's not one and only faced up card,
-            // and this property is nil.
-            foundFlippedIndex = nil
-            break
-          }
-        }
-      }
-      
-      return foundFlippedIndex
+      return cards.indices.filter { cards[$0].isFaceUp }.oneAndOnly
     }
     set {
       // Turns down any faced up pair.
@@ -117,7 +97,7 @@ class Concentration {
       var firstCard = cards[firstCardIndex]
       
       // Do we have a match?
-      if firstCard.identifier == selectedCard.identifier {
+      if firstCard == selectedCard {
         firstCard.isMatched = true
         selectedCard.isMatched = true
         increaseScore()
@@ -194,6 +174,15 @@ class Concentration {
   /// Penalizes the player by one point.
   private func penalize() {
     score -= 1
+  }
+}
+
+extension Collection {
+  
+  /// The only object in the collection,
+  /// if only one is present.
+  var oneAndOnly: Element? {
+    return count == 1 ? first : nil
   }
   
 }
