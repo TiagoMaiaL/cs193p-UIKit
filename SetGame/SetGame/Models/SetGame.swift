@@ -30,7 +30,6 @@ class SetGame {
   
   init() {
     deck = makeDeck()
-    
   }
   
   // MARK: Imperatives
@@ -42,6 +41,7 @@ class SetGame {
   }
   
   /// Method in charge of dealing the game's cards.
+  ///
   /// - Parameter forAmount: The number of cards to be dealt.
   func dealCards(forAmount amount: Int = 3) -> [SetCard] {
     // TODO:
@@ -49,11 +49,19 @@ class SetGame {
   }
   
   /// Factory in charge of generating a valid Set deck with 81 cards.
-  // TODO: Add proper documentation
-  private func makeDeck(features: [Feature] = Number.values, currentCombination: FeatureCombination = FeatureCombination()) -> SetDeck {
+  /// This method uses a recursive approach to generate each card from the four possible features.
+  /// It starts with the Number feature and
+  /// goes all the way through the Shading feature, the last one.
+  ///
+  /// - Parameter features: the features to be iterated and added to the cards in each call.
+  /// - Parameter currentCombination: the combination model that's going to receive the new feature.
+  private func makeDeck(features: [Feature] = Number.values,
+                        currentCombination: FeatureCombination = FeatureCombination()) -> SetDeck {
     var currentCombination = currentCombination
     let nextFeatures: [Feature]?
     
+    // TODO: Think of a better way to get the next features.
+    // Gets the next features that should be added to the combination.
     if features.first is Number {
       nextFeatures = Color.values
     } else if features.first is Color {
@@ -67,9 +75,13 @@ class SetGame {
     for feature in features {
       currentCombination.add(feature: feature)
       
+      // Does it have more features to be added?
       if let nextFeatures = nextFeatures {
+        // Add the next features to the combinations.
         _ = makeDeck(features: nextFeatures, currentCombination: currentCombination)
       } else {
+        // The current features are the last ones.
+        // The combination is now complete, so a new card is created and added to the deck.
         deck.append(SetCard(combination: currentCombination))
       }
     }

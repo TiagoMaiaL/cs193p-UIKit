@@ -53,13 +53,16 @@ struct FeatureCombination {
   
 }
 
-// TODO: Add proper documentation
+/// A card's feature.
 protocol Feature {
+  
+  /// The possible values of the current feature.
   static var values: [Feature] { get }
 }
 
+/// The enum representing the possible
+/// Number feature values of a card in a set game.
 enum Number: Int, Feature {
-  
   case one
   case two
   case three
@@ -69,6 +72,8 @@ enum Number: Int, Feature {
   }
 }
 
+/// The enum representing the possible
+/// Color feature values of a card in a set game.
 enum Color: Int, Feature {
   case red
   case green
@@ -79,6 +84,8 @@ enum Color: Int, Feature {
   }
 }
 
+/// The enum representing the possible
+/// Symbol feature values of a card in a set game.
 enum Symbol: Int, Feature {
   case squiggle
   case diamond
@@ -89,6 +96,8 @@ enum Symbol: Int, Feature {
   }
 }
 
+/// The enum representing the possible
+/// Shading feature values of a card in a set game.
 enum Shading: Int, Feature {
   case solid
   case striped
