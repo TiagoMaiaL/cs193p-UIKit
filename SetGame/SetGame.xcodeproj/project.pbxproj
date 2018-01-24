@@ -13,6 +13,8 @@
 		472773AB20178D1C00157122 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 472773AA20178D1C00157122 /* Assets.xcassets */; };
 		472773AE20178D1C00157122 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 472773AC20178D1C00157122 /* LaunchScreen.storyboard */; };
 		472773B920178D1C00157122 /* SetGameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472773B820178D1C00157122 /* SetGameTests.swift */; };
+		479E41EA201814C3009DFC20 /* SetCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479E41E9201814C3009DFC20 /* SetCard.swift */; };
+		479E41EC2018163A009DFC20 /* SetGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479E41EB2018163A009DFC20 /* SetGame.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +38,8 @@
 		472773B420178D1C00157122 /* SetGameTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SetGameTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		472773B820178D1C00157122 /* SetGameTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetGameTests.swift; sourceTree = "<group>"; };
 		472773BA20178D1C00157122 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		479E41E9201814C3009DFC20 /* SetCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetCard.swift; sourceTree = "<group>"; };
+		479E41EB2018163A009DFC20 /* SetGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetGame.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +85,8 @@
 				472773A720178D1C00157122 /* Main.storyboard */,
 				472773AF20178D1C00157122 /* Info.plist */,
 				472773C320178D3700157122 /* Supporting files */,
+				479E41E9201814C3009DFC20 /* SetCard.swift */,
+				479E41EB2018163A009DFC20 /* SetGame.swift */,
 			);
 			path = SetGame;
 			sourceTree = "<group>";
@@ -207,7 +213,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				479E41EA201814C3009DFC20 /* SetCard.swift in Sources */,
 				472773A620178D1C00157122 /* ViewController.swift in Sources */,
+				479E41EC2018163A009DFC20 /* SetGame.swift in Sources */,
 				472773A420178D1C00157122 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
