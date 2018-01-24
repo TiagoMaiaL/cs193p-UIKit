@@ -17,6 +17,8 @@ class ViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    _ = setGame.dealCards(forAmount: 12)
   }
 
 }

@@ -9,7 +9,7 @@
 import Foundation
 
 // TODO: Consider changing the decks to be a real set.
-typealias SetDeck = [SetCard]
+typealias SetDeck = Set<SetCard>
 typealias SetTrio = [SetCard]
 
 /// The main class responsible for the set game's logic.
@@ -26,10 +26,13 @@ class SetGame {
   /// the matched trio is added to this deck.
   private(set) var matchedDeck = [SetTrio]()
   
+  /// The current displaying cards.
+  private(set) var tableCards = [SetCard?]()
+  
   // MARK: Initializers
   
   init() {
-    deck = makeDeck()
+    _ = makeDeck()
   }
   
   // MARK: Imperatives
@@ -44,8 +47,15 @@ class SetGame {
   ///
   /// - Parameter forAmount: The number of cards to be dealt.
   func dealCards(forAmount amount: Int = 3) -> [SetCard] {
-    // TODO:
-    return []
+    guard deck.count >= amount else { return [] }
+    
+    var cardsToDeal = [SetCard]()
+    
+    for _ in 0..<amount {
+      cardsToDeal.append(deck.removeFirst())
+    }
+    
+    return cardsToDeal
   }
   
   /// Factory in charge of generating a valid Set deck with 81 cards.
@@ -82,7 +92,7 @@ class SetGame {
       } else {
         // The current features are the last ones.
         // The combination is now complete, so a new card is created and added to the deck.
-        deck.append(SetCard(combination: currentCombination))
+        deck.insert(SetCard(combination: currentCombination))
       }
     }
     
