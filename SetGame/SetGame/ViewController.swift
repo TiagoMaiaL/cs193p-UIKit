@@ -10,6 +10,9 @@ import UIKit
 
 class ViewController: UIViewController {
 
+  /// The main set game.
+  private var setGame = SetGame()
+  
   // MARK: Life cycle
   
   override func viewDidLoad() {

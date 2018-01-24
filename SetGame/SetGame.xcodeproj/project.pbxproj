@@ -81,12 +81,11 @@
 		472773A220178D1C00157122 /* SetGame */ = {
 			isa = PBXGroup;
 			children = (
+				479E41ED20181A0C009DFC20 /* Models */,
 				472773A520178D1C00157122 /* ViewController.swift */,
 				472773A720178D1C00157122 /* Main.storyboard */,
 				472773AF20178D1C00157122 /* Info.plist */,
 				472773C320178D3700157122 /* Supporting files */,
-				479E41E9201814C3009DFC20 /* SetCard.swift */,
-				479E41EB2018163A009DFC20 /* SetGame.swift */,
 			);
 			path = SetGame;
 			sourceTree = "<group>";
@@ -108,6 +107,15 @@
 				472773AC20178D1C00157122 /* LaunchScreen.storyboard */,
 			);
 			path = "Supporting files";
+			sourceTree = "<group>";
+		};
+		479E41ED20181A0C009DFC20 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				479E41E9201814C3009DFC20 /* SetCard.swift */,
+				479E41EB2018163A009DFC20 /* SetGame.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
