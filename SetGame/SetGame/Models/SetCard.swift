@@ -23,6 +23,8 @@ struct SetCard {
   init(combination: FeatureCombination) {
     self.combination = combination
   }
+  
+  // TODO: Add match mechaninsm
 }
 
 extension SetCard: Hashable {

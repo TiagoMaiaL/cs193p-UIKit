@@ -55,6 +55,16 @@ class SetGame {
       cardsToDeal.append(deck.removeFirst())
     }
     
+    for (index, card) in tableCards.enumerated() {
+      if card == nil {
+        tableCards[index] = cardsToDeal.removeFirst()
+      }
+    }
+    
+    if !cardsToDeal.isEmpty {
+      tableCards += cardsToDeal as [SetCard?]
+    }
+    
     return cardsToDeal
   }
   
