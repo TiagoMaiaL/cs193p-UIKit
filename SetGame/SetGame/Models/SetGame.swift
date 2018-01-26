@@ -27,6 +27,9 @@ class SetGame {
   private(set) var matchedDeck = [SetTrio]()
   
   /// The current displaying cards.
+  ///
+  /// - Note: Since a card can be matched and removed from the table,
+  /// the type of each card is optional.
   private(set) var tableCards = [SetCard?]()
   
   // MARK: Initializers
@@ -47,6 +50,7 @@ class SetGame {
   ///
   /// - Parameter forAmount: The number of cards to be dealt.
   func dealCards(forAmount amount: Int = 3) -> [SetCard] {
+    guard amount > 0 else { return [] }
     guard deck.count >= amount else { return [] }
     
     var cardsToDeal = [SetCard]()
