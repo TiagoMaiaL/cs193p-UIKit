@@ -44,6 +44,11 @@ class ViewController: UIViewController {
     super.viewDidLoad()
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    displayCards()
+  }
+  
   // MARK: Imperatives
   
   /// Displays each card dealt by the setGame.
@@ -53,12 +58,8 @@ class ViewController: UIViewController {
       let cardButton = cardButtons[index]
       
       if let card = card {
-        cardButton.titleLabel?.text = getText(forCard: card)
-        // TODO: Get each feature: color, shape, shading and number
-        // TODO: Display each featere,
-        // TODO: Determine color mapping
-        // TODO: Determine shape mapping
-        // TODO: Determine shading routines.
+        cardButton.setAttributedTitle(getAttributedText(forCard: card)!, for: .normal)
+        // TODO: Display border in case the card is selected or not.
       } else {
         // Card was matched, hide the associated button for now.
         cardButton.isHidden = true
@@ -66,17 +67,35 @@ class ViewController: UIViewController {
     }
   }
   
-  // TODO: This should be an optional.
-  // TODO: Figure out how this is going to work with the rest of the code.
-  private func getText(forCard card: SetCard) -> String {
-    var cardText = ""
+  /// Returns the configured attributed text for the given card,
+  /// configured based on the card features.
+  private func getAttributedText(forCard card: SetCard) -> NSAttributedString? {
+    guard let number = card.combination.number else { return nil }
+    guard let symbol = card.combination.symbol else { return nil }
+    guard let color = card.combination.color else { return nil }
+    guard let shading = card.combination.shading else { return nil }
     
-    guard let number = card.combination.number else { return "" }
-    guard let symbol = card.combination.symbol else { return "" }
-    guard let color = card.combination.color else { return "" }
-    guard let shading = card.combination.shading else { return "" }
-    
-    return cardText
+    if let symbolChar = symbolToText[symbol] {
+      let cardText = String(repeating: symbolChar, count: number.rawValue + 1)
+      var attributes = [NSAttributedStringKey : Any]()
+      let cardColor = colorFeatureToColor[color]!
+      
+      switch shading {
+      case .outlined:
+        attributes[NSAttributedStringKey.strokeWidth] = 10
+        fallthrough
+      case .solid:
+        attributes[NSAttributedStringKey.foregroundColor] = cardColor
+      case .striped:
+        attributes[NSAttributedStringKey.foregroundColor] = cardColor.withAlphaComponent(0.3)
+      }
+      
+      let attributedText = NSAttributedString(string: cardText,
+                                              attributes: attributes)
+      return attributedText
+    } else {
+      return nil
+    }
   }
 
   // MARK: Actions
