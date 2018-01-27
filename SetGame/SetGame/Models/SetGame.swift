@@ -42,8 +42,12 @@ class SetGame {
   
   /// The method responsible for selecting the chosen card.
   /// If three cards are selected, it should check for a match.
-  func selectCard(_ card: SetCard) {
-    // TODO:
+  func selectCard(at index: Int) {
+    if var card = tableCards[index] {
+      card.isSelected = !card.isSelected
+      
+      tableCards[index] = card
+    }
   }
   
   /// Method in charge of dealing the game's cards.

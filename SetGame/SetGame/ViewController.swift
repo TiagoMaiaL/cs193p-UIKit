@@ -111,7 +111,12 @@ class ViewController: UIViewController {
   // MARK: Actions
   
   @IBAction func didTapCard(_ sender: UIButton) {
+    guard let index = cardButtons.index(of: sender) else { return }
+    guard let _ = setGame.tableCards[index] else { return }
     
+    setGame.selectCard(at: index)
+    
+    displayCards()
   }
   
   @IBAction func didTapDealMore(_ sender: UIButton) {
