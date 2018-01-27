@@ -11,6 +11,8 @@ import Foundation
 /// A card of a Set game.
 struct SetCard {
   
+  // MARK: Properties
+  
   /// The combined features that makes this card unique.
   private(set) var combination: FeatureCombination
   
@@ -20,18 +22,18 @@ struct SetCard {
   /// Indicates if the card is matched.
   var isMatched = false
   
+  // MARK: Initializers
+  
   init(combination: FeatureCombination) {
     self.combination = combination
   }
-  
-  // TODO: Add match mechaninsm
 }
 
 extension SetCard: Hashable {
   
   /// An Int based on each feature from the combination.
   var hashValue: Int {
-    return Int("\(combination.number!.rawValue)\(combination.color!.rawValue)\(combination.symbol!.rawValue)\(combination.shading!.rawValue)")!
+    return Int("\(combination.number.rawValue)\(combination.color.rawValue)\(combination.symbol.rawValue)\(combination.shading.rawValue)")!
   }
   
   /// A card is equals to another if they have the same combination.
@@ -44,34 +46,34 @@ extension SetCard: Hashable {
 struct FeatureCombination {
   
   /// The number feature of the card.
-  var number: Number?
+  var number: Number = .none
   
   /// The color feature of the card.
-  var color: Color?
+  var color: Color = .none
   
   /// The symbol feature of the card.
-  var symbol: Symbol?
+  var symbol: Symbol = .none
   
   /// The shading feature of the card.
-  var shading: Shading?
+  var shading: Shading = .none
   
   /// Add a feature to the current combination instance.
   mutating func add(feature: Feature) {
     if feature is Number {
       
-      number = feature as? Number
+      number = feature as! Number
       
     } else if feature is Color {
       
-      color = feature as? Color
+      color = feature as! Color
       
     } else if feature is Symbol {
       
-      symbol = feature as? Symbol
+      symbol = feature as! Symbol
       
     } else if feature is Shading {
       
-      shading = feature as? Shading
+      shading = feature as! Shading
     }
   }
 }
@@ -100,6 +102,7 @@ enum Number: Int, Feature {
   case one
   case two
   case three
+  case none
   
   static var values: [Feature] {
     return [Number.one, Number.two, Number.three]
@@ -112,6 +115,7 @@ enum Color: Int, Feature {
   case red
   case green
   case purple
+  case none
   
   static var values: [Feature] {
     return [Color.red, Color.green, Color.purple]
@@ -124,6 +128,7 @@ enum Symbol: Int, Feature {
   case squiggle
   case diamond
   case oval
+  case none
   
   static var values: [Feature] {
     return [Symbol.squiggle, Symbol.diamond, Symbol.oval]
@@ -136,6 +141,7 @@ enum Shading: Int, Feature {
   case solid
   case striped
   case outlined
+  case none
   
   static var values: [Feature] {
     return [Shading.solid, Shading.striped, Shading.outlined]

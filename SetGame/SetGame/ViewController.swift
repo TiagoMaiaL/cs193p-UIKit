@@ -80,10 +80,15 @@ class ViewController: UIViewController {
   /// Returns the configured attributed text for the given card,
   /// configured based on the card features.
   private func getAttributedText(forCard card: SetCard) -> NSAttributedString? {
-    guard let number = card.combination.number else { return nil }
-    guard let symbol = card.combination.symbol else { return nil }
-    guard let color = card.combination.color else { return nil }
-    guard let shading = card.combination.shading else { return nil }
+    guard card.combination.number != .none else { return nil }
+    guard card.combination.symbol != .none else { return nil }
+    guard card.combination.color != .none else { return nil }
+    guard card.combination.shading != .none else { return nil }
+    
+    let number = card.combination.number
+    let symbol = card.combination.symbol
+    let color = card.combination.color
+    let shading = card.combination.shading
     
     if let symbolChar = symbolToText[symbol] {
       let cardText = String(repeating: symbolChar, count: number.rawValue + 1)
@@ -98,6 +103,8 @@ class ViewController: UIViewController {
         attributes[NSAttributedStringKey.foregroundColor] = cardColor
       case .striped:
         attributes[NSAttributedStringKey.foregroundColor] = cardColor.withAlphaComponent(0.3)
+      default:
+        break
       }
       
       let attributedText = NSAttributedString(string: cardText,

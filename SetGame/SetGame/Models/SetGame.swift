@@ -46,8 +46,52 @@ class SetGame {
     if var card = tableCards[index] {
       card.isSelected = !card.isSelected
       
+      let selectedCards = tableCards.filter { $0?.isSelected ?? false }
+      
+      // TODO: One step back.
+      if selectedCards.count == 3 {
+        // Time to check for a match.
+        // If it's not a match, deselect every selected card.
+        
+        let first = selectedCards[0]!
+        let second = selectedCards[1]!
+        let third = selectedCards[2]!
+        
+        if matches(first, second, third) {
+          // There's a match!
+          for index in tableCards.indices {
+            if tableCards[index]?.isSelected ?? false {
+              tableCards[index]?.isMatched = true
+              tableCards[index]?.isSelected = false
+            }
+          }
+        } else {
+          // No matches, deselect cards.
+          for index in tableCards.indices {
+            tableCards[index]?.isSelected = false
+          }
+        }
+      }
+      
       tableCards[index] = card
     }
+  }
+  
+  private func matches(_ first: SetCard, _ second: SetCard, _ third: SetCard) -> Bool {
+    // A Set is used because of it's unique value constraint.
+    // Since we have to compare each feature for equality or inequality,
+    // using a Set and checking it's count can give the result.
+    let numbersFeatures = Set([first.combination.number, second.combination.number, third.combination.number])
+    let colorsFeatures = Set([first.combination.color, second.combination.color, third.combination.color])
+    let symbolsFeatures = Set([first.combination.symbol, second.combination.symbol, third.combination.symbol])
+    let shadingsFeatures = Set([first.combination.shading, second.combination.shading, third.combination.shading])
+    
+    // All features must be either equal (with the set count of 1)
+    // or all different (with the count of 3)
+    return (numbersFeatures.count == 1 || numbersFeatures.count == 3) &&
+           (colorsFeatures.count == 1 || colorsFeatures.count == 3) &&
+           (symbolsFeatures.count == 1 || symbolsFeatures.count == 3) &&
+           (shadingsFeatures.count == 1 || shadingsFeatures.count == 3)
   }
   
   /// Method in charge of dealing the game's cards.
