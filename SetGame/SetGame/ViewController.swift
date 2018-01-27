@@ -59,7 +59,17 @@ class ViewController: UIViewController {
       
       if let card = card {
         cardButton.setAttributedTitle(getAttributedText(forCard: card)!, for: .normal)
-        // TODO: Display border in case the card is selected or not.
+        
+        // If the card is selected, display borders to indicate the state.
+        if card.isSelected {
+          cardButton.layer.borderWidth = 3
+          cardButton.layer.borderColor = UIColor.blue.cgColor
+          cardButton.layer.cornerRadius = 8
+        } else {
+          cardButton.layer.borderWidth = 0
+          cardButton.layer.cornerRadius = 0
+        }
+        
       } else {
         // Card was matched, hide the associated button for now.
         cardButton.isHidden = true
