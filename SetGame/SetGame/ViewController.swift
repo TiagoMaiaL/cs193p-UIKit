@@ -18,12 +18,15 @@ class ViewController: UIViewController {
   /// The card buttons being displayed in the UI.
   @IBOutlet var cardButtons: [UIButton]! {
     didSet {
-      _ = setGame.dealCards(forAmount: cardButtons.count)
+      _ = setGame.dealCards(forAmount: 12)
     }
   }
   
   /// The UI score label.
   @IBOutlet weak var scoreLabel: UILabel!
+  
+  /// The deal more button in the UI.
+  @IBOutlet weak var dealMoreButton: UIButton!
   
   /// The mapping between a symbol card feature and it's
   /// corresponding displayable char.
@@ -88,6 +91,7 @@ class ViewController: UIViewController {
     }
     
     scoreLabel.text = "Score: \(setGame.score)"
+    handleDealMoreButton()
   }
   
   /// Returns the configured attributed text for the given card,
@@ -131,6 +135,16 @@ class ViewController: UIViewController {
       return nil
     }
   }
+  
+  /// Checks if it's possible to deal more cards and
+  /// enables or disables the card accordingly.
+  private func handleDealMoreButton() {
+    if setGame.deck.count > 3, setGame.tableCards.count < cardButtons.count {
+      dealMoreButton.isEnabled = true
+    } else {
+      dealMoreButton.isEnabled = false
+    }
+  }
 
   // MARK: Actions
   
@@ -144,14 +158,16 @@ class ViewController: UIViewController {
     displayCards()
   }
   
+  // Adds more cards to the UI.
   @IBAction func didTapDealMore(_ sender: UIButton) {
-    
+    _ = setGame.dealCards()
+    displayCards()
   }
   
   /// Restarts the current game.
   @IBAction func didTapNewGame(_ sender: UIButton) {
     setGame.reset()
-    _ = setGame.dealCards(forAmount: cardButtons.count)
+    _ = setGame.dealCards(forAmount: 12)
     displayCards()
   }
 }
