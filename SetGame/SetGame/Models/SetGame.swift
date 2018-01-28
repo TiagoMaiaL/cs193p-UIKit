@@ -74,11 +74,16 @@ class SetGame {
         }
       }
     } else {
-      // TODO: Replace any matched card.
+      let matchedCardsCount = tableCards.filter { $0?.isMatched ?? false }.count
+      
       for index in tableCards.indices {
         if let card = tableCards[index], card.isMatched {
           tableCards[index] = nil
         }
+      }
+      
+      if matchedCardsCount > 0 {
+        _ = dealCards()
       }
     }
     

@@ -73,6 +73,8 @@ class ViewController: UIViewController {
         // Highlights the matched cards
         if card.isMatched {
           cardButton.backgroundColor = #colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1)
+        } else {
+          cardButton.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         }
         
       } else {
