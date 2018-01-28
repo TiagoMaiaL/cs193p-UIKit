@@ -58,6 +58,7 @@ class ViewController: UIViewController {
       let cardButton = cardButtons[index]
       
       if let card = card {
+        cardButton.alpha = 1
         cardButton.setAttributedTitle(getAttributedText(forCard: card)!, for: .normal)
         
         // If the card is selected, display borders to indicate the state.
@@ -79,7 +80,7 @@ class ViewController: UIViewController {
         
       } else {
         // Card was matched, hide the associated button for now.
-        cardButton.isHidden = true
+        cardButton.alpha = 0
       }
     }
   }

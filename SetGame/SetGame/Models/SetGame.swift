@@ -44,20 +44,23 @@ class SetGame {
   /// If three cards are selected, it should check for a match.
   func selectCard(at index: Int) {
     guard var card = tableCards[index] else { return }
+    guard !card.isMatched else { return }
     
     card.isSelected = !card.isSelected
     
     // TODO: Refactor this code's nested ifs and loops.
     
-    let selectedCards = tableCards.filter { $0?.isSelected ?? false }
+    let selectedCards = tableCards.filter { $0?.isSelected ?? false } as! [SetCard]
     
-    // TODO: One step back.
-    if selectedCards.count == 3 {
+    // If there's a trio selected,
+    // and the new selected card isn't part of the three seleced cards,
+    // the match check is applied.
+    if selectedCards.count == 3, !selectedCards.contains(card) {
       // Time to check for a match.
       // If it's not a match, deselect every selected card.
-      let first = selectedCards[0]!
-      let second = selectedCards[1]!
-      let third = selectedCards[2]!
+      let first = selectedCards[0]
+      let second = selectedCards[1]
+      let third = selectedCards[2]
       
       if matches(first, second, third) {
         // There's a match!
@@ -76,12 +79,14 @@ class SetGame {
     } else {
       let matchedCardsCount = tableCards.filter { $0?.isMatched ?? false }.count
       
+      // Removes any matched cards from the table.
       for index in tableCards.indices {
         if let card = tableCards[index], card.isMatched {
           tableCards[index] = nil
         }
       }
       
+      // If there was any matched cards, replace them with new ones.
       if matchedCardsCount > 0 {
         _ = dealCards()
       }
