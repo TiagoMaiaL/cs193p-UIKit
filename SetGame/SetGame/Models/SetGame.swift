@@ -59,16 +59,16 @@ class SetGame {
     guard var card = tableCards[index] else { return }
     guard !card.isMatched else { return }
     
+    let selectedCards = tableCards.filter { $0?.isSelected ?? false } as! [SetCard]
+    
     card.isSelected = !card.isSelected
     
     // TODO: Refactor this code's nested ifs and loops.
-    
-    let selectedCards = tableCards.filter { $0?.isSelected ?? false } as! [SetCard]
-    
-    // If there's a trio selected,
-    // and the new selected card isn't part of the three seleced cards,
-    // the match check is applied.
-    if selectedCards.count == 3, !selectedCards.contains(card) {
+    if selectedCards.count == 3 {
+      
+      // The player shouldn't be able to deselect when three cards are selected.
+      guard !selectedCards.contains(card) else { return }
+      
       // Time to check for a match.
       // If it's not a match, deselect every selected card.
       let first = selectedCards[0]
