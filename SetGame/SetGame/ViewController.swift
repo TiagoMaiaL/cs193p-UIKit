@@ -9,7 +9,7 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+  
   // MARK: Properties
   
   /// The main set game.
@@ -21,6 +21,9 @@ class ViewController: UIViewController {
       _ = setGame.dealCards(forAmount: cardButtons.count)
     }
   }
+  
+  /// The UI score label.
+  @IBOutlet weak var scoreLabel: UILabel!
   
   /// The mapping between a symbol card feature and it's
   /// corresponding displayable char.
@@ -83,6 +86,8 @@ class ViewController: UIViewController {
         cardButton.alpha = 0
       }
     }
+    
+    scoreLabel.text = "Score: \(setGame.score)"
   }
   
   /// Returns the configured attributed text for the given card,

@@ -274,7 +274,7 @@
                                 <rect key="frame" x="142" y="551" width="90" height="30"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="90" id="O1f-R1-Fwv"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="90" id="O1f-R1-Fwv"/>
                                     <constraint firstAttribute="height" constant="30" id="WL2-aX-Zcd"/>
                                 </constraints>
                                 <state key="normal" title="Deal more">
@@ -288,7 +288,7 @@
                                 <rect key="frame" x="142" y="621" width="90" height="30"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="90" id="1Vu-st-RJe"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="90" id="1Vu-st-RJe"/>
                                     <constraint firstAttribute="height" constant="30" id="VSz-oD-ZhM"/>
                                 </constraints>
                                 <state key="normal" title="New game">
@@ -298,22 +298,32 @@
                                     <action selector="didTapNewGame:" destination="BYZ-38-t0r" eventType="touchUpInside" id="BVl-vO-k9s"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Score:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e8a-lN-dJw">
+                                <rect key="frame" x="16" y="623" width="56" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.403289794921875" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="0NS-FT-QlS" firstAttribute="top" relation="greaterThanOrEqual" secondItem="bfg-Lh-qCB" secondAttribute="bottom" constant="10" id="0Qa-y1-p7k"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="e8a-lN-dJw" secondAttribute="trailing" constant="20" symbolic="YES" id="1EO-jI-TTk"/>
                             <constraint firstItem="qia-Y9-2j5" firstAttribute="top" relation="lessThanOrEqual" secondItem="0NS-FT-QlS" secondAttribute="bottom" constant="40" id="2Vz-rN-OEe"/>
                             <constraint firstItem="q8D-8Z-wC4" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="DnX-lR-CGI"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="qia-Y9-2j5" secondAttribute="bottom" constant="16" id="G5N-wA-fO2"/>
                             <constraint firstItem="0NS-FT-QlS" firstAttribute="top" relation="lessThanOrEqual" secondItem="q8D-8Z-wC4" secondAttribute="bottom" constant="150" id="XIf-rt-W56"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="q8D-8Z-wC4" secondAttribute="trailing" constant="16" id="aKd-XL-ZPp"/>
                             <constraint firstItem="q8D-8Z-wC4" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="acl-QJ-dgJ"/>
+                            <constraint firstItem="e8a-lN-dJw" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="bWB-Uj-J0s"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="e8a-lN-dJw" secondAttribute="bottom" constant="20" id="p1f-8n-7Yo"/>
                             <constraint firstItem="0NS-FT-QlS" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="tfb-ut-ZxY"/>
                             <constraint firstItem="qia-Y9-2j5" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="zVk-ie-1Lp"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="scoreLabel" destination="e8a-lN-dJw" id="ZmT-pN-34U"/>
                         <outletCollection property="cardButtons" destination="kJ9-bw-mCe" collectionClass="NSMutableArray" id="Noy-kn-a8K"/>
                         <outletCollection property="cardButtons" destination="3Nd-vj-RJE" collectionClass="NSMutableArray" id="lFG-We-ttX"/>
                         <outletCollection property="cardButtons" destination="Aph-Rv-a2Q" collectionClass="NSMutableArray" id="kUj-uF-R19"/>

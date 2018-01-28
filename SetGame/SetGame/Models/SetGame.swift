@@ -33,6 +33,18 @@ class SetGame {
   /// the type of each card is optional.
   private(set) var tableCards = [SetCard?]()
   
+  /// The player's score.
+  /// If the player has just made a match, increase it's score by 4,
+  /// if the player has made a mismatch, decrease it by 2.
+  /// The score can't be lower than zero.
+  private(set) var score = 0 {
+    didSet {
+      if score < 0 {
+        score = 0
+      }
+    }
+  }
+  
   // MARK: Initializers
   
   init() {
@@ -71,11 +83,17 @@ class SetGame {
             tableCards[index]?.isSelected = false
           }
         }
+        
+        // Increases the score by 4
+        score += 4
       } else {
         // No matches, deselect cards.
         for index in tableCards.indices {
           tableCards[index]?.isSelected = false
         }
+        
+        // Penalizes by 2
+        score -= 2
       }
     } else {
       let matchedCardsCount = tableCards.filter { $0?.isMatched ?? false }.count
@@ -96,6 +114,7 @@ class SetGame {
     tableCards[index] = card
   }
   
+  // TODO: Add description here.
   private func matches(_ first: SetCard, _ second: SetCard, _ third: SetCard) -> Bool {
     // A Set is used because of it's unique value constraint.
     // Since we have to compare each feature for equality or inequality,
@@ -142,6 +161,7 @@ class SetGame {
   /// Finishes the current running game and starts a fresh new one.
   func reset() {
     _ = makeDeck()
+    score = 0
     matchedDeck = []
     tableCards = []
   }
