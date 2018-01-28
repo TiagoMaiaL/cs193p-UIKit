@@ -129,6 +129,7 @@ class ViewController: UIViewController {
 
   // MARK: Actions
   
+  /// Selects the chosen card.
   @IBAction func didTapCard(_ sender: UIButton) {
     guard let index = cardButtons.index(of: sender) else { return }
     guard let _ = setGame.tableCards[index] else { return }
@@ -142,8 +143,11 @@ class ViewController: UIViewController {
     
   }
   
+  /// Restarts the current game.
   @IBAction func didTapNewGame(_ sender: UIButton) {
-    
+    setGame.reset()
+    _ = setGame.dealCards(forAmount: cardButtons.count)
+    displayCards()
   }
 }
 

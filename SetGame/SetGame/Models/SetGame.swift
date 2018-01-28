@@ -24,6 +24,7 @@ class SetGame {
   /// The matched trios of cards.
   /// Every time the player makes a match,
   /// the matched trio is added to this deck.
+  // TODO: Add the matched trio to this array.
   private(set) var matchedDeck = [SetTrio]()
   
   /// The current displaying cards.
@@ -136,6 +137,13 @@ class SetGame {
     }
     
     return cardsToDeal
+  }
+  
+  /// Finishes the current running game and starts a fresh new one.
+  func reset() {
+    _ = makeDeck()
+    matchedDeck = []
+    tableCards = []
   }
   
   /// Factory in charge of generating a valid Set deck with 81 cards.
