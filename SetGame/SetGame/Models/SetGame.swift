@@ -43,38 +43,46 @@ class SetGame {
   /// The method responsible for selecting the chosen card.
   /// If three cards are selected, it should check for a match.
   func selectCard(at index: Int) {
-    if var card = tableCards[index] {
-      card.isSelected = !card.isSelected
+    guard var card = tableCards[index] else { return }
+    
+    card.isSelected = !card.isSelected
+    
+    // TODO: Refactor this code's nested ifs and loops.
+    
+    let selectedCards = tableCards.filter { $0?.isSelected ?? false }
+    
+    // TODO: One step back.
+    if selectedCards.count == 3 {
+      // Time to check for a match.
+      // If it's not a match, deselect every selected card.
+      let first = selectedCards[0]!
+      let second = selectedCards[1]!
+      let third = selectedCards[2]!
       
-      let selectedCards = tableCards.filter { $0?.isSelected ?? false }
-      
-      // TODO: One step back.
-      if selectedCards.count == 3 {
-        // Time to check for a match.
-        // If it's not a match, deselect every selected card.
-        
-        let first = selectedCards[0]!
-        let second = selectedCards[1]!
-        let third = selectedCards[2]!
-        
-        if matches(first, second, third) {
-          // There's a match!
-          for index in tableCards.indices {
-            if tableCards[index]?.isSelected ?? false {
-              tableCards[index]?.isMatched = true
-              tableCards[index]?.isSelected = false
-            }
-          }
-        } else {
-          // No matches, deselect cards.
-          for index in tableCards.indices {
+      if matches(first, second, third) {
+        // There's a match!
+        for index in tableCards.indices {
+          if tableCards[index]?.isSelected ?? false {
+            tableCards[index]?.isMatched = true
             tableCards[index]?.isSelected = false
           }
         }
+      } else {
+        // No matches, deselect cards.
+        for index in tableCards.indices {
+          tableCards[index]?.isSelected = false
+        }
       }
-      
-      tableCards[index] = card
+    } else {
+      // TODO: Replace any matched card.
+      for index in tableCards.indices {
+        if let card = tableCards[index], card.isMatched {
+          tableCards[index] = nil
+        }
+      }
     }
+    
+    tableCards[index] = card
   }
   
   private func matches(_ first: SetCard, _ second: SetCard, _ third: SetCard) -> Bool {

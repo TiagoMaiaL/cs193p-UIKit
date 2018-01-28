@@ -70,6 +70,11 @@ class ViewController: UIViewController {
           cardButton.layer.cornerRadius = 0
         }
         
+        // Highlights the matched cards
+        if card.isMatched {
+          cardButton.backgroundColor = #colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1)
+        }
+        
       } else {
         // Card was matched, hide the associated button for now.
         cardButton.isHidden = true
@@ -90,11 +95,15 @@ class ViewController: UIViewController {
     let color = card.combination.color
     let shading = card.combination.shading
     
+    // Checks if a symbol has an associated char.
     if let symbolChar = symbolToText[symbol] {
+      // Creates the symbol text according to the number feature.
       let cardText = String(repeating: symbolChar, count: number.rawValue + 1)
       var attributes = [NSAttributedStringKey : Any]()
+      // Gets the associated color from the card color feature.
       let cardColor = colorFeatureToColor[color]!
       
+      // Adds the given attribute for one of the shading values.
       switch shading {
       case .outlined:
         attributes[NSAttributedStringKey.strokeWidth] = 10
