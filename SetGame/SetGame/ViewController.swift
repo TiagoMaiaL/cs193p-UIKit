@@ -68,15 +68,15 @@ class ViewController: UIViewController {
     }
     
     // Begins displaying each card.
-    for (index, card) in setGame.tableCards.enumerated() {
-      let cardButton = cardButtons[index]
+    setGame.tableCards.enumerated().forEach { [unowned self] (index, card) in
+      let cardButton = self.cardButtons[index]
       
       if let card = card {
         cardButton.alpha = 1
-        cardButton.setAttributedTitle(getAttributedText(forCard: card)!, for: .normal)
+        cardButton.setAttributedTitle(self.getAttributedText(forCard: card)!, for: .normal)
         
         // If the card is selected, display borders to it.
-        if setGame.selectedCards.contains(card) {
+        if self.setGame.selectedCards.contains(card) {
           cardButton.layer.borderWidth = 3
           cardButton.layer.borderColor = UIColor.blue.cgColor
           cardButton.layer.cornerRadius = 8
@@ -86,7 +86,7 @@ class ViewController: UIViewController {
         }
         
         // Highlights the matched cards
-        if setGame.matchedCards.contains(card) {
+        if self.setGame.matchedCards.contains(card) {
           cardButton.backgroundColor = #colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1)
         } else {
           cardButton.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
