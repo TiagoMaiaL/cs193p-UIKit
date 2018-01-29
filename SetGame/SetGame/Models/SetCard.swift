@@ -16,12 +16,6 @@ struct SetCard {
   /// The combined features that makes this card unique.
   private(set) var combination: FeatureCombination
   
-  /// Indicates if the card is selected.
-  var isSelected = false
-  
-  /// Indicates if the card is matched.
-  var isMatched = false
-  
   // MARK: Initializers
   
   init(combination: FeatureCombination) {

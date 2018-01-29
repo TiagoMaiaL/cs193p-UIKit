@@ -33,6 +33,12 @@ class SetGame {
   /// the type of each card is optional.
   private(set) var tableCards = [SetCard?]()
   
+  /// The currently selected cards.
+  private(set) var selectedCards = [SetCard]()
+  
+  /// The currently matched cards.
+  private(set) var matchedCards = [SetCard]()
+  
   /// The player's score.
   /// If the player has just made a match, increase it's score by 4,
   /// if the player has made a mismatch, decrease it by 2.
@@ -48,7 +54,7 @@ class SetGame {
   // MARK: Initializers
   
   init() {
-    deck = makeDeck().shuffled()
+    deck = makeDeck()
   }
   
   // MARK: Imperatives
@@ -56,92 +62,72 @@ class SetGame {
   /// The method responsible for selecting the chosen card.
   /// If three cards are selected, it should check for a match.
   func selectCard(at index: Int) {
-    guard var card = tableCards[index] else { return }
-    guard !card.isMatched else { return }
+    guard let card = tableCards[index] else { return }
+    guard !matchedCards.contains(card) else { return }
+   
+    // Removes any matched cards from the table.
+    if matchedCards.count > 0 {
+      removeMatchedCardsFromTable()
+      _ = dealCards()
+    }
     
-    let selectedCards = tableCards.filter { $0?.isSelected ?? false } as! [SetCard]
-    
-    card.isSelected = !card.isSelected
-    
-    // TODO: Refactor this code's nested ifs and loops.
+    // If the trio selected before wasn't a match,
+    // Deselect it and penalize the player.
     if selectedCards.count == 3 {
-      
       // The player shouldn't be able to deselect when three cards are selected.
       guard !selectedCards.contains(card) else { return }
       
-      // Time to check for a match.
-      // If it's not a match, deselect every selected card.
-      let first = selectedCards[0]
-      let second = selectedCards[1]
-      let third = selectedCards[2]
-      
-      if matches(first, second, third) {
-        // There's a match!
-        for index in tableCards.indices {
-          if tableCards[index]?.isSelected ?? false {
-            tableCards[index]?.isMatched = true
-            tableCards[index]?.isSelected = false
-          }
-        }
-        
-        // Increases the score by 4
-        score += 4
-      } else {
-        // No matches, deselect cards.
-        for index in tableCards.indices {
-          tableCards[index]?.isSelected = false
-        }
-        
-        // Penalizes by 2
+      if !currentSelectionMatches() {
         score -= 2
       }
+      
+      selectedCards = []
+    }
+    
+    // The selected card is added or removed.
+    if let index = selectedCards.index(of: card) {
+      selectedCards.remove(at: index)
     } else {
-      let matchedCardsCount = tableCards.filter { $0?.isMatched ?? false }.count
-      
-      // Removes any matched cards from the table.
-      for index in tableCards.indices {
-        if let card = tableCards[index], card.isMatched {
-          tableCards[index] = nil
-        }
-      }
-      
-      // If there was any matched cards, replace them with new ones.
-      if matchedCardsCount > 0 {
-        _ = dealCards()
+      selectedCards.append(card)
+    }
+    
+    // If the new selected card makes a match,
+    // increase the player's score, mark the current selection as matched
+    // and deselect the current selection.
+    if selectedCards.count == 3, currentSelectionMatches() {
+      matchedCards = selectedCards
+      selectedCards = []
+      score += 4
+    }
+  }
+  
+  /// Removes any matched cards from the table cards.
+  func removeMatchedCardsFromTable() {
+    guard matchedCards.count == 3 else { return }
+    
+    for index in tableCards.indices {
+      if let card = tableCards[index], matchedCards.contains(card) {
+        tableCards[index] = nil
       }
     }
     
-    tableCards[index] = card
+    matchedCards = []
   }
   
   /// Returns if the current selection is a match or not.
-  func currentSelectionMatches() -> Bool {
-    // TODO: Refactor this code.
-    let selectedCards = tableCards.filter { $0?.isSelected ?? false } as! [SetCard]
-
+  private func currentSelectionMatches() -> Bool {
     guard selectedCards.count == 3 else { return false }
-    
-    let first = selectedCards[0]
-    let second = selectedCards[1]
-    let third = selectedCards[2]
-    
-    return matches(first, second, third)
+    return matches(selectedCards)
   }
   
-  /// Performs a match using the current selected cards, if appropriate.
-  func performMatch() {
-    // TODO: Refactor this code.
-    if currentSelectionMatches() {
-      for index in tableCards.indices {
-        if tableCards[index]?.isSelected ?? false {
-          tableCards[index] = nil
-        }
-      }
-    }
-  }
-  
-  // TODO: Add description here.
-  private func matches(_ first: SetCard, _ second: SetCard, _ third: SetCard) -> Bool {
+  /// Checks if the given trio of cards performs a match.
+  ///
+  /// - Parameter cards: the cards to be checked for a match, as per the rules of Set.
+  private func matches(_ cards: SetTrio) -> Bool {
+    let first = cards[0]
+    let second = cards[1]
+    let third = cards[2]
+    
     // A Set is used because of it's unique value constraint.
     // Since we have to compare each feature for equality or inequality,
     // using a Set and checking it's count can give the result.
@@ -186,10 +172,12 @@ class SetGame {
   
   /// Finishes the current running game and starts a fresh new one.
   func reset() {
-    deck = makeDeck().shuffled()
-    score = 0
+    deck = makeDeck()
+    matchedCards = []
+    selectedCards = []
     matchedDeck = []
     tableCards = []
+    score = 0
   }
   
   /// Factory in charge of generating a valid Set deck with 81 cards.
@@ -233,7 +221,7 @@ class SetGame {
       }
     }
     
-    return deck
+    return deck.shuffled()
   }
 }
 

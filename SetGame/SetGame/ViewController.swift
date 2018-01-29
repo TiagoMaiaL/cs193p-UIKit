@@ -46,10 +46,6 @@ class ViewController: UIViewController {
   
   // MARK: Life cycle
   
-  override func viewDidLoad() {
-    super.viewDidLoad()
-  }
-  
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     displayCards()
@@ -60,12 +56,15 @@ class ViewController: UIViewController {
   /// Displays each card dealt by the setGame.
   /// Method in chard of keeping the UI in sync with the model.
   private func displayCards() {
+    
+    // Resets all cards to its original state.
     for cardButton in cardButtons {
       cardButton.alpha = 0
       cardButton.setAttributedTitle(nil, for: .normal)
       cardButton.setTitle(nil, for: .normal)
     }
     
+    // Begins displaying each card.
     for (index, card) in setGame.tableCards.enumerated() {
       let cardButton = cardButtons[index]
       
@@ -73,8 +72,8 @@ class ViewController: UIViewController {
         cardButton.alpha = 1
         cardButton.setAttributedTitle(getAttributedText(forCard: card)!, for: .normal)
         
-        // If the card is selected, display borders to indicate the state.
-        if card.isSelected {
+        // If the card is selected, display borders to it.
+        if setGame.selectedCards.contains(card) {
           cardButton.layer.borderWidth = 3
           cardButton.layer.borderColor = UIColor.blue.cgColor
           cardButton.layer.cornerRadius = 8
@@ -84,7 +83,7 @@ class ViewController: UIViewController {
         }
         
         // Highlights the matched cards
-        if card.isMatched {
+        if setGame.matchedCards.contains(card) {
           cardButton.backgroundColor = #colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1)
         } else {
           cardButton.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
@@ -143,9 +142,10 @@ class ViewController: UIViewController {
   }
   
   /// Checks if it's possible to deal more cards and
-  /// enables or disables the card accordingly.
+  /// enables or disables the deal more button accordingly.
   private func handleDealMoreButton() {
-    if setGame.deck.count > 3, setGame.tableCards.count < cardButtons.count || setGame.currentSelectionMatches() {
+    if setGame.deck.count > 3,
+       setGame.tableCards.count < cardButtons.count || setGame.matchedCards.count > 0 {
       dealMoreButton.isEnabled = true
     } else {
       dealMoreButton.isEnabled = false
@@ -166,7 +166,9 @@ class ViewController: UIViewController {
   
   // Adds more cards to the UI.
   @IBAction func didTapDealMore(_ sender: UIButton) {
-    setGame.performMatch()
+    if setGame.matchedCards.count > 0 {
+      setGame.removeMatchedCardsFromTable()
+    }
     _ = setGame.dealCards()
     displayCards()
   }
