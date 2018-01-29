@@ -88,6 +88,9 @@ protocol Feature {
   
   /// The possible values of the current feature.
   static var values: [Feature] { get }
+  
+  /// Gets the next feature, in order, for the card creation mechanism.
+  static func getNextFeatures() -> [Feature]?
 }
 
 /// The enum representing the possible
@@ -100,6 +103,10 @@ enum Number: Int, Feature {
   
   static var values: [Feature] {
     return [Number.one, Number.two, Number.three]
+  }
+  
+  static func getNextFeatures() -> [Feature]? {
+    return Color.values
   }
 }
 
@@ -114,6 +121,10 @@ enum Color: Int, Feature {
   static var values: [Feature] {
     return [Color.red, Color.green, Color.purple]
   }
+  
+  static func getNextFeatures() -> [Feature]? {
+    return Symbol.values
+  }
 }
 
 /// The enum representing the possible
@@ -127,6 +138,10 @@ enum Symbol: Int, Feature {
   static var values: [Feature] {
     return [Symbol.squiggle, Symbol.diamond, Symbol.oval]
   }
+  
+  static func getNextFeatures() -> [Feature]? {
+    return Shading.values
+  }
 }
 
 /// The enum representing the possible
@@ -139,5 +154,9 @@ enum Shading: Int, Feature {
   
   static var values: [Feature] {
     return [Shading.solid, Shading.striped, Shading.outlined]
+  }
+  
+  static func getNextFeatures() -> [Feature]? {
+    return nil
   }
 }

@@ -197,19 +197,8 @@ class SetGame {
                         deck: SetDeck = SetDeck()) -> SetDeck {
     var deck = deck
     var currentCombination = currentCombination
-    let nextFeatures: [Feature]?
-    
-    // TODO: Think of a better way to get the next features.
     // Gets the next features that should be added to the combination.
-    if features.first is Number {
-      nextFeatures = Color.values
-    } else if features.first is Color {
-      nextFeatures = Symbol.values
-    } else if features.first is Symbol {
-      nextFeatures = Shading.values
-    } else {
-      nextFeatures = nil
-    }
+    let nextFeatures = type(of: features[0]).getNextFeatures()
     
     for feature in features {
       currentCombination.add(feature: feature)
