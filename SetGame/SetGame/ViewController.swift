@@ -25,6 +25,9 @@ class ViewController: UIViewController {
   /// The UI score label.
   @IBOutlet weak var scoreLabel: UILabel!
   
+  /// The label containing the number of metched trios.
+  @IBOutlet weak var matchedTriosLabel: UILabel!
+  
   /// The deal more button in the UI.
   @IBOutlet weak var dealMoreButton: UIButton!
   
@@ -96,6 +99,7 @@ class ViewController: UIViewController {
     }
     
     scoreLabel.text = "Score: \(setGame.score)"
+    matchedTriosLabel.text = "Matches: \(setGame.matchedDeck.count)"
     handleDealMoreButton()
   }
   

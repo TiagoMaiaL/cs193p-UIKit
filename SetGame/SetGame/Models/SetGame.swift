@@ -8,8 +8,7 @@
 
 import Foundation
 
-// TODO: Consider changing the decks to be a real set.
-typealias SetDeck = Set<SetCard>
+typealias SetDeck = [SetCard]
 typealias SetTrio = [SetCard]
 
 /// The main class responsible for the set game's logic.
@@ -19,12 +18,11 @@ class SetGame {
   
   /// The game's deck.
   /// It represents all cards still available for dealing.
-  private(set) var deck = [SetCard]()
+  private(set) var deck = SetDeck()
   
   /// The matched trios of cards.
   /// Every time the player makes a match,
   /// the matched trio is added to this deck.
-  // TODO: Add the matched trio to this array.
   private(set) var matchedDeck = [SetTrio]()
   
   /// The current displaying cards.
@@ -37,7 +35,13 @@ class SetGame {
   private(set) var selectedCards = [SetCard]()
   
   /// The currently matched cards.
-  private(set) var matchedCards = [SetCard]()
+  private(set) var matchedCards = [SetCard]() {
+    didSet {
+      if matchedCards.count == 3 {
+        matchedDeck.append(matchedCards)
+      }
+    }
+  }
   
   /// The player's score.
   /// If the player has just made a match, increase it's score by 4,
@@ -190,7 +194,7 @@ class SetGame {
   /// - Parameter deck: the deck in which the generated cards are going to be added.
   private func makeDeck(features: [Feature] = Number.values,
                         currentCombination: FeatureCombination = FeatureCombination(),
-                        deck: [SetCard] = [SetCard]()) -> [SetCard] {
+                        deck: SetDeck = SetDeck()) -> SetDeck {
     var deck = deck
     var currentCombination = currentCombination
     let nextFeatures: [Feature]?
