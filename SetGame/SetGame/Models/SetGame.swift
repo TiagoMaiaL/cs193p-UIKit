@@ -114,6 +114,32 @@ class SetGame {
     tableCards[index] = card
   }
   
+  /// Returns if the current selection is a match or not.
+  func currentSelectionMatches() -> Bool {
+    // TODO: Refactor this code.
+    let selectedCards = tableCards.filter { $0?.isSelected ?? false } as! [SetCard]
+
+    guard selectedCards.count == 3 else { return false }
+    
+    let first = selectedCards[0]
+    let second = selectedCards[1]
+    let third = selectedCards[2]
+    
+    return matches(first, second, third)
+  }
+  
+  /// Performs a match using the current selected cards, if appropriate.
+  func performMatch() {
+    // TODO: Refactor this code.
+    if currentSelectionMatches() {
+      for index in tableCards.indices {
+        if tableCards[index]?.isSelected ?? false {
+          tableCards[index] = nil
+        }
+      }
+    }
+  }
+  
   // TODO: Add description here.
   private func matches(_ first: SetCard, _ second: SetCard, _ third: SetCard) -> Bool {
     // A Set is used because of it's unique value constraint.

@@ -139,7 +139,7 @@ class ViewController: UIViewController {
   /// Checks if it's possible to deal more cards and
   /// enables or disables the card accordingly.
   private func handleDealMoreButton() {
-    if setGame.deck.count > 3, setGame.tableCards.count < cardButtons.count {
+    if setGame.deck.count > 3, setGame.tableCards.count < cardButtons.count || setGame.currentSelectionMatches() {
       dealMoreButton.isEnabled = true
     } else {
       dealMoreButton.isEnabled = false
@@ -160,6 +160,7 @@ class ViewController: UIViewController {
   
   // Adds more cards to the UI.
   @IBAction func didTapDealMore(_ sender: UIButton) {
+    setGame.performMatch()
     _ = setGame.dealCards()
     displayCards()
   }
