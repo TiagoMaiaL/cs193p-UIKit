@@ -19,7 +19,7 @@ class SetGame {
   
   /// The game's deck.
   /// It represents all cards still available for dealing.
-  private(set) var deck = SetDeck()
+  private(set) var deck = [SetCard]()
   
   /// The matched trios of cards.
   /// Every time the player makes a match,
@@ -48,7 +48,7 @@ class SetGame {
   // MARK: Initializers
   
   init() {
-    _ = makeDeck()
+    deck = makeDeck().shuffled()
   }
   
   // MARK: Imperatives
@@ -186,7 +186,7 @@ class SetGame {
   
   /// Finishes the current running game and starts a fresh new one.
   func reset() {
-    _ = makeDeck()
+    deck = makeDeck().shuffled()
     score = 0
     matchedDeck = []
     tableCards = []
@@ -199,8 +199,11 @@ class SetGame {
   ///
   /// - Parameter features: the features to be iterated and added to the cards in each call.
   /// - Parameter currentCombination: the combination model that's going to receive the new feature.
+  /// - Parameter deck: the deck in which the generated cards are going to be added.
   private func makeDeck(features: [Feature] = Number.values,
-                        currentCombination: FeatureCombination = FeatureCombination()) -> SetDeck {
+                        currentCombination: FeatureCombination = FeatureCombination(),
+                        deck: [SetCard] = [SetCard]()) -> [SetCard] {
+    var deck = deck
     var currentCombination = currentCombination
     let nextFeatures: [Feature]?
     
@@ -222,14 +225,24 @@ class SetGame {
       // Does it have more features to be added?
       if let nextFeatures = nextFeatures {
         // Add the next features to the combinations.
-        _ = makeDeck(features: nextFeatures, currentCombination: currentCombination)
+        deck = makeDeck(features: nextFeatures, currentCombination: currentCombination, deck: deck)
       } else {
         // The current features are the last ones.
         // The combination is now complete, so a new card is created and added to the deck.
-        deck.insert(SetCard(combination: currentCombination))
+        deck.append(SetCard(combination: currentCombination))
       }
     }
     
     return deck
+  }
+}
+
+import GameKit
+
+extension Array {
+  /// Returns the current instance with all
+  /// of it's elements in a random order.
+  func shuffled() -> [Element] {
+    return GKRandomSource.sharedRandom().arrayByShufflingObjects(in: self) as! [Element]
   }
 }

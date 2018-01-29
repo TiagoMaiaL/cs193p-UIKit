@@ -60,6 +60,12 @@ class ViewController: UIViewController {
   /// Displays each card dealt by the setGame.
   /// Method in chard of keeping the UI in sync with the model.
   private func displayCards() {
+    for cardButton in cardButtons {
+      cardButton.alpha = 0
+      cardButton.setAttributedTitle(nil, for: .normal)
+      cardButton.setTitle(nil, for: .normal)
+    }
+    
     for (index, card) in setGame.tableCards.enumerated() {
       let cardButton = cardButtons[index]
       
