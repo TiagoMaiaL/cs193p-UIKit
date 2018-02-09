@@ -25,7 +25,7 @@ class ViewController: UIViewController {
   @IBOutlet weak var dealMoreButton: UIButton!
   
   /// The view containing all cards.
-  @IBOutlet weak var cardsContainerView: UIView!
+  @IBOutlet weak var cardsContainerView: CardContainerView!
   
   // MARK: Life cycle
   
