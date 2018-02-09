@@ -81,9 +81,9 @@
 		472773A220178D1C00157122 /* GraphicalSetGame */ = {
 			isa = PBXGroup;
 			children = (
+				47CA3511202E3111008D0E8F /* Controllers */,
+				47CA3510202E310A008D0E8F /* Views */,
 				479E41ED20181A0C009DFC20 /* Models */,
-				472773A520178D1C00157122 /* ViewController.swift */,
-				472773A720178D1C00157122 /* Main.storyboard */,
 				472773AF20178D1C00157122 /* Info.plist */,
 				472773C320178D3700157122 /* Supporting files */,
 			);
@@ -116,6 +116,22 @@
 				479E41EB2018163A009DFC20 /* SetGame.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		47CA3510202E310A008D0E8F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				472773A720178D1C00157122 /* Main.storyboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		47CA3511202E3111008D0E8F /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				472773A520178D1C00157122 /* ViewController.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -379,7 +395,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 79964U8894;
-				INFOPLIST_FILE = SetGame/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/GraphicalSetGame/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = tiago.maia.SetGame;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -394,7 +410,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 79964U8894;
-				INFOPLIST_FILE = SetGame/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/GraphicalSetGame/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = tiago.maia.SetGame;
 				PRODUCT_NAME = "$(TARGET_NAME)";
