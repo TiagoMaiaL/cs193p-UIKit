@@ -15,14 +15,25 @@ class CardContainerView: UIView {
   
   /// The contained buttons.
   private(set) var buttons = [SetCardButton]()
+  
+  /// The grid in charge of generating the calculated
+  /// frame of each contained button.
+  private(set) var grid = Grid(layout: Grid.Layout.aspectRatio(3/2))
 
   // MARK: View life cycle
   
   override func layoutSubviews() {
     super.layoutSubviews()
 
-    // TODO: apply the grid mechanism.
+    grid.frame = bounds
     
+    // TODO: apply the grid mechanism.
+    for (i, button) in buttons.enumerated() {
+      if let frame = grid[i] {
+        button.frame = frame
+        button.backgroundColor = i % 2 == 0 ? .black : .gray
+      }
+    }
   }
   
   // MARK: Imperatives
@@ -33,12 +44,12 @@ class CardContainerView: UIView {
     let cardButtons = (0..<numberOfButtons).map { _ in SetCardButton() }
     
     for button in cardButtons {
-      button.frame = CGRect(x: 0, y: 0, width: 50, height: 100)
-      button.backgroundColor = .black
       addSubview(button)
     }
     
     buttons += cardButtons
+    
+    grid.cellCount = buttons.count
     
     setNeedsLayout()
   }
@@ -46,6 +57,7 @@ class CardContainerView: UIView {
   /// Removes all buttons from the container.
   func clearCardContainer() {
     buttons = []
+    grid.cellCount = 0
     removeAllSubviews()
     setNeedsLayout()
   }
