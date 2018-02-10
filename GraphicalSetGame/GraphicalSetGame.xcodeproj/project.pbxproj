@@ -16,7 +16,8 @@
 		479E41EA201814C3009DFC20 /* SetCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479E41E9201814C3009DFC20 /* SetCard.swift */; };
 		479E41EC2018163A009DFC20 /* SetGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479E41EB2018163A009DFC20 /* SetGame.swift */; };
 		47CA3513202E3D1B008D0E8F /* CardContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CA3512202E3D1B008D0E8F /* CardContainerView.swift */; };
-		47CA3515202E3D6A008D0E8F /* SetCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CA3514202E3D6A008D0E8F /* SetCardView.swift */; };
+		47CA3515202E3D6A008D0E8F /* SetCardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CA3514202E3D6A008D0E8F /* SetCardButton.swift */; };
+		47F9552C202F849900CF5370 /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F9552B202F849800CF5370 /* Grid.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,7 +44,8 @@
 		479E41E9201814C3009DFC20 /* SetCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetCard.swift; sourceTree = "<group>"; };
 		479E41EB2018163A009DFC20 /* SetGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetGame.swift; sourceTree = "<group>"; };
 		47CA3512202E3D1B008D0E8F /* CardContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardContainerView.swift; sourceTree = "<group>"; };
-		47CA3514202E3D6A008D0E8F /* SetCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetCardView.swift; sourceTree = "<group>"; };
+		47CA3514202E3D6A008D0E8F /* SetCardButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetCardButton.swift; sourceTree = "<group>"; };
+		47F9552B202F849800CF5370 /* Grid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,7 +129,8 @@
 			children = (
 				472773A720178D1C00157122 /* Main.storyboard */,
 				47CA3512202E3D1B008D0E8F /* CardContainerView.swift */,
-				47CA3514202E3D6A008D0E8F /* SetCardView.swift */,
+				47CA3514202E3D6A008D0E8F /* SetCardButton.swift */,
+				47F9552B202F849800CF5370 /* Grid.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -244,10 +247,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				479E41EA201814C3009DFC20 /* SetCard.swift in Sources */,
-				47CA3515202E3D6A008D0E8F /* SetCardView.swift in Sources */,
+				47CA3515202E3D6A008D0E8F /* SetCardButton.swift in Sources */,
 				472773A620178D1C00157122 /* ViewController.swift in Sources */,
 				47CA3513202E3D1B008D0E8F /* CardContainerView.swift in Sources */,
 				479E41EC2018163A009DFC20 /* SetGame.swift in Sources */,
+				47F9552C202F849900CF5370 /* Grid.swift in Sources */,
 				472773A420178D1C00157122 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

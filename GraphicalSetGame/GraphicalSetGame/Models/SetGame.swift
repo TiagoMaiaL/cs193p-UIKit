@@ -151,9 +151,9 @@ class SetGame {
   /// Method in charge of dealing the game's cards.
   ///
   /// - Parameter forAmount: The number of cards to be dealt.
-  func dealCards(forAmount amount: Int = 3) -> [SetCard] {
-    guard amount > 0 else { return [] }
-    guard deck.count >= amount else { return [] }
+  func dealCards(forAmount amount: Int = 3) {
+    guard amount > 0 else { return }
+    guard deck.count >= amount else { return }
     
     var cardsToDeal = [SetCard]()
     
@@ -170,8 +170,6 @@ class SetGame {
     if !cardsToDeal.isEmpty {
       tableCards += cardsToDeal as [SetCard?]
     }
-    
-    return cardsToDeal
   }
   
   /// Finishes the current running game and starts a fresh new one.

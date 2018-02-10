@@ -29,6 +29,12 @@ class ViewController: UIViewController {
   
   // MARK: Life cycle
   
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    setGame.dealCards(forAmount: 12)
+    cardsContainerView.addCardButtons(byAmount: 12)
+  }
+  
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     displayCards()
@@ -60,14 +66,21 @@ class ViewController: UIViewController {
     if setGame.matchedCards.count > 0 {
       setGame.removeMatchedCardsFromTable()
     }
-    _ = setGame.dealCards()
+    
+    setGame.dealCards()
+    cardsContainerView.addCardButtons()
+    
     displayCards()
   }
   
   /// Restarts the current game.
   @IBAction func didTapNewGame(_ sender: UIButton) {
     setGame.reset()
-    _ = setGame.dealCards(forAmount: 12)
+    
+    setGame.dealCards(forAmount: 12)
+    cardsContainerView.clearCardContainer()
+    cardsContainerView.addCardButtons(byAmount: 12)
+    
     displayCards()
   }
 }
