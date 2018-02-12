@@ -32,7 +32,8 @@ class ViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     setGame.dealCards(forAmount: 12)
-    cardsContainerView.addCardButtons(byAmount: 12)
+//    cardsContainerView.addCardButtons(byAmount: 12)
+    cardsContainerView.addCardButtons(byAmount: 1)
   }
   
   override func viewWillAppear(_ animated: Bool) {
