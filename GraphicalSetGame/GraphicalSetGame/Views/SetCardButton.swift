@@ -15,7 +15,7 @@ class SetCardButton: UIButton {
   
   enum CardSymbolShape {
     case squiggle
-    case diamong
+    case diamond
     case oval
   }
   
@@ -47,38 +47,105 @@ class SetCardButton: UIButton {
   // MARK: Properties
 
   /// The symbol shape (diamong, squiggle or oval) for this card view.
-  var symbolShape: CardSymbolShape?
+  var symbolShape: CardSymbolShape? = .oval
   
   /// The number of symbols (one, two or three) for this card view.
-  var numberOfSymbols = 0
+  var numberOfSymbols = 3
   
   /// The symbol color (red, green or purple) for this card view.
-  var color: CardColor?
+  var color: CardColor? = .red
   
   /// The symbol shading (solid, striped or open) for this card view.
-  var symbolShading: CardSymbolShading?
+  var symbolShading: CardSymbolShading? = .solid
+  
+  /// The path containing all shapes of this view.
+  var path: UIBezierPath?
+  
+  /// The rect in which each path is drawn.
+  private var drawableRect: CGRect {
+    let drawableWidth = frame.size.width * 0.95
+    let drawableHeight = frame.size.height * 0.95
+    
+    return CGRect(x: frame.size.width * 0.025,
+                  y: frame.size.height * 0.025,
+                  width: drawableWidth,
+                  height: drawableHeight)
+  }
+  
+  private var shapeHorizontalMargin: CGFloat {
+    return drawableRect.width * 0.01
+  }
+  
+  private var shapeVerticalMargin: CGFloat {
+    return drawableRect.height * 0.05 + drawableRect.origin.y
+  }
+  
+  private var shapeWidth: CGFloat {
+    return (drawableRect.width - (2 * shapeHorizontalMargin)) / 3
+  }
+  
+  private var shapeHeight: CGFloat {
+    return drawableRect.size.height * 0.9
+  }
+  
+  private var drawableCenter: CGPoint {
+    return CGPoint(x: bounds.width / 2, y: bounds.height / 2)
+  }
   
   // MARK: Life cycle
   
   override func draw(_ rect: CGRect) {
-//    guard let context = UIGraphicsGetCurrentContext() else { return }
+    guard let shape = symbolShape else { return }
+    guard let color = color?.get() else { return }
+    guard let shading = symbolShading else { return }
+    guard numberOfSymbols <= 3 || numberOfSymbols > 0 else { return }
+    
+    //    guard let context = UIGraphicsGetCurrentContext() else { return }
     // TODO: Drawing code
     // TODO: Ovals
     // TODO: Diamonds
     // TODO: Squiggles - Complex shape -> bezier curves.
     
-    drawSquiggles()
+    switch shape {
+    case .squiggle:
+      drawSquiggles(byAmount: numberOfSymbols)
+      
+    case .diamond:
+      drawDiamonds(byAmount: numberOfSymbols)
+      
+    case .oval:
+      drawOvals(byAmount: numberOfSymbols)
+    }
+    
+    // TODO:
+    // shading
+    
+    switch shading {
+    case .solid:
+      color.setFill()
+      path?.fill()
+      
+    case .outlined:
+      color.setStroke()
+      path?.lineWidth = 1 // TODO: Calculate the line width
+      path?.stroke()
+      
+    case .striped:
+      // TODO:
+      break
+    }
   }
 
   // MARK: Imperatives
   
-  private func drawSquiggles() {
+  /// Draws the squiggles to the drawable rect.
+  private func drawSquiggles(byAmount amount: Int) {
+    
     // Basic code to draw squiggles
     
     let path = UIBezierPath()
     let centerX = frame.size.width / 2
     let beginY: CGFloat = 100
-    
     
     path.move(to: CGPoint(x: centerX - 2, y: beginY))
     
@@ -97,35 +164,37 @@ class SetCardButton: UIButton {
                   controlPoint1: CGPoint(x: centerX + 45, y: beginY - 50),
                   controlPoint2: CGPoint(x: centerX - 55, y: beginY - 25))
     
-    UIColor.green.setStroke()
-    path.lineWidth = 1
-    path.stroke()
+    self.path = path
+  }
+  
+  /// Draws the ovals to the drawable rect.
+  private func drawOvals(byAmount amount: Int) {
+    let allOvalsWidth = CGFloat(numberOfSymbols) * shapeWidth + CGFloat(numberOfSymbols - 1) * shapeHorizontalMargin
+    let beginX = (frame.size.width - allOvalsWidth) / 2
+    path = UIBezierPath()
     
+    for i in 0..<numberOfSymbols {
+      let currentShapeX = beginX + (shapeWidth * CGFloat(i)) + (CGFloat(i) * shapeHorizontalMargin)
+
+      path!.append(UIBezierPath(roundedRect: CGRect(x: currentShapeX,
+                                                    y: shapeVerticalMargin,
+                                                    width: shapeWidth,
+                                                    height: shapeHeight),
+                                cornerRadius: shapeWidth))
+    }
   }
   
-  private func drawOvals() {
-    // Basic code to draw ovals
-    //    let path = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: 50, height: 100), cornerRadius: 50)
-    //    UIColor.green.setStroke()
-    //    path.lineWidth = 10
-    //    path.stroke()
-  }
-  
-  private func drawDiamonds() {
+  /// Draws the diamonds to the drawable rect.
+  private func drawDiamonds(byAmount amount: Int) {
     // Basic code for creating a diamond shape.
-    //    let path = UIBezierPath()
-    //    path.move(to: CGPoint(x: frame.size.width / 2, y: 0))
-    //    path.addLine(to: CGPoint(x: 0, y: frame.size.height / 2))
-    //    path.addLine(to: CGPoint(x: frame.size.width / 2, y: frame.size.height))
-    //    path.addLine(to: CGPoint(x: frame.size.width, y: frame.size.height / 2))
-    //    path.close()
-    //
-    //    UIColor.orange.setFill()
-    //    path.fill()
-    //
-    //    UIColor.green.setStroke()
-    //    path.lineWidth = 10
-    //    path.stroke()
+    let path = UIBezierPath()
+    path.move(to: CGPoint(x: frame.size.width / 2, y: 0))
+    path.addLine(to: CGPoint(x: 0, y: frame.size.height / 2))
+    path.addLine(to: CGPoint(x: frame.size.width / 2, y: frame.size.height))
+    path.addLine(to: CGPoint(x: frame.size.width, y: frame.size.height / 2))
+    path.close()
+    
+    self.path = path
   }
-  
+
 }

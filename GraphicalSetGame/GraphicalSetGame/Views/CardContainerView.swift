@@ -27,7 +27,6 @@ class CardContainerView: UIView {
 
     grid.frame = bounds
     
-    // TODO: apply the grid mechanism.
     for (i, button) in buttons.enumerated() {
       if let frame = grid[i] {
         button.frame = frame
