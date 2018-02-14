@@ -47,7 +47,7 @@ class SetCardButton: UIButton {
   // MARK: Properties
 
   /// The symbol shape (diamong, squiggle or oval) for this card view.
-  var symbolShape: CardSymbolShape? = .oval
+  var symbolShape: CardSymbolShape? = .diamond
   
   /// The number of symbols (one, two or three) for this card view.
   var numberOfSymbols = 3
@@ -187,12 +187,20 @@ class SetCardButton: UIButton {
   /// Draws the diamonds to the drawable rect.
   private func drawDiamonds(byAmount amount: Int) {
     // Basic code for creating a diamond shape.
+    let allDiamondsWidth = CGFloat(numberOfSymbols) * shapeWidth + CGFloat(numberOfSymbols - 1) * shapeHorizontalMargin
+    let beginX = (frame.size.width - allDiamondsWidth) / 2
+    
     let path = UIBezierPath()
-    path.move(to: CGPoint(x: frame.size.width / 2, y: 0))
-    path.addLine(to: CGPoint(x: 0, y: frame.size.height / 2))
-    path.addLine(to: CGPoint(x: frame.size.width / 2, y: frame.size.height))
-    path.addLine(to: CGPoint(x: frame.size.width, y: frame.size.height / 2))
-    path.close()
+    
+    for i in 0..<numberOfSymbols {
+      let currentShapeX = beginX + (shapeWidth * CGFloat(i)) + (CGFloat(i) * shapeHorizontalMargin)
+      
+      path.move(to: CGPoint(x: currentShapeX + shapeWidth / 2, y: shapeVerticalMargin))
+      path.addLine(to: CGPoint(x: currentShapeX, y: drawableCenter.y))
+      path.addLine(to: CGPoint(x: currentShapeX + shapeWidth / 2, y: shapeVerticalMargin + shapeHeight))
+      path.addLine(to: CGPoint(x: currentShapeX + shapeWidth, y: drawableCenter.y))
+      path.addLine(to: CGPoint(x: currentShapeX + shapeWidth / 2, y: shapeVerticalMargin))
+    }
     
     self.path = path
   }
