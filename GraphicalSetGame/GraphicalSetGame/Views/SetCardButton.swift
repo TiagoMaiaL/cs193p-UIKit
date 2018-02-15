@@ -100,12 +100,6 @@ class SetCardButton: UIButton {
     guard let shading = symbolShading else { return }
     guard numberOfSymbols <= 3 || numberOfSymbols > 0 else { return }
     
-    //    guard let context = UIGraphicsGetCurrentContext() else { return }
-    // TODO: Drawing code
-    // TODO: Ovals
-    // TODO: Diamonds
-    // TODO: Squiggles - Complex shape -> bezier curves.
-    
     switch shape {
     case .squiggle:
       drawSquiggles(byAmount: numberOfSymbols)
@@ -186,7 +180,6 @@ class SetCardButton: UIButton {
   
   /// Draws the diamonds to the drawable rect.
   private func drawDiamonds(byAmount amount: Int) {
-    // Basic code for creating a diamond shape.
     let allDiamondsWidth = CGFloat(numberOfSymbols) * shapeWidth + CGFloat(numberOfSymbols - 1) * shapeHorizontalMargin
     let beginX = (frame.size.width - allDiamondsWidth) / 2
     
@@ -206,28 +199,3 @@ class SetCardButton: UIButton {
   }
 
 }
-
-extension CGFloat {
-  
-  func percentage(of value: Double) -> CGFloat {
-    return (CGFloat(value) / self) * self
-  }
-  
-  func applyingPercentage(for value: Double) -> CGFloat {
-    return percentage(of: value) * self
-  }
-  
-}
-
-//protocol PercentageAppliable: Numeric {
-//
-//  func percentage(of value: Numeric) -> Numeric
-//}
-//
-//extension PercentageAppliable {
-//
-//  func percentage(of value: Numeric) -> Numeric {
-//    return value / self
-//  }
-//}
-
