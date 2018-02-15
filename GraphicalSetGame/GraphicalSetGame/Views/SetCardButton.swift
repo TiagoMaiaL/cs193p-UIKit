@@ -100,6 +100,12 @@ class SetCardButton: UIButton {
     guard let shading = symbolShading else { return }
     guard numberOfSymbols <= 3 || numberOfSymbols > 0 else { return }
     
+    backgroundColor = .clear
+    
+    let cardBackground = UIBezierPath(roundedRect: bounds, cornerRadius: 10)
+    UIColor.white.setFill()
+    cardBackground.fill()
+    
     switch shape {
     case .squiggle:
       drawSquiggles(byAmount: numberOfSymbols)
@@ -110,9 +116,6 @@ class SetCardButton: UIButton {
     case .oval:
       drawOvals(byAmount: numberOfSymbols)
     }
-    
-    // TODO:
-    // shading
     
     switch shading {
     case .solid:

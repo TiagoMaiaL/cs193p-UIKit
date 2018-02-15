@@ -4,7 +4,6 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -64,8 +63,8 @@
                                 </subviews>
                             </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8VS-48-atU" userLabel="Cards container" customClass="CardContainerView" customModule="GraphicalSetGamee" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="20" width="375" height="511"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <rect key="frame" x="10" y="20" width="355" height="511"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.403289794921875" colorSpace="calibratedRGB"/>
@@ -73,8 +72,8 @@
                             <constraint firstItem="qia-Y9-2j5" firstAttribute="top" secondItem="0NS-FT-QlS" secondAttribute="bottom" constant="20" id="2Vz-rN-OEe"/>
                             <constraint firstItem="8VS-48-atU" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="6wH-hh-8KK"/>
                             <constraint firstItem="0NS-FT-QlS" firstAttribute="top" secondItem="8VS-48-atU" secondAttribute="bottom" constant="40" id="6x6-5H-DRG"/>
-                            <constraint firstItem="8VS-48-atU" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="9SX-Zy-y6t"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="8VS-48-atU" secondAttribute="trailing" id="Cqa-pc-jYK"/>
+                            <constraint firstItem="8VS-48-atU" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="9SX-Zy-y6t"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="8VS-48-atU" secondAttribute="trailing" constant="10" id="Cqa-pc-jYK"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="qia-Y9-2j5" secondAttribute="bottom" constant="16" id="G5N-wA-fO2"/>
                             <constraint firstItem="rsN-sK-MHz" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="J5W-ry-8wE"/>
                             <constraint firstItem="qia-Y9-2j5" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="rsN-sK-MHz" secondAttribute="trailing" constant="10" id="Lt2-nU-gqE"/>
