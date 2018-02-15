@@ -56,7 +56,7 @@ class SetCardButton: UIButton {
   var color: CardColor? = .red
   
   /// The symbol shading (solid, striped or open) for this card view.
-  var symbolShading: CardSymbolShading? = .outlined
+  var symbolShading: CardSymbolShading? = .striped
   
   /// The path containing all shapes of this view.
   var path: UIBezierPath?
@@ -100,11 +100,12 @@ class SetCardButton: UIButton {
     guard let shading = symbolShading else { return }
     guard numberOfSymbols <= 3 || numberOfSymbols > 0 else { return }
     
-    backgroundColor = .clear
-    
+    // TODO: Control the card shape from the controller.
     let cardBackground = UIBezierPath(roundedRect: bounds, cornerRadius: 10)
     UIColor.white.setFill()
     cardBackground.fill()
+    
+//    backgroundColor = .clear
     
     switch shape {
     case .squiggle:
@@ -117,18 +118,39 @@ class SetCardButton: UIButton {
       drawOvals(byAmount: numberOfSymbols)
     }
     
+    path!.lineCapStyle = .round
+    
     switch shading {
     case .solid:
       color.setFill()
-      path?.fill()
+      path!.fill()
       
     case .outlined:
       color.setStroke()
-      path?.lineWidth = 1 // TODO: Calculate the line width
-      path?.stroke()
+      path!.lineWidth = 1 // TODO: Calculate the line width
+      path!.stroke()
       
     case .striped:
       // TODO:
+      path!.lineWidth = 0.01 * frame.size.width
+      color.setStroke()
+      path!.stroke()
+      path!.addClip()
+      
+      var currentX: CGFloat = 0
+      
+      let stripedPath = UIBezierPath()
+      stripedPath.lineWidth = 0.005 * frame.size.width
+      
+      while currentX < frame.size.width {
+        stripedPath.move(to: CGPoint(x: currentX, y: 0))
+        stripedPath.addLine(to: CGPoint(x: currentX, y: frame.size.height))
+        currentX += 0.03 * frame.size.width
+      }
+      
+      color.setStroke()
+      stripedPath.stroke()
+      
       break
     }
   }
