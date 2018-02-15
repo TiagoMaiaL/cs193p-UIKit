@@ -47,7 +47,7 @@ class SetCardButton: UIButton {
   // MARK: Properties
 
   /// The symbol shape (diamong, squiggle or oval) for this card view.
-  var symbolShape: CardSymbolShape? = .diamond
+  var symbolShape: CardSymbolShape? = .squiggle
   
   /// The number of symbols (one, two or three) for this card view.
   var numberOfSymbols = 3
@@ -56,24 +56,24 @@ class SetCardButton: UIButton {
   var color: CardColor? = .red
   
   /// The symbol shading (solid, striped or open) for this card view.
-  var symbolShading: CardSymbolShading? = .solid
+  var symbolShading: CardSymbolShading? = .outlined
   
   /// The path containing all shapes of this view.
   var path: UIBezierPath?
   
   /// The rect in which each path is drawn.
   private var drawableRect: CGRect {
-    let drawableWidth = frame.size.width * 0.95
-    let drawableHeight = frame.size.height * 0.95
+    let drawableWidth = frame.size.width * 0.80
+    let drawableHeight = frame.size.height * 0.90
     
-    return CGRect(x: frame.size.width * 0.025,
-                  y: frame.size.height * 0.025,
+    return CGRect(x: frame.size.width * 0.1,
+                  y: frame.size.height * 0.05,
                   width: drawableWidth,
                   height: drawableHeight)
   }
   
   private var shapeHorizontalMargin: CGFloat {
-    return drawableRect.width * 0.01
+    return drawableRect.width * 0.05
   }
   
   private var shapeVerticalMargin: CGFloat {
@@ -140,29 +140,29 @@ class SetCardButton: UIButton {
   
   /// Draws the squiggles to the drawable rect.
   private func drawSquiggles(byAmount amount: Int) {
-    
-    // Basic code to draw squiggles
-    
     let path = UIBezierPath()
-    let centerX = frame.size.width / 2
-    let beginY: CGFloat = 100
+    let allSquigglesWidth = CGFloat(numberOfSymbols) * shapeWidth + CGFloat(numberOfSymbols - 1) * shapeHorizontalMargin
+    let beginX = (frame.size.width - allSquigglesWidth) / 2
     
-    path.move(to: CGPoint(x: centerX - 2, y: beginY))
-    
-    path.addQuadCurve(to: CGPoint(x: centerX - 5, y: beginY + 55),
-                      controlPoint: CGPoint(x: centerX + 10, y: beginY + 25))
-    
-    path.addCurve(to: CGPoint(x: centerX + 35, y: beginY + 70),
-                  controlPoint1: CGPoint(x: centerX - 20, y: beginY + 105),
-                  controlPoint2: CGPoint(x: centerX + 60, y: beginY + 90))
-    
-    path.addCurve(to: CGPoint(x: centerX + 25, y: beginY),
-                  controlPoint1: CGPoint(x: centerX + 8, y: beginY + 60),
-                  controlPoint2: CGPoint(x: centerX + 25, y: beginY + 10))
-    
-    path.addCurve(to: CGPoint(x: centerX - 2, y: beginY),
-                  controlPoint1: CGPoint(x: centerX + 45, y: beginY - 50),
-                  controlPoint2: CGPoint(x: centerX - 55, y: beginY - 25))
+    for i in 0..<numberOfSymbols {
+      let currentShapeX = beginX + (shapeWidth * CGFloat(i)) + (CGFloat(i) * shapeHorizontalMargin)
+      let currentShapeY = shapeVerticalMargin
+      let curveXOffset = shapeWidth * 0.35
+      
+      path.move(to: CGPoint(x: currentShapeX, y: currentShapeY))
+
+      path.addCurve(to: CGPoint(x: currentShapeX, y: currentShapeY + shapeHeight),
+                    controlPoint1: CGPoint(x: currentShapeX + curveXOffset, y: currentShapeY + shapeHeight / 3),
+                    controlPoint2: CGPoint(x: currentShapeX - curveXOffset, y: currentShapeY + (shapeHeight / 3) * 2))
+      
+      path.addLine(to: CGPoint(x: currentShapeX + shapeWidth, y: currentShapeY + shapeHeight))
+      
+      path.addCurve(to: CGPoint(x: currentShapeX + shapeWidth, y: currentShapeY),
+                    controlPoint1: CGPoint(x: currentShapeX + shapeWidth - curveXOffset, y: currentShapeY + (shapeHeight / 3) * 2),
+                    controlPoint2: CGPoint(x: currentShapeX + shapeWidth + curveXOffset, y: currentShapeY + shapeHeight / 3))
+      
+      path.addLine(to: CGPoint(x: currentShapeX, y: currentShapeY))
+    }
     
     self.path = path
   }
@@ -206,3 +206,28 @@ class SetCardButton: UIButton {
   }
 
 }
+
+extension CGFloat {
+  
+  func percentage(of value: Double) -> CGFloat {
+    return (CGFloat(value) / self) * self
+  }
+  
+  func applyingPercentage(for value: Double) -> CGFloat {
+    return percentage(of: value) * self
+  }
+  
+}
+
+//protocol PercentageAppliable: Numeric {
+//
+//  func percentage(of value: Numeric) -> Numeric
+//}
+//
+//extension PercentageAppliable {
+//
+//  func percentage(of value: Numeric) -> Numeric {
+//    return value / self
+//  }
+//}
+
