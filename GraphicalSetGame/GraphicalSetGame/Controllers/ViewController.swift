@@ -33,6 +33,7 @@ class ViewController: UIViewController {
     super.viewDidLoad()
     setGame.dealCards(forAmount: 12)
     cardsContainerView.addCardButtons(byAmount: 12)
+    assignTargetAction()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -42,20 +43,27 @@ class ViewController: UIViewController {
   
   // MARK: Imperatives
   
+  private func assignTargetAction() {
+    for button in cardsContainerView.buttons {
+      button.addTarget(self, action: #selector(didTapCard(_:)), for: .touchUpInside)
+    }
+  }
+  
   /// Displays each card dealt by the setGame.
   /// Method in chard of keeping the UI in sync with the model.
   private func displayCards() {
-    for (index, _) in cardsContainerView.buttons.enumerated() {
+    for (index, cardButton) in cardsContainerView.buttons.enumerated() {
       if let currentCard = setGame.tableCards[index] {
+        cardButton.isHidden = false
         
         // Color feature:
         switch currentCard.combination.color {
         case .green:
-          cardsContainerView.buttons[index].color = .green
+          cardButton.color = .green
         case .purple:
-          cardsContainerView.buttons[index].color = .purple
+          cardButton.color = .purple
         case .red:
-          cardsContainerView.buttons[index].color = .red
+          cardButton.color = .red
         default:
           break
         }
@@ -63,11 +71,11 @@ class ViewController: UIViewController {
         // Number feature:
         switch currentCard.combination.number {
         case .one:
-          cardsContainerView.buttons[index].numberOfSymbols = 1
+          cardButton.numberOfSymbols = 1
         case .two:
-          cardsContainerView.buttons[index].numberOfSymbols = 2
+          cardButton.numberOfSymbols = 2
         case .three:
-          cardsContainerView.buttons[index].numberOfSymbols = 3
+          cardButton.numberOfSymbols = 3
         default:
           break
         }
@@ -75,11 +83,11 @@ class ViewController: UIViewController {
         // Symbol feature:
         switch currentCard.combination.symbol {
         case .diamond:
-          cardsContainerView.buttons[index].symbolShape = .diamond
+          cardButton.symbolShape = .diamond
         case .squiggle:
-          cardsContainerView.buttons[index].symbolShape = .squiggle
+          cardButton.symbolShape = .squiggle
         case .oval:
-          cardsContainerView.buttons[index].symbolShape = .oval
+          cardButton.symbolShape = .oval
         default:
           break
         }
@@ -87,16 +95,29 @@ class ViewController: UIViewController {
         // Shading feature:
         switch currentCard.combination.shading {
         case .outlined:
-          cardsContainerView.buttons[index].symbolShading = .outlined
+          cardButton.symbolShading = .outlined
         case .solid:
-          cardsContainerView.buttons[index].symbolShading = .solid
+          cardButton.symbolShading = .solid
         case .striped:
-          cardsContainerView.buttons[index].symbolShading = .striped
+          cardButton.symbolShading = .striped
         default:
           break
         }
+        
+        // Selection:
+        if setGame.selectedCards.contains(currentCard) ||
+           setGame.matchedCards.contains(currentCard) {
+          cardButton.layer.backgroundColor = #colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1)
+        } else {
+          cardButton.layer.backgroundColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 0.849352542)
+        }
+        
+      } else {
+        cardButton.isHidden = true
       }
     }
+    
+    handleDealMoreButton()
   }
   
   /// Checks if it's possible to deal more cards and
@@ -108,8 +129,11 @@ class ViewController: UIViewController {
   // MARK: Actions
   
   /// Selects the chosen card.
-  func didTapCard(_ sender: UIButton) {
-    // TODO:
+  @objc func didTapCard(_ sender: UIButton) {
+    let index = cardsContainerView.buttons.index(of: sender as! SetCardButton)!
+    setGame.selectCard(at: index)
+    
+    displayCards()
   }
   
   // Adds more cards to the UI.
@@ -120,6 +144,7 @@ class ViewController: UIViewController {
     
     setGame.dealCards()
     cardsContainerView.addCardButtons()
+    assignTargetAction()
     
     displayCards()
   }
@@ -131,6 +156,7 @@ class ViewController: UIViewController {
     setGame.dealCards(forAmount: 12)
     cardsContainerView.clearCardContainer()
     cardsContainerView.addCardButtons(byAmount: 12)
+    assignTargetAction()
     
     displayCards()
   }

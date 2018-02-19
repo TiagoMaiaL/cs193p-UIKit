@@ -30,12 +30,12 @@ class SetCardButton: UIButton {
       case .red:
         return #colorLiteral(red: 0.521568656, green: 0.1098039225, blue: 0.05098039284, alpha: 1)
       case .green:
-        return #colorLiteral(red: 0.5843137503, green: 0.8235294223, blue: 0.4196078479, alpha: 1)
+        return #colorLiteral(red: 0.2745098174, green: 0.4862745106, blue: 0.1411764771, alpha: 1)
       case .purple:
         return #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
       }
     }
-    
+
   }
   
   enum CardSymbolShading {
@@ -47,16 +47,32 @@ class SetCardButton: UIButton {
   // MARK: Properties
 
   /// The symbol shape (diamong, squiggle or oval) for this card view.
-  var symbolShape: CardSymbolShape?
+  var symbolShape: CardSymbolShape? {
+    didSet {
+      setNeedsDisplay()
+    }
+  }
   
   /// The number of symbols (one, two or three) for this card view.
-  var numberOfSymbols = 0
+  var numberOfSymbols = 0 {
+    didSet {
+      setNeedsDisplay()
+    }
+  }
   
   /// The symbol color (red, green or purple) for this card view.
-  var color: CardColor?
+  var color: CardColor? {
+    didSet {
+      setNeedsDisplay()
+    }
+  }
   
   /// The symbol shading (solid, striped or open) for this card view.
-  var symbolShading: CardSymbolShading?
+  var symbolShading: CardSymbolShading? {
+    didSet {
+      setNeedsDisplay()
+    }
+  }
   
   /// The path containing all shapes of this view.
   var path: UIBezierPath?
@@ -99,13 +115,6 @@ class SetCardButton: UIButton {
     guard let color = color?.get() else { return }
     guard let shading = symbolShading else { return }
     guard numberOfSymbols <= 3 || numberOfSymbols > 0 else { return }
-    
-    // TODO: Control the card shape from the controller.
-    let cardBackground = UIBezierPath(roundedRect: bounds, cornerRadius: 10)
-    UIColor.white.setFill()
-    cardBackground.fill()
-    
-//    backgroundColor = .clear
     
     switch shape {
     case .squiggle:

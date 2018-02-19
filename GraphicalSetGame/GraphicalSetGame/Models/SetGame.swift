@@ -81,10 +81,7 @@ class SetGame {
       // The player shouldn't be able to deselect when three cards are selected.
       guard !selectedCards.contains(card) else { return }
       
-      if !currentSelectionMatches() {
-        score -= 2
-      }
-      
+      score -= 2
       selectedCards = []
     }
     
