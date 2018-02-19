@@ -32,8 +32,7 @@ class ViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     setGame.dealCards(forAmount: 12)
-//    cardsContainerView.addCardButtons(byAmount: 12)
-    cardsContainerView.addCardButtons(byAmount: 1)
+    cardsContainerView.addCardButtons(byAmount: 12)
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -46,7 +45,58 @@ class ViewController: UIViewController {
   /// Displays each card dealt by the setGame.
   /// Method in chard of keeping the UI in sync with the model.
   private func displayCards() {
-    // TODO:
+    for (index, _) in cardsContainerView.buttons.enumerated() {
+      if let currentCard = setGame.tableCards[index] {
+        
+        // Color feature:
+        switch currentCard.combination.color {
+        case .green:
+          cardsContainerView.buttons[index].color = .green
+        case .purple:
+          cardsContainerView.buttons[index].color = .purple
+        case .red:
+          cardsContainerView.buttons[index].color = .red
+        default:
+          break
+        }
+        
+        // Number feature:
+        switch currentCard.combination.number {
+        case .one:
+          cardsContainerView.buttons[index].numberOfSymbols = 1
+        case .two:
+          cardsContainerView.buttons[index].numberOfSymbols = 2
+        case .three:
+          cardsContainerView.buttons[index].numberOfSymbols = 3
+        default:
+          break
+        }
+        
+        // Symbol feature:
+        switch currentCard.combination.symbol {
+        case .diamond:
+          cardsContainerView.buttons[index].symbolShape = .diamond
+        case .squiggle:
+          cardsContainerView.buttons[index].symbolShape = .squiggle
+        case .oval:
+          cardsContainerView.buttons[index].symbolShape = .oval
+        default:
+          break
+        }
+        
+        // Shading feature:
+        switch currentCard.combination.shading {
+        case .outlined:
+          cardsContainerView.buttons[index].symbolShading = .outlined
+        case .solid:
+          cardsContainerView.buttons[index].symbolShading = .solid
+        case .striped:
+          cardsContainerView.buttons[index].symbolShading = .striped
+        default:
+          break
+        }
+      }
+    }
   }
   
   /// Checks if it's possible to deal more cards and

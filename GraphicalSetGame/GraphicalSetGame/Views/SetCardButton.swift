@@ -47,16 +47,16 @@ class SetCardButton: UIButton {
   // MARK: Properties
 
   /// The symbol shape (diamong, squiggle or oval) for this card view.
-  var symbolShape: CardSymbolShape? = .squiggle
+  var symbolShape: CardSymbolShape?
   
   /// The number of symbols (one, two or three) for this card view.
-  var numberOfSymbols = 3
+  var numberOfSymbols = 0
   
   /// The symbol color (red, green or purple) for this card view.
-  var color: CardColor? = .red
+  var color: CardColor?
   
   /// The symbol shading (solid, striped or open) for this card view.
-  var symbolShading: CardSymbolShading? = .striped
+  var symbolShading: CardSymbolShading?
   
   /// The path containing all shapes of this view.
   var path: UIBezierPath?
@@ -131,7 +131,6 @@ class SetCardButton: UIButton {
       path!.stroke()
       
     case .striped:
-      // TODO:
       path!.lineWidth = 0.01 * frame.size.width
       color.setStroke()
       path!.stroke()
