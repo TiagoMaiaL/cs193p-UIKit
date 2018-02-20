@@ -171,6 +171,11 @@ class SetGame {
     }
   }
   
+  /// Redistributes the cards in the table.
+  func shuffleTableCards() {
+    tableCards = tableCards.shuffled()
+  }
+  
   /// Finishes the current running game and starts a fresh new one.
   func reset() {
     deck = makeDeck()

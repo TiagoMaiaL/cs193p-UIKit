@@ -165,5 +165,13 @@ class ViewController: UIViewController {
   @IBAction func didSwipeDown(_ sender: UISwipeGestureRecognizer) {
     didTapDealMore(dealMoreButton)
   }
+  
+  /// Reorder the table
+  @IBAction func didRotate(_ sender: UIRotationGestureRecognizer) {
+    if sender.state == .began {
+      setGame.shuffleTableCards()
+      displayCards()
+    }
+  }
 }
 

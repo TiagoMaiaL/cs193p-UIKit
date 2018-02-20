@@ -68,6 +68,7 @@
                                 <gestureRecognizers/>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="hEg-EG-9m6" appends="YES" id="pBC-ok-lC2"/>
+                                    <outletCollection property="gestureRecognizers" destination="NMd-ij-NgN" appends="YES" id="MSj-of-bBS"/>
                                 </connections>
                             </view>
                         </subviews>
@@ -95,11 +96,16 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <swipeGestureRecognizer cancelsTouchesInView="NO" direction="down" id="hEg-EG-9m6">
+                <swipeGestureRecognizer direction="down" id="hEg-EG-9m6">
                     <connections>
                         <action selector="didSwipeDown:" destination="BYZ-38-t0r" id="19E-E9-tB2"/>
                     </connections>
                 </swipeGestureRecognizer>
+                <rotationGestureRecognizer id="NMd-ij-NgN">
+                    <connections>
+                        <action selector="didRotate:" destination="BYZ-38-t0r" id="e5B-2b-m7L"/>
+                    </connections>
+                </rotationGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="136.80000000000001" y="133.5832083958021"/>
         </scene>
