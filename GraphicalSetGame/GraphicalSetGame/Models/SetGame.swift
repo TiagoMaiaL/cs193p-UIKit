@@ -29,7 +29,7 @@ class SetGame {
   ///
   /// - Note: Since a card can be matched and removed from the table,
   /// the type of each card is optional.
-  private(set) var tableCards = [SetCard?]()
+  private(set) var tableCards = [SetCard]()
   
   /// The currently selected cards.
   private(set) var selectedCards = [SetCard]()
@@ -66,13 +66,13 @@ class SetGame {
   /// The method responsible for selecting the chosen card.
   /// If three cards are selected, it should check for a match.
   func selectCard(at index: Int) {
-    guard let card = tableCards[index] else { return }
+    let card = tableCards[index]
+    
     guard !matchedCards.contains(card) else { return }
    
     // Removes any matched cards from the table.
     if matchedCards.count > 0 {
-      removeMatchedCardsFromTable()
-      _ = dealCards()
+      replaceMatchedCards()
     }
     
     // If the trio selected before wasn't a match,
@@ -102,16 +102,10 @@ class SetGame {
     }
   }
   
-  /// Removes any matched cards from the table cards.
-  func removeMatchedCardsFromTable() {
+  /// Replaces the matched cards from the table.
+  func replaceMatchedCards() {
     guard matchedCards.count == 3 else { return }
-    
-    for index in tableCards.indices {
-      if let card = tableCards[index], matchedCards.contains(card) {
-        tableCards[index] = nil
-      }
-    }
-    
+    dealCards()
     matchedCards = []
   }
   
@@ -150,7 +144,15 @@ class SetGame {
   /// - Parameter forAmount: The number of cards to be dealt.
   func dealCards(forAmount amount: Int = 3) {
     guard amount > 0 else { return }
-    guard deck.count >= amount else { return }
+    guard deck.count >= amount else {
+      
+      for card in matchedCards {
+        let index = tableCards.index(of: card)!
+        tableCards.remove(at: index)
+      }
+      
+      return
+    }
     
     var cardsToDeal = [SetCard]()
     
@@ -159,13 +161,13 @@ class SetGame {
     }
     
     for (index, card) in tableCards.enumerated() {
-      if card == nil {
+      if matchedCards.contains(card) {
         tableCards[index] = cardsToDeal.removeFirst()
       }
     }
     
     if !cardsToDeal.isEmpty {
-      tableCards += cardsToDeal as [SetCard?]
+      tableCards += cardsToDeal
     }
   }
   

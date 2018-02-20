@@ -52,69 +52,69 @@ class ViewController: UIViewController {
   /// Displays each card dealt by the setGame.
   /// Method in chard of keeping the UI in sync with the model.
   private func displayCards() {
+    if cardsContainerView.buttons.count > setGame.tableCards.count {
+      cardsContainerView.removeCardButtons(byAmount: cardsContainerView.buttons.count - setGame.tableCards.count)
+    }
+    
     for (index, cardButton) in cardsContainerView.buttons.enumerated() {
-      if let currentCard = setGame.tableCards[index] {
-        cardButton.isHidden = false
-        
-        // Color feature:
-        switch currentCard.combination.color {
-        case .green:
-          cardButton.color = .green
-        case .purple:
-          cardButton.color = .purple
-        case .red:
-          cardButton.color = .red
-        default:
-          break
-        }
-        
-        // Number feature:
-        switch currentCard.combination.number {
-        case .one:
-          cardButton.numberOfSymbols = 1
-        case .two:
-          cardButton.numberOfSymbols = 2
-        case .three:
-          cardButton.numberOfSymbols = 3
-        default:
-          break
-        }
-        
-        // Symbol feature:
-        switch currentCard.combination.symbol {
-        case .diamond:
-          cardButton.symbolShape = .diamond
-        case .squiggle:
-          cardButton.symbolShape = .squiggle
-        case .oval:
-          cardButton.symbolShape = .oval
-        default:
-          break
-        }
-        
-        // Shading feature:
-        switch currentCard.combination.shading {
-        case .outlined:
-          cardButton.symbolShading = .outlined
-        case .solid:
-          cardButton.symbolShading = .solid
-        case .striped:
-          cardButton.symbolShading = .striped
-        default:
-          break
-        }
-        
-        // Selection:
-        if setGame.selectedCards.contains(currentCard) ||
-           setGame.matchedCards.contains(currentCard) {
-          cardButton.layer.backgroundColor = #colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1)
-        } else {
-          cardButton.layer.backgroundColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 0.849352542)
-        }
-        
-      } else {
-        cardButton.isHidden = true
+      let currentCard = setGame.tableCards[index]
+
+      // Color feature:
+      switch currentCard.combination.color {
+      case .green:
+        cardButton.color = .green
+      case .purple:
+        cardButton.color = .purple
+      case .red:
+        cardButton.color = .red
+      default:
+        break
       }
+      
+      // Number feature:
+      switch currentCard.combination.number {
+      case .one:
+        cardButton.numberOfSymbols = 1
+      case .two:
+        cardButton.numberOfSymbols = 2
+      case .three:
+        cardButton.numberOfSymbols = 3
+      default:
+        break
+      }
+      
+      // Symbol feature:
+      switch currentCard.combination.symbol {
+      case .diamond:
+        cardButton.symbolShape = .diamond
+      case .squiggle:
+        cardButton.symbolShape = .squiggle
+      case .oval:
+        cardButton.symbolShape = .oval
+      default:
+        break
+      }
+      
+      // Shading feature:
+      switch currentCard.combination.shading {
+      case .outlined:
+        cardButton.symbolShading = .outlined
+      case .solid:
+        cardButton.symbolShading = .solid
+      case .striped:
+        cardButton.symbolShading = .striped
+      default:
+        break
+      }
+      
+      // Selection:
+      if setGame.selectedCards.contains(currentCard) ||
+         setGame.matchedCards.contains(currentCard) {
+        cardButton.layer.backgroundColor = #colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1)
+      } else {
+        cardButton.layer.backgroundColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 0.849352542)
+      }
+
     }
     
     handleDealMoreButton()
@@ -139,7 +139,7 @@ class ViewController: UIViewController {
   // Adds more cards to the UI.
   @IBAction func didTapDealMore(_ sender: UIButton) {
     if setGame.matchedCards.count > 0 {
-      setGame.removeMatchedCardsFromTable()
+      setGame.replaceMatchedCards()
     }
     
     setGame.dealCards()
