@@ -65,6 +65,10 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8VS-48-atU" userLabel="Cards container" customClass="CardContainerView" customModule="GraphicalSetGamee" customModuleProvider="target">
                                 <rect key="frame" x="10" y="20" width="355" height="511"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="hEg-EG-9m6" appends="YES" id="pBC-ok-lC2"/>
+                                </connections>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.403289794921875" colorSpace="calibratedRGB"/>
@@ -91,6 +95,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <swipeGestureRecognizer cancelsTouchesInView="NO" direction="down" id="hEg-EG-9m6">
+                    <connections>
+                        <action selector="didSwipeDown:" destination="BYZ-38-t0r" id="19E-E9-tB2"/>
+                    </connections>
+                </swipeGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="136.80000000000001" y="133.5832083958021"/>
         </scene>

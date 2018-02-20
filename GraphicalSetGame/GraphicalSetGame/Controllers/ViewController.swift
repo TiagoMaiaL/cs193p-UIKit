@@ -160,5 +160,10 @@ class ViewController: UIViewController {
     
     displayCards()
   }
+  
+  /// Deals more cards.
+  @IBAction func didSwipeDown(_ sender: UISwipeGestureRecognizer) {
+    didTapDealMore(dealMoreButton)
+  }
 }
 
