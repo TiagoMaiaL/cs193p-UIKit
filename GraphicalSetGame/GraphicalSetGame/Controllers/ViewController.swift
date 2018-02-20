@@ -117,6 +117,9 @@ class ViewController: UIViewController {
 
     }
     
+    scoreLabel.text = "Score: \(setGame.score)"
+    matchedTriosLabel.text = "Matches: \(setGame.matchedDeck.count)"
+    
     handleDealMoreButton()
   }
   

@@ -19,13 +19,23 @@ class CardContainerView: UIView {
   /// The grid in charge of generating the calculated
   /// frame of each contained button.
   private(set) var grid = Grid(layout: Grid.Layout.aspectRatio(3/2))
+  
+  /// The centered rect in which the buttons are going to be positioned.
+  private var centeredRect: CGRect {
+    get {
+      return CGRect(x: bounds.size.width * 0.025,
+                    y: bounds.size.height * 0.025,
+                    width: bounds.size.width * 0.95,
+                    height: bounds.size.height * 0.95)
+    }
+  }
 
   // MARK: View life cycle
   
   override func layoutSubviews() {
     super.layoutSubviews()
 
-    grid.frame = bounds
+    grid.frame = centeredRect
 
     for (i, button) in buttons.enumerated() {
       if let frame = grid[i] {
