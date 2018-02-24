@@ -111,11 +111,21 @@ class ConcentrationViewController: UIViewController {
   /// The model encapsulating the concentration game's logic.
   private lazy var concentration = Concentration(numberOfPairs: (cardButtons.count / 2))
   
+  /// The user's chosen theme.
+  var pickedTheme: Theme? {
+    didSet {
+      if let pickedTheme = pickedTheme {
+        theme = pickedTheme
+      }
+    }
+  }
+  
   /// The randomly picked theme.
-  /// The theme is chosen every time a new game starts.
-  var pickedTheme: Theme! {
+  /// The game's theme is chosen every time a new game starts.
+  private var theme = Theme.getRandom() {
     didSet {
       configureTheme()
+      displayCards()
     }
   }
   
@@ -124,10 +134,8 @@ class ConcentrationViewController: UIViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(true)
     
-    if pickedTheme != nil {
-      configureTheme()
-      displayCards()
-    }
+    configureTheme()
+    displayCards()
   }
   
   // MARK: Actions
@@ -161,10 +169,10 @@ class ConcentrationViewController: UIViewController {
   
   /// Configures each card text according to the picked theme.
   private func configureTheme() {
-    view.backgroundColor = pickedTheme.backgroundColor
+    view.backgroundColor = theme.backgroundColor
     
     cardsAndEmojisMap = [:]
-    var emojis = pickedTheme.emojis
+    var emojis = theme.emojis
     
     for card in concentration.cards {
       if cardsAndEmojisMap[card] == nil {
@@ -192,7 +200,7 @@ class ConcentrationViewController: UIViewController {
         cardButton.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
       } else {
         cardButton.setTitle("", for: .normal)
-        cardButton.backgroundColor = card.isMatched ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0) : pickedTheme.cardColor
+        cardButton.backgroundColor = card.isMatched ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0) : theme.cardColor
       }
     }
   }

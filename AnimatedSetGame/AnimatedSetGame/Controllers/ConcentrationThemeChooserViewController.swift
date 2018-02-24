@@ -65,7 +65,7 @@ class ConcentrationThemeChooserViewController: UIViewController, UISplitViewCont
   @IBAction func didTapThemeButton(_ sender: UIButton) {
     guard let theme = getPickedTheme(fromButton: sender) else {
       return
-    } 
+    }
     
     if let concentrationController = splitDetailConcentrationController {
       concentrationController.pickedTheme = theme
