@@ -74,8 +74,14 @@ class SetCardButton: UIButton {
     }
   }
   
+  var isFaceUp = true {
+    didSet {
+      setNeedsDisplay()
+    }
+  }
+  
   /// The path containing all shapes of this view.
-  var path: UIBezierPath?
+  private var path: UIBezierPath?
   
   /// The rect in which each path is drawn.
   private var drawableRect: CGRect {
@@ -111,6 +117,17 @@ class SetCardButton: UIButton {
   // MARK: Life cycle
   
   override func draw(_ rect: CGRect) {
+    layer.cornerRadius = 10
+    layer.borderColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+    layer.borderWidth = 0.5
+    
+    guard isFaceUp == true else {
+      layer.backgroundColor = UIColor.gray.cgColor
+      return
+    }
+    
+    layer.backgroundColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 0.849352542)
+    
     guard let shape = symbolShape else { return }
     guard let color = color?.get() else { return }
     guard let shading = symbolShading else { return }

@@ -133,8 +133,23 @@ class SetViewController: UIViewController {
   
   /// Selects the chosen card.
   @objc func didTapCard(_ sender: UIButton) {
-    let index = cardsContainerView.buttons.index(of: sender as! SetCardButton)!
+    guard let cardButton = sender as? SetCardButton else {
+      return
+    }
+    
+    let index = cardsContainerView.buttons.index(of: cardButton)!
     setGame.selectCard(at: index)
+    
+    // Flip the tapped card.
+    
+    UIView.transition(with: cardButton,
+                      duration: 0.2,
+                      options: .transitionFlipFromLeft,
+                      animations: {
+                        cardButton.isFaceUp = !cardButton.isFaceUp
+    }) { completed in
+      // Nothing for now.
+    }
     
     displayCards()
   }
