@@ -5,6 +5,7 @@
     </device>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -80,7 +81,7 @@
                                 </constraints>
                             </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8VS-48-atU" userLabel="Cards container" customClass="CardContainerView" customModule="AnimatedSetGamee" customModuleProvider="target">
-                                <rect key="frame" x="10" y="30" width="355" height="478"/>
+                                <rect key="frame" x="10" y="74" width="355" height="434"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <gestureRecognizers/>
                                 <connections>
@@ -101,7 +102,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Set" id="EuD-yL-bOV"/>
+                    <navigationItem key="navigationItem" title="Set" id="Uzp-Ij-NDf"/>
                     <connections>
                         <outlet property="cardsContainerView" destination="8VS-48-atU" id="c5x-fT-4pK"/>
                         <outlet property="dealMoreButton" destination="0NS-FT-QlS" id="T8x-PH-i6F"/>
@@ -121,7 +122,131 @@
                     </connections>
                 </rotationGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1113" y="492"/>
+            <point key="canvasLocation" x="1996" y="1011"/>
+        </scene>
+        <!--Concentration-->
+        <scene sceneID="KJo-3S-EuM">
+            <objects>
+                <splitViewController id="rqS-uk-YS6" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Concentration" id="Q5P-U9-88N"/>
+                    <connections>
+                        <segue destination="Olu-Ar-dg9" kind="relationship" relationship="masterViewController" id="IXI-DM-DUm"/>
+                        <segue destination="yPJ-0R-5Pp" kind="relationship" relationship="detailViewController" id="YyI-bE-zNt"/>
+                    </connections>
+                </splitViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EV5-uM-bCu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1111" y="-231"/>
+        </scene>
+        <!--Themes-->
+        <scene sceneID="BTr-Gq-EaZ">
+            <objects>
+                <viewController id="lSY-WV-DDV" customClass="ConcentrationThemeChooserViewController" customModule="AnimatedSetGamee" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="BKD-c1-KwW">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="QkL-LH-b3e">
+                                <rect key="frame" x="93.5" y="213" width="187.5" height="256"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qcy-Jk-h5p">
+                                        <rect key="frame" x="0.0" y="0.0" width="187.5" height="36"/>
+                                        <color key="backgroundColor" red="0.98902054689999996" green="0.98835381259999999" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <state key="normal" title="Flags">
+                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="didTapThemeButton:" destination="lSY-WV-DDV" eventType="touchUpInside" id="6kp-uq-wjG"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q47-Nk-VHp">
+                                        <rect key="frame" x="0.0" y="44" width="187.5" height="36"/>
+                                        <color key="backgroundColor" red="0.98902054689999996" green="0.98835381259999999" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <state key="normal" title="Faces">
+                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="didTapThemeButton:" destination="lSY-WV-DDV" eventType="touchUpInside" id="93n-2u-PpO"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2tM-UL-ndB">
+                                        <rect key="frame" x="0.0" y="88" width="187.5" height="36"/>
+                                        <color key="backgroundColor" red="0.98902054689999996" green="0.98835381259999999" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <state key="normal" title="Sports">
+                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="didTapThemeButton:" destination="lSY-WV-DDV" eventType="touchUpInside" id="c0Q-e7-4KQ"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pmE-70-BHD">
+                                        <rect key="frame" x="0.0" y="132" width="187.5" height="36"/>
+                                        <color key="backgroundColor" red="0.98902054689999996" green="0.98835381259999999" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <state key="normal" title="Animals">
+                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="didTapThemeButton:" destination="lSY-WV-DDV" eventType="touchUpInside" id="ybe-Dp-4b7"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4lp-hO-QTy">
+                                        <rect key="frame" x="0.0" y="176" width="187.5" height="36"/>
+                                        <color key="backgroundColor" red="0.98902054689999996" green="0.98835381259999999" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <state key="normal" title="Fruits">
+                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="didTapThemeButton:" destination="lSY-WV-DDV" eventType="touchUpInside" id="5hB-EI-XTn"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Yh-Sz-Jfu">
+                                        <rect key="frame" x="0.0" y="220" width="187.5" height="36"/>
+                                        <color key="backgroundColor" red="0.98902054689999996" green="0.98835381259999999" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <state key="normal" title="Appliances">
+                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="didTapThemeButton:" destination="lSY-WV-DDV" eventType="touchUpInside" id="xzT-Io-FfH"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="pmE-70-BHD" firstAttribute="width" secondItem="qcy-Jk-h5p" secondAttribute="width" id="SUQ-YY-KMO"/>
+                                    <constraint firstItem="2Yh-Sz-Jfu" firstAttribute="width" secondItem="qcy-Jk-h5p" secondAttribute="width" id="Wia-ba-Xwf"/>
+                                    <constraint firstItem="2tM-UL-ndB" firstAttribute="width" secondItem="qcy-Jk-h5p" secondAttribute="width" id="Ylm-Rp-BLO"/>
+                                    <constraint firstItem="4lp-hO-QTy" firstAttribute="width" secondItem="qcy-Jk-h5p" secondAttribute="width" id="f2t-Ng-ZUP"/>
+                                    <constraint firstItem="q47-Nk-VHp" firstAttribute="width" secondItem="qcy-Jk-h5p" secondAttribute="width" id="ywR-hT-Tpg"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.53725490200000003" green="0.54901960780000003" blue="0.54901960780000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="QkL-LH-b3e" firstAttribute="centerX" secondItem="ubj-KI-rGF" secondAttribute="centerX" id="BcQ-Ry-0Y9"/>
+                            <constraint firstItem="QkL-LH-b3e" firstAttribute="centerY" secondItem="ubj-KI-rGF" secondAttribute="centerY" id="IhP-xu-nqj"/>
+                            <constraint firstItem="qcy-Jk-h5p" firstAttribute="width" secondItem="BKD-c1-KwW" secondAttribute="width" multiplier="0.5" id="ljc-KQ-bjR"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="ubj-KI-rGF"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Themes" id="mhh-bF-h7A"/>
+                    <connections>
+                        <outletCollection property="themeButtons" destination="qcy-Jk-h5p" collectionClass="NSMutableArray" id="CEs-ke-wCy"/>
+                        <outletCollection property="themeButtons" destination="q47-Nk-VHp" collectionClass="NSMutableArray" id="6a5-2m-k24"/>
+                        <outletCollection property="themeButtons" destination="2tM-UL-ndB" collectionClass="NSMutableArray" id="LJw-aq-NzM"/>
+                        <outletCollection property="themeButtons" destination="pmE-70-BHD" collectionClass="NSMutableArray" id="J8w-Zp-zPO"/>
+                        <outletCollection property="themeButtons" destination="4lp-hO-QTy" collectionClass="NSMutableArray" id="chV-tf-aqL"/>
+                        <outletCollection property="themeButtons" destination="2Yh-Sz-Jfu" collectionClass="NSMutableArray" id="PFb-Mm-f4V"/>
+                        <segue destination="yPJ-0R-5Pp" kind="showDetail" identifier="show concentration" id="NmQ-AJ-MLy"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MvW-up-NaN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2797.5999999999999" y="-645.42728635682158"/>
         </scene>
         <!--Concentration-->
         <scene sceneID="MGh-Wk-bpi">
@@ -132,7 +257,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="QJt-xr-vzT">
-                                <rect key="frame" x="16" y="36" width="343" height="312"/>
+                                <rect key="frame" x="16" y="80" width="343" height="312"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Wcr-yr-AY2">
                                         <rect key="frame" x="0.0" y="0.0" width="343" height="72"/>
@@ -334,7 +459,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Fxs-K0-HMT"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Concentration" id="xfo-Qt-KrU"/>
+                    <navigationItem key="navigationItem" title="Concentration" id="u6H-dO-Btl"/>
                     <connections>
                         <outlet property="flipsLabel" destination="zzI-zD-39K" id="YUi-Kr-CQl"/>
                         <outlet property="scoreLabel" destination="Ekc-rx-c5K" id="qSm-JD-JXd"/>
@@ -358,7 +483,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iJB-28-oBC" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1113" y="-191"/>
+            <point key="canvasLocation" x="1998" y="213"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="BjF-VZ-XZK">
@@ -370,13 +495,54 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="SII-5I-H79"/>
-                        <segue destination="yPJ-0R-5Pp" kind="relationship" relationship="viewControllers" id="ogU-6e-yjL"/>
+                        <segue destination="3mf-WB-UZN" kind="relationship" relationship="viewControllers" id="SII-5I-H79"/>
+                        <segue destination="rqS-uk-YS6" kind="relationship" relationship="viewControllers" id="pjn-7t-lYg"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VWb-Ak-tNR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="272" y="133.13343328335833"/>
         </scene>
+        <!--Concentration-->
+        <scene sceneID="Otp-Ab-kGE">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Olu-Ar-dg9" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Concentration" id="xfo-Qt-KrU"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="6Y1-2b-kfS">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="lSY-WV-DDV" kind="relationship" relationship="rootViewController" id="0nk-c9-Vgp"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ccS-0A-asM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1998" y="-645"/>
+        </scene>
+        <!--Set-->
+        <scene sceneID="HRb-6F-BKm">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="3mf-WB-UZN" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Set" id="EuD-yL-bOV"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="dyJ-gN-oye">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="r0x-2o-nDA"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Edh-q8-fW8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1110" y="1011"/>
+        </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="YyI-bE-zNt"/>
+    </inferredMetricsTieBreakers>
 </document>
