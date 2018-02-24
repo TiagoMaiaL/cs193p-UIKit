@@ -5,6 +5,7 @@
     </device>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
@@ -19,69 +20,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="J6R-FZ-4j0">
-                                <rect key="frame" x="10" y="518" width="355" height="90"/>
-                                <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ITD-XL-wTe">
-                                        <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
-                                        <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0NS-FT-QlS">
-                                                <rect key="frame" x="0.0" y="0.0" width="90" height="40"/>
-                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="90" id="O1f-R1-Fwv"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                <state key="normal" title="Deal more">
-                                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="didTapDealMore:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4dQ-br-1wr"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qia-Y9-2j5">
-                                                <rect key="frame" x="0.0" y="50" width="90" height="40"/>
-                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="90" id="1Vu-st-RJe"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                <state key="normal" title="New game">
-                                                    <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="didTapNewGame:" destination="BYZ-38-t0r" eventType="touchUpInside" id="BVl-vO-k9s"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="90" id="hkE-Y8-Zdh"/>
-                                        </constraints>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="rsN-sK-MHz">
-                                        <rect key="frame" x="100" y="0.0" width="255" height="90"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Matches:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0o1-ZI-pH6">
-                                                <rect key="frame" x="0.0" y="0.0" width="80.5" height="40"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Score:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e8a-lN-dJw">
-                                                <rect key="frame" x="0.0" y="50" width="56" height="40"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                    </stackView>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstItem="ITD-XL-wTe" firstAttribute="height" secondItem="rsN-sK-MHz" secondAttribute="height" id="wQ9-xi-cfD"/>
-                                </constraints>
-                            </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8VS-48-atU" userLabel="Cards container" customClass="CardContainerView" customModule="AnimatedSetGamee" customModuleProvider="target">
-                                <rect key="frame" x="10" y="74" width="355" height="434"/>
+                                <rect key="frame" x="10" y="74" width="355" height="442"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <gestureRecognizers/>
                                 <connections>
@@ -89,25 +29,42 @@
                                     <outletCollection property="gestureRecognizers" destination="NMd-ij-NgN" appends="YES" id="MSj-of-bBS"/>
                                 </connections>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fdd-gY-LJs" userLabel="Deck Placeholder Card Button" customClass="SetCardButton" customModule="AnimatedSetGamee" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="538" width="120" height="80"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="120" id="QCl-FD-DtD"/>
+                                    <constraint firstAttribute="width" secondItem="Fdd-gY-LJs" secondAttribute="height" multiplier="3:2" id="u9T-FD-ASZ"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="didTapDealMore:" destination="BYZ-38-t0r" eventType="touchUpInside" id="BSs-6Y-bmd"/>
+                                </connections>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yfe-5a-bdO" userLabel="Matched Deck Placeholder Card Button" customClass="SetCardButton" customModule="AnimatedSetGamee" customModuleProvider="target">
+                                <rect key="frame" x="255" y="538" width="120" height="80"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.88239795446644331" green="0.91836248342175053" blue="0.32583226744434524" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="Fdd-gY-LJs" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="4di-Q4-rbn"/>
                             <constraint firstItem="8VS-48-atU" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="6wH-hh-8KK"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="yfe-5a-bdO" secondAttribute="trailing" id="7kN-Zc-Vtr"/>
                             <constraint firstItem="8VS-48-atU" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="9SX-Zy-y6t"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="8VS-48-atU" secondAttribute="trailing" constant="10" id="Cqa-pc-jYK"/>
-                            <constraint firstItem="J6R-FZ-4j0" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="SWn-LW-B3P"/>
-                            <constraint firstItem="J6R-FZ-4j0" firstAttribute="top" secondItem="8VS-48-atU" secondAttribute="bottom" constant="10" id="cpV-eb-Kvf"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="J6R-FZ-4j0" secondAttribute="bottom" constant="10" id="k95-1v-A2I"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="J6R-FZ-4j0" secondAttribute="trailing" constant="10" id="mPS-vf-dI6"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Fdd-gY-LJs" secondAttribute="bottom" id="NHh-QK-UOI"/>
+                            <constraint firstItem="yfe-5a-bdO" firstAttribute="width" secondItem="Fdd-gY-LJs" secondAttribute="width" id="SUA-0f-5HL"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="yfe-5a-bdO" secondAttribute="bottom" id="XY7-cJ-2VV"/>
+                            <constraint firstItem="yfe-5a-bdO" firstAttribute="height" secondItem="Fdd-gY-LJs" secondAttribute="height" id="flR-7S-DBA"/>
+                            <constraint firstItem="Fdd-gY-LJs" firstAttribute="top" secondItem="8VS-48-atU" secondAttribute="bottom" constant="22" id="t3w-Qe-AiG"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="Set" id="Uzp-Ij-NDf"/>
                     <connections>
                         <outlet property="cardsContainerView" destination="8VS-48-atU" id="c5x-fT-4pK"/>
-                        <outlet property="dealMoreButton" destination="0NS-FT-QlS" id="T8x-PH-i6F"/>
-                        <outlet property="matchedTriosLabel" destination="0o1-ZI-pH6" id="0Qg-YQ-0Ff"/>
-                        <outlet property="scoreLabel" destination="e8a-lN-dJw" id="ZmT-pN-34U"/>
+                        <outlet property="deckPlaceholderCard" destination="Fdd-gY-LJs" id="7TL-6X-kh5"/>
+                        <outlet property="matchedDeckPlaceholderCard" destination="yfe-5a-bdO" id="aPu-1O-Snm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -122,7 +79,7 @@
                     </connections>
                 </rotationGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1996" y="1011"/>
+            <point key="canvasLocation" x="1996" y="1010.6446776611695"/>
         </scene>
         <!--Concentration-->
         <scene sceneID="KJo-3S-EuM">
@@ -491,6 +448,7 @@
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="ray-WJ-S5z" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="XGJ-cU-QjJ">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>

@@ -15,14 +15,12 @@ class SetViewController: UIViewController {
   /// The main set game.
   private var setGame = SetGame()
   
-  /// The UI score label.
-  @IBOutlet weak var scoreLabel: UILabel!
+  /// The deck button used both as a deck placeholder and
+  /// as the button with the deal more action.
+  @IBOutlet weak var deckPlaceholderCard: SetCardButton!
   
-  /// The label containing the number of metched trios.
-  @IBOutlet weak var matchedTriosLabel: UILabel!
-  
-  /// The deal more button in the UI.
-  @IBOutlet weak var dealMoreButton: UIButton!
+  /// The matched deck button used as a the deck placeholder.
+  @IBOutlet weak var matchedDeckPlaceholderCard: SetCardButton!
   
   /// The view containing all cards.
   @IBOutlet weak var cardsContainerView: CardContainerView!
@@ -31,7 +29,21 @@ class SetViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    
     setGame.dealCards(forAmount: 12)
+    
+    let translatedDeckOrigin = view.convert(deckPlaceholderCard.frame.origin,
+                                            to: cardsContainerView)
+    let translatedDeckFrame = CGRect(origin: translatedDeckOrigin,
+                                     size: deckPlaceholderCard.frame.size)
+    cardsContainerView.deckFrame = translatedDeckFrame
+    
+    let translatedMatchedDeckOrigin = view.convert(matchedDeckPlaceholderCard.frame.origin,
+                                                   to: cardsContainerView)
+    let translatedMatchedDeckFrame = CGRect(origin: translatedMatchedDeckOrigin,
+                                            size: matchedDeckPlaceholderCard.frame.size)
+    cardsContainerView.matchedDeckFrame = translatedMatchedDeckFrame
+    
     cardsContainerView.addCardButtons(byAmount: 12)
     assignTargetAction()
   }
@@ -52,12 +64,25 @@ class SetViewController: UIViewController {
   /// Displays each card dealt by the setGame.
   /// Method in chard of keeping the UI in sync with the model.
   private func displayCards() {
-    if cardsContainerView.buttons.count > setGame.tableCards.count {
-      cardsContainerView.removeCardButtons(byAmount: cardsContainerView.buttons.count - setGame.tableCards.count)
-    }
+//    if cardsContainerView.buttons.count > setGame.tableCards.count {
+//      cardsContainerView.removeCardButtons(byAmount: cardsContainerView.buttons.count - setGame.tableCards.count)
+//    }
     
     for (index, cardButton) in cardsContainerView.buttons.enumerated() {
       let currentCard = setGame.tableCards[index]
+      
+      if setGame.matchedCards.contains(currentCard) {
+        // Animate the alpha.
+        UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.3, delay: 0, options: .allowUserInteraction, animations: {
+          cardButton.alpha = 0
+        })
+        
+        continue
+      } else if cardButton.alpha == 0 {
+        UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.3, delay: 0, options: .allowUserInteraction, animations: {
+          cardButton.alpha = 1
+        })
+      }
 
       // Color feature:
       switch currentCard.combination.color {
@@ -114,19 +139,18 @@ class SetViewController: UIViewController {
       } else {
         cardButton.layer.backgroundColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 0.849352542)
       }
-
     }
     
-    scoreLabel.text = "Score: \(setGame.score)"
-    matchedTriosLabel.text = "Matches: \(setGame.matchedDeck.count)"
+//    scoreLabel.text = "Score: \(setGame.score)"
+//    matchedTriosLabel.text = "Matches: \(setGame.matchedDeck.count)"
     
-    handleDealMoreButton()
+//    handleDealMoreButton()
   }
   
   /// Checks if it's possible to deal more cards and
   /// enables or disables the deal more button accordingly.
   private func handleDealMoreButton() {
-    dealMoreButton.isEnabled = setGame.deck.count > 3
+//    dealMoreButton.isEnabled = setGame.deck.count > 3
   }
 
   // MARK: Actions
@@ -141,15 +165,18 @@ class SetViewController: UIViewController {
     setGame.selectCard(at: index)
     
     // Flip the tapped card.
-    
-    UIView.transition(with: cardButton,
-                      duration: 0.2,
-                      options: .transitionFlipFromLeft,
-                      animations: {
-                        cardButton.isFaceUp = !cardButton.isFaceUp
-    }) { completed in
-      // Nothing for now.
-    }
+    // -------------------------------
+    // -------------------------------
+//    UIView.transition(with: cardButton,
+//                      duration: 0.2,
+//                      options: .transitionFlipFromLeft,
+//                      animations: {
+//                        cardButton.isFaceUp = !cardButton.isFaceUp
+//    }) { completed in
+//      // Nothing for now.
+//    }
+    // -------------------------------
+    // -------------------------------
     
     displayCards()
   }
@@ -181,7 +208,7 @@ class SetViewController: UIViewController {
   
   /// Deals more cards.
   @IBAction func didSwipeDown(_ sender: UISwipeGestureRecognizer) {
-    didTapDealMore(dealMoreButton)
+//    didTapDealMore(dealMoreButton)
   }
   
   /// Reorder the table

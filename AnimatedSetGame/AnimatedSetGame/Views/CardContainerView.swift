@@ -13,6 +13,18 @@ class CardContainerView: UIView {
   
   // MARK: Properties
   
+  /// The translated deck frame used by the dealing animation.
+  /// - Note: This frame is the origin and size for all added buttons.
+  ///         When the deal animation takes place, all cards will fly from
+  ///         this frame to each destination.
+  var deckFrame: CGRect!
+  
+  /// The translated matched deck frame used by the removal animation.
+  /// - Note: This frame is the origin and size for all added buttons.
+  ///         When the deal animation takes place, all cards will fly from
+  ///         this frame to each destination.
+  var matchedDeckFrame: CGRect!
+  
   /// The contained buttons.
   private(set) var buttons = [SetCardButton]()
   
@@ -36,11 +48,16 @@ class CardContainerView: UIView {
     super.layoutSubviews()
 
     grid.frame = centeredRect
-
+    
     for (i, button) in buttons.enumerated() {
-      if let frame = grid[i] {
-        button.frame = frame
-      }
+      UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.2,
+                                                     delay: 0,
+                                                     options: .allowUserInteraction,
+                                                     animations: {
+                                                      if let frame = self.grid[i] {
+                                                        button.frame = frame
+                                                      }
+      })
     }
   }
   
@@ -53,11 +70,28 @@ class CardContainerView: UIView {
     
     for button in cardButtons {
       addSubview(button)
+      button.frame = deckFrame
+    }
+
+    grid.cellCount += cardButtons.count
+    grid.frame = centeredRect
+    
+    // Deal animation.
+    var dealAnimationDelay = 0.15
+    for (i, button) in cardButtons.enumerated() {
+      UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.2,
+                                                     delay: dealAnimationDelay,
+                                                     options: .allowUserInteraction,
+                                                     animations: {
+                                                      if let frame = self.grid[i] {
+                                                        button.frame = frame
+                                                      }
+      })
+      
+      dealAnimationDelay += 0.2
     }
     
     buttons += cardButtons
-    
-    grid.cellCount = buttons.count
     
     setNeedsLayout()
   }
