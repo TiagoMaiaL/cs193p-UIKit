@@ -20,15 +20,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8VS-48-atU" userLabel="Cards container" customClass="CardContainerView" customModule="AnimatedSetGamee" customModuleProvider="target">
-                                <rect key="frame" x="10" y="74" width="355" height="442"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                <gestureRecognizers/>
-                                <connections>
-                                    <outletCollection property="gestureRecognizers" destination="hEg-EG-9m6" appends="YES" id="pBC-ok-lC2"/>
-                                    <outletCollection property="gestureRecognizers" destination="NMd-ij-NgN" appends="YES" id="MSj-of-bBS"/>
-                                </connections>
-                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fdd-gY-LJs" userLabel="Deck Placeholder Card Button" customClass="SetCardButton" customModule="AnimatedSetGamee" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="538" width="120" height="80"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -43,6 +34,15 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yfe-5a-bdO" userLabel="Matched Deck Placeholder Card Button" customClass="SetCardButton" customModule="AnimatedSetGamee" customModuleProvider="target">
                                 <rect key="frame" x="255" y="538" width="120" height="80"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8VS-48-atU" userLabel="Cards container" customClass="CardContainerView" customModule="AnimatedSetGamee" customModuleProvider="target">
+                                <rect key="frame" x="10" y="74" width="355" height="442"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="hEg-EG-9m6" appends="YES" id="pBC-ok-lC2"/>
+                                    <outletCollection property="gestureRecognizers" destination="NMd-ij-NgN" appends="YES" id="MSj-of-bBS"/>
+                                </connections>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.88239795446644331" green="0.91836248342175053" blue="0.32583226744434524" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

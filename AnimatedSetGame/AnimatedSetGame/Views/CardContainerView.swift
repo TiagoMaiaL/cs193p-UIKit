@@ -112,24 +112,62 @@ class CardContainerView: UIView {
     setNeedsLayout()
   }
   
+  /// Animates the passed buttons out of the table and on
+  /// to the pile of matched cards.
+  ///
+  /// - Note: The animation takes place in three steps:
+  ///         * A scale transformation is applied
+  ///         * The buttons are concentrated in the center of this view
+  ///         * The cards are flipped
+  ///         * The cards are put in the matched pile
   func animateMatchedCardButtonsOut(_ buttons: [SetCardButton]) {
-    // It's a three stages animation.
-    // with a completion block passing it to the delivery deck.
-    
     guard matchedDeckFrame != nil else { return }
     
     for button in buttons {
-      button.alpha = 0
-      
+      // Creates the button copy used to be animated.
       let buttonCopy = button.copy(with: nil) as! SetCardButton
       addSubview(buttonCopy)
       
-      UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 1.2,
-                                                     delay: 0,
-                                                     options: .allowUserInteraction,
-                                                     animations: {
-                                                        buttonCopy.frame = self.matchedDeckFrame
-                                                      })
+      // Hides the original button.
+      button.alpha = 0
+      
+      // Starts animating by scaling each button.
+      UIViewPropertyAnimator.runningPropertyAnimator(
+        withDuration: 0.1,
+        delay: 0,
+        options: .curveEaseIn,
+        animations: {
+          
+          buttonCopy.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+          
+        }, completion: { position in
+          
+          // Animates each card to the center of the container view.
+          UIViewPropertyAnimator.runningPropertyAnimator(
+            withDuration: 0.2,
+            delay: 0,
+            options: .curveEaseIn,
+            animations: {
+              
+              buttonCopy.center = self.center
+              
+            }, completion: { position in
+              
+              // Flips each card down
+              buttonCopy.flipCard() { button in
+                
+                // Animates each card to the matched deck.
+                UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.2,
+                                                               delay: 0.2,
+                                                               options: .curveEaseInOut,
+                                                               animations: {
+                                                                button.frame = self.matchedDeckFrame
+                })
+              }
+            }
+          )
+        }
+      )
     }
   }
   

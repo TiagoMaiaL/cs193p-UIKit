@@ -121,13 +121,15 @@ class SetCardButton: UIButton, NSCopying {
     layer.borderColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
     layer.borderWidth = 0.5
     
-//    guard isFaceUp == true else {
-//      layer.backgroundColor = UIColor.gray.cgColor
-//      return
-//    }
-    
-//    layer.backgroundColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 0.849352542)
-    
+    if isFaceUp {
+      drawSetShapes()
+    } else {
+      drawBack()
+    }
+  }
+  
+  /// Draws the shapes configured within this card.
+  private func drawSetShapes() {
     guard let shape = symbolShape else { return }
     guard let color = color?.get() else { return }
     guard let shading = symbolShading else { return }
@@ -179,8 +181,27 @@ class SetCardButton: UIButton, NSCopying {
       break
     }
   }
+  
+  /// Draws the back of the card.
+  private func drawBack() {
+    layer.backgroundColor = UIColor.red.cgColor
+  }
 
   // MARK: Imperatives
+  
+  /// Flips the card with a flip transition from left to right.
+  ///
+  /// - Paramater withCompletion: completion block called after the end of the transition animation.
+  func flipCard(withCompletion completion: @escaping (SetCardButton) -> ()) {
+    UIView.transition(with: self,
+                      duration: 0.2,
+                      options: .transitionFlipFromLeft,
+                      animations: {
+                        self.isFaceUp = !self.isFaceUp
+    }) { completed in
+      completion(self)
+    }
+  }
   
   /// Draws the squiggles to the drawable rect.
   private func drawSquiggles(byAmount amount: Int) {
