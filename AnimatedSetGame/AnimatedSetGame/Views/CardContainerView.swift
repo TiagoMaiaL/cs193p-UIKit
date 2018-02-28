@@ -8,10 +8,21 @@
 
 import UIKit
 
-/// The view responsible for holding and displaying the cardButtons.
+/// Protocol used to give the superview or controller a
+/// chance to act after some card container events.
+protocol CardContainerDelegate {
+  
+  /// Method called when the removal animation becomes finished.
+  func cardsRemovalDidFinish()
+}
+
+/// The view responsible for holding and displaying a grid of cardButtons.
 class CardContainerView: UIView {
   
   // MARK: Properties
+  
+  /// The container's delegate
+  var delegate: CardContainerDelegate?
   
   /// The translated deck frame used by the dealing animation.
   /// - Note: This frame is the origin and size for all added buttons.
@@ -123,52 +134,62 @@ class CardContainerView: UIView {
   func animateMatchedCardButtonsOut(_ buttons: [SetCardButton]) {
     guard matchedDeckFrame != nil else { return }
     
+    var buttonsCopies = [SetCardButton]()
+    
     for button in buttons {
       // Creates the button copy used to be animated.
       let buttonCopy = button.copy(with: nil) as! SetCardButton
+      buttonsCopies.append(buttonCopy)
       addSubview(buttonCopy)
       
       // Hides the original button.
       button.alpha = 0
+    }
+    
+    // Starts animating by scaling each button.
+    UIViewPropertyAnimator.runningPropertyAnimator(
+      withDuration: 0.1,
+      delay: 0,
+      options: .curveEaseIn,
+      animations: {
+
+        buttonsCopies.forEach { $0.transform = CGAffineTransform(scaleX: 1.1, y: 1.1) }
+        
+    }, completion: { position in
       
-      // Starts animating by scaling each button.
+      // Animates each card to the center of the container view.
       UIViewPropertyAnimator.runningPropertyAnimator(
-        withDuration: 0.1,
+        withDuration: 0.2,
         delay: 0,
         options: .curveEaseIn,
         animations: {
           
-          buttonCopy.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+          buttonsCopies.forEach { $0.center = self.center }
           
-        }, completion: { position in
+      }, completion: { position in
+        // Flips each card down
+        buttonsCopies.forEach { $0.flipCard() }
+        
+        // Animates each card to the matched deck.
+        UIViewPropertyAnimator.runningPropertyAnimator(
+          withDuration: 0.2,
+          delay: 0.3,
+          options: .curveEaseInOut,
+          animations: {
+            
+            buttonsCopies.forEach { $0.frame = self.matchedDeckFrame }
+            
+        }) { _ in
+          // Removes all the copied buttons
+          buttonsCopies.forEach { $0.removeFromSuperview() }
           
-          // Animates each card to the center of the container view.
-          UIViewPropertyAnimator.runningPropertyAnimator(
-            withDuration: 0.2,
-            delay: 0,
-            options: .curveEaseIn,
-            animations: {
-              
-              buttonCopy.center = self.center
-              
-            }, completion: { position in
-              
-              // Flips each card down
-              buttonCopy.flipCard() { button in
-                
-                // Animates each card to the matched deck.
-                UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.2,
-                                                               delay: 0.2,
-                                                               options: .curveEaseInOut,
-                                                               animations: {
-                                                                button.frame = self.matchedDeckFrame
-                })
-              }
-            }
-          )
+          // Calls the delegate, if set.
+          if let delegate = self.delegate {
+            delegate.cardsRemovalDidFinish()
+          }
         }
-      )
-    }
+      })
+    })
   }
   
   /// Removes all buttons from the container.
@@ -178,7 +199,6 @@ class CardContainerView: UIView {
     removeAllSubviews()
     setNeedsLayout()
   }
-
 }
 
 extension UIView {

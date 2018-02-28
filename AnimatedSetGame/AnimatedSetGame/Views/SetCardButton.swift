@@ -192,14 +192,16 @@ class SetCardButton: UIButton, NSCopying {
   /// Flips the card with a flip transition from left to right.
   ///
   /// - Paramater withCompletion: completion block called after the end of the transition animation.
-  func flipCard(withCompletion completion: @escaping (SetCardButton) -> ()) {
+  func flipCard(withCompletion completion: Optional<(SetCardButton) -> ()> = nil) {
     UIView.transition(with: self,
                       duration: 0.2,
                       options: .transitionFlipFromLeft,
                       animations: {
                         self.isFaceUp = !self.isFaceUp
     }) { completed in
-      completion(self)
+      if let completion = completion {
+        completion(self)
+      }
     }
   }
   

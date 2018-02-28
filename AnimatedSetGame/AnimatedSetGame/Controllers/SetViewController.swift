@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SetViewController: UIViewController {
+class SetViewController: UIViewController, CardContainerDelegate {
   
   // MARK: Properties
   
@@ -23,7 +23,11 @@ class SetViewController: UIViewController {
   @IBOutlet weak var matchedDeckPlaceholderCard: SetCardButton!
   
   /// The view containing all cards.
-  @IBOutlet weak var cardsContainerView: CardContainerView!
+  @IBOutlet weak var cardsContainerView: CardContainerView! {
+    didSet {
+      cardsContainerView.delegate = self
+    }
+  }
   
   // MARK: Life cycle
   
@@ -159,21 +163,6 @@ class SetViewController: UIViewController {
     
     let index = cardsContainerView.buttons.index(of: cardButton)!
     setGame.selectCard(at: index)
-    
-    // Flip the tapped card.
-    // -------------------------------
-    // -------------------------------
-//    UIView.transition(with: cardButton,
-//                      duration: 0.2,
-//                      options: .transitionFlipFromLeft,
-//                      animations: {
-//                        cardButton.isFaceUp = !cardButton.isFaceUp
-//    }) { completed in
-//      // Nothing for now.
-//    }
-    // -------------------------------
-    // -------------------------------
-    
     displayCards()
   }
   
@@ -213,6 +202,13 @@ class SetViewController: UIViewController {
       setGame.shuffleTableCards()
       displayCards()
     }
+  }
+  
+  // MARK: Cards container delegate implementation
+  
+  /// Method called after the removal becomes animation.
+  func cardsRemovalDidFinish() {
+    // TODO:
   }
 }
 
