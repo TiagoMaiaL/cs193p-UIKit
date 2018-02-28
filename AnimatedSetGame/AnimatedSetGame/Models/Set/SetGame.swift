@@ -95,7 +95,7 @@ class SetGame {
     // If the new selected card makes a match,
     // increase the player's score, mark the current selection as matched
     // and deselect the current selection.
-    if selectedCards.count == 3, currentSelectionMatches() {
+    if selectedCards.count == 3 {//, currentSelectionMatches() {
       matchedCards = selectedCards
       selectedCards = []
       score += 4

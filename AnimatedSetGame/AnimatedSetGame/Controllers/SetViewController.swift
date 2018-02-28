@@ -68,21 +68,39 @@ class SetViewController: UIViewController {
 //      cardsContainerView.removeCardButtons(byAmount: cardsContainerView.buttons.count - setGame.tableCards.count)
 //    }
     
+    if setGame.matchedCards.count > 0 {
+      let matchedCardButtons = setGame.matchedCards.map({ card -> SetCardButton in
+        let cardIndex = self.setGame.matchedCards.index(of: card)!
+        return self.cardsContainerView.buttons[cardIndex]
+      })
+      
+      cardsContainerView.animateMatchedCardButtonsOut(matchedCardButtons)
+    }
+    
+    
+//    for matchedCard in setGame.matchedCards {
+//      if let index = setGame.tableCards.index(of: matchedCard) {
+//        let matchedCardButton = cardsContainerView.buttons[index]
+//        // TODO: Call the button animation.
+//
+//      }
+//    }
+    
     for (index, cardButton) in cardsContainerView.buttons.enumerated() {
       let currentCard = setGame.tableCards[index]
       
-      if setGame.matchedCards.contains(currentCard) {
-        // Animate the alpha.
-        UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.3, delay: 0, options: .allowUserInteraction, animations: {
-          cardButton.alpha = 0
-        })
-        
-        continue
-      } else if cardButton.alpha == 0 {
-        UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.3, delay: 0, options: .allowUserInteraction, animations: {
-          cardButton.alpha = 1
-        })
-      }
+//      if setGame.matchedCards.contains(currentCard) {
+//        // Animate the alpha.
+//        UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.3, delay: 0, options: .allowUserInteraction, animations: {
+//          cardButton.alpha = 0
+//        })
+//
+//        continue
+//      } else if cardButton.alpha == 0 {
+//        UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.3, delay: 0, options: .allowUserInteraction, animations: {
+//          cardButton.alpha = 1
+//        })
+//      }
 
       // Color feature:
       switch currentCard.combination.color {

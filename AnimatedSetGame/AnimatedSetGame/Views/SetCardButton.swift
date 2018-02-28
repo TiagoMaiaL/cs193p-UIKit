@@ -9,8 +9,8 @@
 import UIKit
 
 /// The view responsible for displaying a single card.
-class SetCardButton: UIButton {
-
+class SetCardButton: UIButton, NSCopying {
+  
   // MARK: Internal types
   
   enum CardSymbolShape {
@@ -121,12 +121,12 @@ class SetCardButton: UIButton {
     layer.borderColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
     layer.borderWidth = 0.5
     
-    guard isFaceUp == true else {
-      layer.backgroundColor = UIColor.gray.cgColor
-      return
-    }
+//    guard isFaceUp == true else {
+//      layer.backgroundColor = UIColor.gray.cgColor
+//      return
+//    }
     
-    layer.backgroundColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 0.849352542)
+//    layer.backgroundColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 0.849352542)
     
     guard let shape = symbolShape else { return }
     guard let color = color?.get() else { return }
@@ -246,6 +246,20 @@ class SetCardButton: UIButton {
     }
     
     self.path = path
+  }
+  
+  // MARK: NSCopying implementation
+  
+  func copy(with zone: NSZone? = nil) -> Any {
+    let newCardButton = SetCardButton()
+    newCardButton.frame = frame
+    newCardButton.layer.backgroundColor = layer.backgroundColor
+    newCardButton.symbolShape = symbolShape
+    newCardButton.numberOfSymbols = numberOfSymbols
+    newCardButton.color = color
+    newCardButton.symbolShading = symbolShading
+    
+    return newCardButton
   }
 
 }

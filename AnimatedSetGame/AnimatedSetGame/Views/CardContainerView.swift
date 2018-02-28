@@ -78,6 +78,7 @@ class CardContainerView: UIView {
     
     // Deal animation.
     var dealAnimationDelay = 0.15
+    // TODO: use DynamicAnimator to deal cards.
     for (i, button) in cardButtons.enumerated() {
       UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.2,
                                                      delay: dealAnimationDelay,
@@ -109,6 +110,27 @@ class CardContainerView: UIView {
     grid.cellCount = buttons.count
     
     setNeedsLayout()
+  }
+  
+  func animateMatchedCardButtonsOut(_ buttons: [SetCardButton]) {
+    // It's a three stages animation.
+    // with a completion block passing it to the delivery deck.
+    
+    guard matchedDeckFrame != nil else { return }
+    
+    for button in buttons {
+      button.alpha = 0
+      
+      let buttonCopy = button.copy(with: nil) as! SetCardButton
+      addSubview(buttonCopy)
+      
+      UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 1.2,
+                                                     delay: 0,
+                                                     options: .allowUserInteraction,
+                                                     animations: {
+                                                        buttonCopy.frame = self.matchedDeckFrame
+                                                      })
+    }
   }
   
   /// Removes all buttons from the container.
