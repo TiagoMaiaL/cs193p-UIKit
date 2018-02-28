@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SetViewController: UIViewController, CardContainerDelegate {
+class SetViewController: UIViewController, CardContainerViewDelegate, SetGameDelegate {
   
   // MARK: Properties
   
@@ -34,6 +34,7 @@ class SetViewController: UIViewController, CardContainerDelegate {
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    setGame.delegate = self
     setGame.dealCards(forAmount: 12)
     
     let translatedDeckOrigin = view.convert(deckPlaceholderCard.frame.origin,
@@ -54,6 +55,7 @@ class SetViewController: UIViewController, CardContainerDelegate {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
+    
     displayCards()
   }
   
@@ -68,20 +70,10 @@ class SetViewController: UIViewController, CardContainerDelegate {
   /// Displays each card dealt by the setGame.
   /// Method in chard of keeping the UI in sync with the model.
   private func displayCards() {
-//    if cardsContainerView.buttons.count > setGame.tableCards.count {
-//      cardsContainerView.removeCardButtons(byAmount: cardsContainerView.buttons.count - setGame.tableCards.count)
-//    }
-    
-    if setGame.matchedCards.count > 0 {
-      let matchedCardButtons = setGame.matchedCards.map({ card -> SetCardButton in
-        let cardIndex = self.setGame.tableCards.index(of: card)!
-        return self.cardsContainerView.buttons[cardIndex]
-      })
-      
-      cardsContainerView.animateMatchedCardButtonsOut(matchedCardButtons)
-    }
     
     for (index, cardButton) in cardsContainerView.buttons.enumerated() {
+      guard setGame.tableCards.indices.contains(index) else { continue }
+      
       let currentCard = setGame.tableCards[index]
       
       // Color feature:
@@ -208,7 +200,26 @@ class SetViewController: UIViewController, CardContainerDelegate {
   
   /// Method called after the removal becomes animation.
   func cardsRemovalDidFinish() {
-    // TODO:
+    if setGame.deck.isEmpty {
+      cardsContainerView.removeEmptyCardButtons()
+    }
   }
-}
+  
+  // MARK: SetGame delegate implementation
+  
+  func didDealMoreCards() {
+    Timer.scheduledTimer(withTimeInterval: 0.4, repeats: false) { _ in
+      self.cardsContainerView.animateCardButtonsDeal()
+    }
+  }
+  
+  func selectedCardsDidMatch(_ cards: [SetCard]) {
+    let matchedCardButtons = cards.map({ card -> SetCardButton in
+      let cardIndex = self.setGame.tableCards.index(of: card)!
+      return self.cardsContainerView.buttons[cardIndex]
+    })
+    
+    cardsContainerView.animateMatchedCardButtonsOut(matchedCardButtons)
+  }
 
+}

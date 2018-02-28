@@ -11,10 +11,23 @@ import Foundation
 typealias SetDeck = [SetCard]
 typealias SetTrio = [SetCard]
 
+/// The delegate listening about specific game actions.
+protocol SetGameDelegate {
+  
+  /// Method called when the current game's selectio is a match.
+  func selectedCardsDidMatch(_ cards: [SetCard])
+  
+  /// Called when more cards are dealt into the game.
+  func didDealMoreCards()
+}
+
 /// The main class responsible for the set game's logic.
 class SetGame {
   
   // MARK: Properties
+  
+  /// The game's delegate.
+  var delegate: SetGameDelegate?
   
   /// The game's deck.
   /// It represents all cards still available for dealing.
@@ -58,7 +71,14 @@ class SetGame {
   // MARK: Initializers
   
   init() {
-    deck = makeDeck()
+    let fullDeck = makeDeck()
+    deck = [SetCard]()
+    
+    for i in 0..<12 {
+      deck.append(fullDeck[i])
+    }
+    
+//    deck = makeDeck()
   }
   
   // MARK: Imperatives
@@ -69,11 +89,6 @@ class SetGame {
     let card = tableCards[index]
     
     guard !matchedCards.contains(card) else { return }
-   
-    // Removes any matched cards from the table.
-    if matchedCards.count > 0 {
-      replaceMatchedCards()
-    }
     
     // If the trio selected before wasn't a match,
     // Deselect it and penalize the player.
@@ -99,6 +114,10 @@ class SetGame {
       matchedCards = selectedCards
       selectedCards = []
       score += 4
+      
+      delegate?.selectedCardsDidMatch(matchedCards)
+      
+      replaceMatchedCards()
     }
   }
   
@@ -169,6 +188,8 @@ class SetGame {
     if !cardsToDeal.isEmpty {
       tableCards += cardsToDeal
     }
+    
+    delegate?.didDealMoreCards()
   }
   
   /// Redistributes the cards in the table.

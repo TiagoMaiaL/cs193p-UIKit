@@ -10,7 +10,7 @@ import UIKit
 
 /// Protocol used to give the superview or controller a
 /// chance to act after some card container events.
-protocol CardContainerDelegate {
+protocol CardContainerViewDelegate {
   
   /// Method called when the removal animation becomes finished.
   func cardsRemovalDidFinish()
@@ -22,7 +22,7 @@ class CardContainerView: UIView {
   // MARK: Properties
   
   /// The container's delegate
-  var delegate: CardContainerDelegate?
+  var delegate: CardContainerViewDelegate?
   
   /// The translated deck frame used by the dealing animation.
   /// - Note: This frame is the origin and size for all added buttons.
@@ -76,51 +76,78 @@ class CardContainerView: UIView {
   
   /// Adds new buttons to the UI.
   /// - Parameter byAmount: The number of buttons to be added.
-  func addCardButtons(byAmount numberOfButtons: Int = 3) {
+  /// - Parameter animated: Bool indicating if the addition should be animated.
+  func addCardButtons(byAmount numberOfButtons: Int = 3, animated: Bool = false) {
     let cardButtons = (0..<numberOfButtons).map { _ in SetCardButton() }
     
     for button in cardButtons {
       addSubview(button)
-      button.frame = deckFrame
+      buttons.append(button)
+      
+      // Each button is hidden by default.
+      button.alpha = 0
     }
 
     grid.cellCount += cardButtons.count
     grid.frame = centeredRect
     
-    // Deal animation.
-    var dealAnimationDelay = 0.15
-    // TODO: use DynamicAnimator to deal cards.
-    for (i, button) in cardButtons.enumerated() {
-      UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.2,
-                                                     delay: dealAnimationDelay,
-                                                     options: .allowUserInteraction,
-                                                     animations: {
-                                                      if let frame = self.grid[i] {
-                                                        button.frame = frame
-                                                      }
-      })
-      
-      dealAnimationDelay += 0.2
-    }
-    
-    buttons += cardButtons
-    
     setNeedsLayout()
+
+    if animated {
+      animateCardButtonsDeal()
+    }
   }
   
-  /// Removes n buttons from the button container.
-  func removeCardButtons(byAmount numberOfCards: Int) {
-    guard buttons.count >= numberOfCards else { return }
-  
-    for index in 0..<numberOfCards {
-      let button = buttons[index]
+  /// Removes the empty card buttons from the container.
+  ///
+  /// - Note: The empty card buttons here are the buttons with the
+  ///         alpha property equals to zero.
+  func removeEmptyCardButtons() {
+    let emptyButtons = buttons.filter { $0.alpha == 0 }
+    
+    for button in emptyButtons {
+      buttons.remove(at: buttons.index(of: button)!)
       button.removeFromSuperview()
     }
     
-    buttons.removeSubrange(0..<numberOfCards)
     grid.cellCount = buttons.count
-    
     setNeedsLayout()
+  }
+  
+  /// Animates all empty cards to their original position.
+  ///
+  /// - Note: The animation is performed by taking a copy of
+  ///         each hidden button and animating them from the deck
+  ///         to their current position.
+  func animateCardButtonsDeal() {
+    var dealAnimationDelay = 0.15
+    
+    // TODO: use DynamicAnimator to deal cards.
+    for (i, button) in buttons.enumerated() {
+      // If the button isn't empty (hidden) we continue the loop.
+      if button.alpha != 0 { continue }
+      
+      // Creates a button copy.
+      let buttonCopy = button.copy() as! SetCardButton
+      buttonCopy.frame = deckFrame
+      addSubview(buttonCopy)
+      
+      // Animates the copy to the real button's position.
+      UIViewPropertyAnimator.runningPropertyAnimator(
+        withDuration: 0.2,
+        delay: dealAnimationDelay,
+        options: .allowUserInteraction,
+        animations: {
+          if let frame = self.grid[i] {
+            buttonCopy.frame = frame
+          }
+      }) { _ in
+        button.alpha = 1
+        buttonCopy.removeFromSuperview()
+      }
+      
+      dealAnimationDelay += 0.2
+    }
   }
   
   /// Animates the passed buttons out of the table and on
