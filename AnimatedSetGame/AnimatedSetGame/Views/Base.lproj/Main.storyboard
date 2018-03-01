@@ -31,7 +31,7 @@
                                     <action selector="didTapDealMore:" destination="BYZ-38-t0r" eventType="touchUpInside" id="BSs-6Y-bmd"/>
                                 </connections>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yfe-5a-bdO" userLabel="Matched Deck Placeholder Card Button" customClass="SetCardButton" customModule="AnimatedSetGamee" customModuleProvider="target">
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yfe-5a-bdO" userLabel="Matched Deck Placeholder Card Button" customClass="SetCardButton" customModule="AnimatedSetGamee" customModuleProvider="target">
                                 <rect key="frame" x="255" y="538" width="120" height="80"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>

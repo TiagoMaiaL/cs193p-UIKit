@@ -18,7 +18,7 @@ protocol SetGameDelegate {
   func selectedCardsDidMatch(_ cards: [SetCard])
   
   /// Called when more cards are dealt into the game.
-  func didDealMoreCards()
+//  func didDealMoreCards()
 }
 
 /// The main class responsible for the set game's logic.
@@ -71,14 +71,7 @@ class SetGame {
   // MARK: Initializers
   
   init() {
-    let fullDeck = makeDeck()
-    deck = [SetCard]()
-    
-    for i in 0..<12 {
-      deck.append(fullDeck[i])
-    }
-    
-//    deck = makeDeck()
+    deck = makeDeck()
   }
   
   // MARK: Imperatives
@@ -188,8 +181,6 @@ class SetGame {
     if !cardsToDeal.isEmpty {
       tableCards += cardsToDeal
     }
-    
-    delegate?.didDealMoreCards()
   }
   
   /// Redistributes the cards in the table.

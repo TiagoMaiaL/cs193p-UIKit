@@ -57,6 +57,7 @@ class SetViewController: UIViewController, CardContainerViewDelegate, SetGameDel
     super.viewWillAppear(animated)
     
     displayCards()
+    cardsContainerView.animateCardButtonsDeal()
   }
   
   // MARK: Imperatives
@@ -71,6 +72,7 @@ class SetViewController: UIViewController, CardContainerViewDelegate, SetGameDel
   /// Method in chard of keeping the UI in sync with the model.
   private func displayCards() {
     
+    // The buttons to be displayed
     var buttons: [SetCardButton]!
     
     // If there's no more cards on the deck, we should disconsider the hidden
@@ -145,19 +147,13 @@ class SetViewController: UIViewController, CardContainerViewDelegate, SetGameDel
         cardButton.layer.backgroundColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 0.849352542)
       }
     }
-    
-//    scoreLabel.text = "Score: \(setGame.score)"
-//    matchedTriosLabel.text = "Matches: \(setGame.matchedDeck.count)"
-    
-//    handleDealMoreButton()
   }
   
-  /// Checks if it's possible to deal more cards and
-  /// enables or disables the deal more button accordingly.
-  private func handleDealMoreButton() {
-//    dealMoreButton.isEnabled = setGame.deck.count > 3
+  /// Hides or shows the deck placeholder card, according to the game's deck.
+  private func updateDeckAppearance() {
+    deckPlaceholderCard.isHidden = setGame.deck.isEmpty
   }
-
+  
   // MARK: Actions
   
   /// Selects the chosen card.
@@ -182,6 +178,9 @@ class SetViewController: UIViewController, CardContainerViewDelegate, SetGameDel
     assignTargetAction()
     
     displayCards()
+    cardsContainerView.animateCardButtonsDeal()
+    
+    updateDeckAppearance()
   }
   
   /// Restarts the current game.
@@ -198,7 +197,9 @@ class SetViewController: UIViewController, CardContainerViewDelegate, SetGameDel
   
   /// Deals more cards.
   @IBAction func didSwipeDown(_ sender: UISwipeGestureRecognizer) {
-//    didTapDealMore(dealMoreButton)
+    if !setGame.deck.isEmpty {
+      didTapDealMore(deckPlaceholderCard)
+    }
   }
   
   /// Reorder the table
@@ -213,18 +214,18 @@ class SetViewController: UIViewController, CardContainerViewDelegate, SetGameDel
   
   /// Method called after the removal becomes animation.
   func cardsRemovalDidFinish() {
-    if setGame.deck.isEmpty {
+    if cardsContainerView.buttons.count > setGame.tableCards.count,
+       setGame.deck.isEmpty {
       cardsContainerView.removeEmptyCardButtons()
     }
+    
+    matchedDeckPlaceholderCard.isHidden = setGame.matchedDeck.isEmpty
+    
+    cardsContainerView.animateCardButtonsDeal()
+    updateDeckAppearance()
   }
   
   // MARK: SetGame delegate implementation
-  
-  func didDealMoreCards() {
-    Timer.scheduledTimer(withTimeInterval: 0.4, repeats: false) { _ in
-      self.cardsContainerView.animateCardButtonsDeal()
-    }
-  }
   
   func selectedCardsDidMatch(_ cards: [SetCard]) {
     let matchedCardButtons = cards.map({ card -> SetCardButton in
