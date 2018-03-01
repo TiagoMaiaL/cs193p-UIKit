@@ -71,7 +71,20 @@ class SetViewController: UIViewController, CardContainerViewDelegate, SetGameDel
   /// Method in chard of keeping the UI in sync with the model.
   private func displayCards() {
     
-    for (index, cardButton) in cardsContainerView.buttons.enumerated() {
+    var buttons: [SetCardButton]!
+    
+    // If there's no more cards on the deck, we should disconsider the hidden
+    // card buttons, they are going to be removed from the container so only
+    // the visible cards should be updated for display.
+    if cardsContainerView.buttons.count > setGame.tableCards.count,
+       setGame.deck.isEmpty {
+      buttons = cardsContainerView.buttons.filter { $0.alpha == 1 }
+    } else {
+      // Otherwise, all cardButtons should be updated for display.
+      buttons = cardsContainerView.buttons
+    }
+    
+    for (index, cardButton) in buttons.enumerated() {
       guard setGame.tableCards.indices.contains(index) else { continue }
       
       let currentCard = setGame.tableCards[index]
