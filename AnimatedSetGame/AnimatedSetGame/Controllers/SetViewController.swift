@@ -57,8 +57,12 @@ class SetViewController: UIViewController, CardContainerViewDelegate, SetGameDel
     super.viewWillAppear(animated)
     
     displayCards()
-    cardsContainerView.animateCardButtonsDeal()
+//    cardsContainerView.animateCardButtonsDeal()
   }
+  
+//  override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+//    cardsContainerView.updateViewsFrames()
+//  }
   
   // MARK: Imperatives
   
@@ -178,7 +182,7 @@ class SetViewController: UIViewController, CardContainerViewDelegate, SetGameDel
     assignTargetAction()
     
     displayCards()
-    cardsContainerView.animateCardButtonsDeal()
+//    cardsContainerView.animateCardButtonsDeal()
     
     updateDeckAppearance()
   }

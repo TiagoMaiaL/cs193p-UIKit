@@ -17,7 +17,7 @@ protocol CardContainerViewDelegate {
 }
 
 /// The view responsible for holding and displaying a grid of cardButtons.
-class CardContainerView: UIView {
+class CardContainerView: UIView, UIDynamicAnimatorDelegate {
   
   // MARK: Properties
   
@@ -33,7 +33,7 @@ class CardContainerView: UIView {
   /// The translated matched deck frame used by the removal animation.
   /// - Note: This frame is the origin and size for all added buttons.
   ///         When the deal animation takes place, all cards will fly from
-  ///         this frame to each destination.
+  ///         their current position to this frame.
   var matchedDeckFrame: CGRect!
   
   /// The contained buttons.
@@ -52,23 +52,54 @@ class CardContainerView: UIView {
                     height: bounds.size.height * 0.95)
     }
   }
-
+  
+  /// The animator object responsible for each button's animations.
+  lazy private var animator: UIDynamicAnimator = UIDynamicAnimator(referenceView: self)
+  
+  // MARK: Initializer
+  
+  override func awakeFromNib() {
+    animator.delegate = self
+  }
+  
   // MARK: View life cycle
   
   override func layoutSubviews() {
     super.layoutSubviews()
-
-    grid.frame = centeredRect
     
-    for (i, button) in buttons.enumerated() {
-      UIViewPropertyAnimator.runningPropertyAnimator(withDuration: 0.2,
-                                                     delay: 0,
-                                                     options: .allowUserInteraction,
-                                                     animations: {
-                                                      if let frame = self.grid[i] {
-                                                        button.frame = frame
-                                                      }
-      })
+    if grid.frame != centeredRect {
+      updateViewsFrames()
+    }
+  }
+  
+  func updateViewsFrames(withAnimation animated: Bool = false,
+                         andCompletion completion: Optional<() -> ()> = nil) {
+    self.grid.frame = self.centeredRect
+    
+    func respositionViews() {
+      for (i, button) in self.buttons.enumerated() {
+
+        if let frame = self.grid[i] {
+          button.frame = frame
+        }
+      }
+    }
+    
+    if animated {
+      UIViewPropertyAnimator.runningPropertyAnimator(
+        withDuration: 0.2,
+        delay: 0,
+        options: .curveEaseIn,
+        animations: {
+          respositionViews()
+      }
+      ) { _ in
+        if let completion = completion {
+          completion()
+        }
+      }
+    } else {
+      respositionViews()
     }
   }
   
@@ -81,21 +112,18 @@ class CardContainerView: UIView {
     let cardButtons = (0..<numberOfButtons).map { _ in SetCardButton() }
     
     for button in cardButtons {
+      // Each button is hidden and face down by default.
+      button.alpha = 0
+      button.isFaceUp = false
+
       addSubview(button)
       buttons.append(button)
-      
-      // Each button is hidden by default.
-      button.alpha = 0
     }
-
+    
     grid.cellCount += cardButtons.count
     grid.frame = centeredRect
     
-    setNeedsLayout()
-
-    if animated {
-      animateCardButtonsDeal()
-    }
+    animateCardButtonsDeal()
   }
   
   /// Removes the empty card buttons from the container.
@@ -120,33 +148,41 @@ class CardContainerView: UIView {
   ///         each hidden button and animating them from the deck
   ///         to their current position.
   func animateCardButtonsDeal() {
-    var dealAnimationDelay = 0.15
-    
-    // TODO: use DynamicAnimator to deal cards.
-    for (i, button) in buttons.enumerated() {
-      // If the button isn't empty (hidden) we continue the loop.
-      if button.alpha != 0 { continue }
+    updateViewsFrames(withAnimation: true) {
+      var dealAnimationDelay = 0.15
       
-      // Creates a button copy.
-      let buttonCopy = button.copy() as! SetCardButton
-      buttonCopy.frame = deckFrame
-      addSubview(buttonCopy)
-      
-      // Animates the copy to the real button's position.
-      UIViewPropertyAnimator.runningPropertyAnimator(
-        withDuration: 0.2,
-        delay: dealAnimationDelay,
-        options: .allowUserInteraction,
-        animations: {
-          if let frame = self.grid[i] {
-            buttonCopy.frame = frame
-          }
-      }) { _ in
+      for (i, button) in self.buttons.enumerated() {
+        // If the button isn't empty (hidden) we continue the loop.
+        if button.alpha != 0 { continue }
+        
+        guard let currentFrame = self.grid[i] else { continue }
+        
+        button.frame = self.deckFrame
         button.alpha = 1
-        buttonCopy.removeFromSuperview()
+        
+        let snapBehavior = UISnapBehavior(item: button,
+                                          snapTo: currentFrame.center)
+        snapBehavior.damping = 0.8
+        
+        Timer.scheduledTimer(withTimeInterval: dealAnimationDelay, repeats: false) { _ in
+          self.animator.addBehavior(snapBehavior)
+          
+          UIViewPropertyAnimator.runningPropertyAnimator(
+            withDuration: 0.2,
+            delay: 0,
+            options: .curveEaseIn,
+            animations: {
+              button.bounds.size = currentFrame.size
+            }
+          )
+          
+          Timer.scheduledTimer(withTimeInterval: 0.8, repeats: false) { _ in
+            button.flipCard()
+          }
+        }
+        
+        dealAnimationDelay += 0.2
       }
-      
-      dealAnimationDelay += 0.2
     }
   }
   
@@ -226,6 +262,13 @@ class CardContainerView: UIView {
     removeAllSubviews()
     setNeedsLayout()
   }
+  
+  // MARK: UIDynamicAnimator Delegate methods
+  
+  func dynamicAnimatorDidPause(_ animator: UIDynamicAnimator) {
+    animator.removeAllBehaviors()
+  }
+  
 }
 
 extension UIView {
@@ -235,6 +278,18 @@ extension UIView {
     for subview in subviews {
       subview.removeFromSuperview()
     }
+  }
+  
+}
+
+extension CGRect {
+  
+  /// Returns the center of this rect.
+  var center: CGPoint {
+    return CGPoint(
+      x: origin.x + size.width / 2,
+      y: origin.y + size.height / 2
+    )
   }
   
 }
