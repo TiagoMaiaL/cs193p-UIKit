@@ -31,8 +31,7 @@ class CardContainerView: UIView, UIDynamicAnimatorDelegate {
   var deckFrame: CGRect!
   
   /// The translated matched deck frame used by the removal animation.
-  /// - Note: This frame is the origin and size for all added buttons.
-  ///         When the deal animation takes place, all cards will fly from
+  /// - Note: When the removal animation takes place, all cards will fly from
   ///         their current position to this frame.
   var matchedDeckFrame: CGRect!
   
@@ -67,18 +66,25 @@ class CardContainerView: UIView, UIDynamicAnimatorDelegate {
   override func layoutSubviews() {
     super.layoutSubviews()
     
+    // Only updates the buttons frames, if the centered rect has changed,
+    // This will occur when orientation changes.
+    // This check will prevent frame changes while
+    // the animator is doing it's job.
     if grid.frame != centeredRect {
       updateViewsFrames()
     }
   }
   
-  func updateViewsFrames(withAnimation animated: Bool = false,
-                         andCompletion completion: Optional<() -> ()> = nil) {
+  // MARK: Imperatives
+  
+  /// Applies the grid frames to all subviews.
+  private func updateViewsFrames(withAnimation animated: Bool = false,
+                                 andCompletion completion: Optional<() -> ()> = nil) {
     self.grid.frame = self.centeredRect
     
+    /// Assigns each button's frame to the corresponding grid one.
     func respositionViews() {
       for (i, button) in self.buttons.enumerated() {
-
         if let frame = self.grid[i] {
           button.frame = frame
         }
@@ -89,7 +95,7 @@ class CardContainerView: UIView, UIDynamicAnimatorDelegate {
       UIViewPropertyAnimator.runningPropertyAnimator(
         withDuration: 0.2,
         delay: 0,
-        options: .curveEaseIn,
+        options: .curveEaseInOut,
         animations: {
           respositionViews()
       }
@@ -102,8 +108,6 @@ class CardContainerView: UIView, UIDynamicAnimatorDelegate {
       respositionViews()
     }
   }
-  
-  // MARK: Imperatives
   
   /// Adds new buttons to the UI.
   /// - Parameter byAmount: The number of buttons to be added.
@@ -148,16 +152,22 @@ class CardContainerView: UIView, UIDynamicAnimatorDelegate {
   ///         each hidden button and animating them from the deck
   ///         to their current position.
   func animateCardButtonsDeal() {
+    // TODO: Only enable this deal animation when the animator is paused.
+    animator.removeAllBehaviors()
+
     updateViewsFrames(withAnimation: true) {
       var dealAnimationDelay = 0.15
       
       for (i, button) in self.buttons.enumerated() {
-        // If the button isn't empty (hidden) we continue the loop.
+        // The deal animation is applied only to the hidden buttons.
         if button.alpha != 0 { continue }
         
         guard let currentFrame = self.grid[i] else { continue }
         
+        button.isFaceUp = false
+        // Change the position and size to match the provided deck's frame.
         button.frame = self.deckFrame
+        // The card will appear on top of the deck.
         button.alpha = 1
         
         let snapBehavior = UISnapBehavior(item: button,
@@ -234,16 +244,25 @@ class CardContainerView: UIView, UIDynamicAnimatorDelegate {
         buttonsCopies.forEach { $0.flipCard() }
         
         // Animates each card to the matched deck.
-        UIViewPropertyAnimator.runningPropertyAnimator(
-          withDuration: 0.2,
-          delay: 0.3,
-          options: .curveEaseInOut,
-          animations: {
+
+        Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false) { _ in
+          buttonsCopies.forEach { button in
+            let snapOutBehavior = UISnapBehavior(item: button, snapTo: self.matchedDeckFrame.center)
+            snapOutBehavior.damping = 0.8
+            self.animator.addBehavior(snapOutBehavior)
             
-            buttonsCopies.forEach { $0.frame = self.matchedDeckFrame }
-            
-        }) { _ in
-          // Removes all the copied buttons
+            UIViewPropertyAnimator.runningPropertyAnimator(
+              withDuration: 0.2,
+              delay: 0,
+              options: .curveEaseIn,
+              animations: {
+                button.bounds.size = self.matchedDeckFrame.size
+              }
+            )
+          }
+        }
+        
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { _ in
           buttonsCopies.forEach { $0.removeFromSuperview() }
           
           // Calls the delegate, if set.
@@ -251,6 +270,24 @@ class CardContainerView: UIView, UIDynamicAnimatorDelegate {
             delegate.cardsRemovalDidFinish()
           }
         }
+        
+//        UIViewPropertyAnimator.runningPropertyAnimator(
+//          withDuration: 0.2,
+//          delay: 0.3,
+//          options: .curveEaseInOut,
+//          animations: {
+//
+//            buttonsCopies.forEach { $0.frame = self.matchedDeckFrame }
+//
+//        }) { _ in
+//          // Removes all the copied buttons
+//          buttonsCopies.forEach { $0.removeFromSuperview() }
+//
+//          // Calls the delegate, if set.
+//          if let delegate = self.delegate {
+//            delegate.cardsRemovalDidFinish()
+//          }
+//        }
       })
     })
   }
