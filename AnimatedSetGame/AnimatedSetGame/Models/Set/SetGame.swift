@@ -16,9 +16,7 @@ protocol SetGameDelegate {
   
   /// Method called when the current game's selectio is a match.
   func selectedCardsDidMatch(_ cards: [SetCard])
-  
-  /// Called when more cards are dealt into the game.
-//  func didDealMoreCards()
+
 }
 
 /// The main class responsible for the set game's logic.
@@ -71,7 +69,14 @@ class SetGame {
   // MARK: Initializers
   
   init() {
-    deck = makeDeck()
+    let fullDeck = makeDeck()
+    var mutableDeck = [SetCard]()
+    
+    for i in 0..<15 {
+      mutableDeck.append(fullDeck[i])
+    }
+    
+    deck = mutableDeck
   }
   
   // MARK: Imperatives

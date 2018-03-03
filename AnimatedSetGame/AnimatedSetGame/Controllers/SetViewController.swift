@@ -55,14 +55,8 @@ class SetViewController: UIViewController, CardContainerViewDelegate, SetGameDel
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    
     displayCards()
-//    cardsContainerView.animateCardButtonsDeal()
   }
-  
-//  override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-//    cardsContainerView.updateViewsFrames()
-//  }
   
   // MARK: Imperatives
   
@@ -155,7 +149,13 @@ class SetViewController: UIViewController, CardContainerViewDelegate, SetGameDel
   
   /// Hides or shows the deck placeholder card, according to the game's deck.
   private func updateDeckAppearance() {
-    deckPlaceholderCard.isHidden = setGame.deck.isEmpty
+    matchedDeckPlaceholderCard.isHidden = setGame.matchedDeck.isEmpty
+    
+    // Delays the update so it always happens while the
+    // deal animation is happening.
+    Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { _ in
+      self.deckPlaceholderCard.isHidden = self.setGame.deck.isEmpty
+    }
   }
   
   // MARK: Actions
@@ -173,6 +173,9 @@ class SetViewController: UIViewController, CardContainerViewDelegate, SetGameDel
   
   // Adds more cards to the UI.
   @IBAction func didTapDealMore(_ sender: UIButton) {
+    guard !setGame.deck.isEmpty else { return }
+    guard cardsContainerView.isPerformingDealAnimation == false else { return }
+    
     if setGame.matchedCards.count > 0 {
       setGame.replaceMatchedCards()
     }
@@ -182,8 +185,6 @@ class SetViewController: UIViewController, CardContainerViewDelegate, SetGameDel
     assignTargetAction()
     
     displayCards()
-//    cardsContainerView.animateCardButtonsDeal()
-    
     updateDeckAppearance()
   }
   
@@ -218,15 +219,19 @@ class SetViewController: UIViewController, CardContainerViewDelegate, SetGameDel
   
   /// Method called after the removal becomes animation.
   func cardsRemovalDidFinish() {
+    updateDeckAppearance()
+    
     if cardsContainerView.buttons.count > setGame.tableCards.count,
        setGame.deck.isEmpty {
-      cardsContainerView.removeEmptyCardButtons()
+
+      cardsContainerView.removeEmptyCardButtons() {
+        self.cardsContainerView.isUserInteractionEnabled = true
+      }
+      
+      return
     }
     
-    matchedDeckPlaceholderCard.isHidden = setGame.matchedDeck.isEmpty
-    
     cardsContainerView.animateCardButtonsDeal()
-    updateDeckAppearance()
   }
   
   // MARK: SetGame delegate implementation
@@ -236,6 +241,12 @@ class SetViewController: UIViewController, CardContainerViewDelegate, SetGameDel
       let cardIndex = self.setGame.tableCards.index(of: card)!
       return self.cardsContainerView.buttons[cardIndex]
     })
+    
+    // The replace will happen, if the deck is empty, cards will be
+    // removed and the buttons will be out of sync.
+    if setGame.deck.isEmpty {
+      self.cardsContainerView.isUserInteractionEnabled = false
+    }
     
     cardsContainerView.animateMatchedCardButtonsOut(matchedCardButtons)
   }

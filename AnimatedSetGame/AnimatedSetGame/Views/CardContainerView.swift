@@ -55,6 +55,11 @@ class CardContainerView: UIView, UIDynamicAnimatorDelegate {
   /// The animator object responsible for each button's animations.
   lazy private var animator: UIDynamicAnimator = UIDynamicAnimator(referenceView: self)
   
+  /// Tells if the dealing animation is running.
+  /// If it's running, we shouldn't overlap the current dealing one.
+  /// Only one deal animation can be performed at a time.
+  private(set) var isPerformingDealAnimation = false
+  
   // MARK: Initializer
   
   override func awakeFromNib() {
@@ -66,7 +71,7 @@ class CardContainerView: UIView, UIDynamicAnimatorDelegate {
   override func layoutSubviews() {
     super.layoutSubviews()
     
-    // Only updates the buttons frames, if the centered rect has changed,
+    // Only updates the buttons frames if the centered rect has changed,
     // This will occur when orientation changes.
     // This check will prevent frame changes while
     // the animator is doing it's job.
@@ -113,6 +118,8 @@ class CardContainerView: UIView, UIDynamicAnimatorDelegate {
   /// - Parameter byAmount: The number of buttons to be added.
   /// - Parameter animated: Bool indicating if the addition should be animated.
   func addCardButtons(byAmount numberOfButtons: Int = 3, animated: Bool = false) {
+    guard isPerformingDealAnimation == false else { return }
+    
     let cardButtons = (0..<numberOfButtons).map { _ in SetCardButton() }
     
     for button in cardButtons {
@@ -134,8 +141,10 @@ class CardContainerView: UIView, UIDynamicAnimatorDelegate {
   ///
   /// - Note: The empty card buttons here are the buttons with the
   ///         alpha property equals to zero.
-  func removeEmptyCardButtons() {
+  func removeEmptyCardButtons(withCompletion completion: Optional<() -> ()> = nil) {
     let emptyButtons = buttons.filter { $0.alpha == 0 }
+    
+    guard emptyButtons.count > 0 else { return }
     
     for button in emptyButtons {
       buttons.remove(at: buttons.index(of: button)!)
@@ -143,7 +152,7 @@ class CardContainerView: UIView, UIDynamicAnimatorDelegate {
     }
     
     grid.cellCount = buttons.count
-    setNeedsLayout()
+    updateViewsFrames(withAnimation: true, andCompletion: completion)
   }
   
   /// Animates all empty cards to their original position.
@@ -152,11 +161,19 @@ class CardContainerView: UIView, UIDynamicAnimatorDelegate {
   ///         each hidden button and animating them from the deck
   ///         to their current position.
   func animateCardButtonsDeal() {
-    // TODO: Only enable this deal animation when the animator is paused.
-    animator.removeAllBehaviors()
-
+    // The animation is only performed if a previous one isn't happening.
+    // If two animations run at the same time, the frame is changed and the
+    // animator doesn't handle this well.
+    guard isPerformingDealAnimation == false else { return }
+    
+    // The animation is only applied to the hidden cards.
+    guard buttons.filter({ $0.alpha == 0 }).count > 0 else { return }
+    
+    // The animation now has taken place.
+    isPerformingDealAnimation = true
+    
     updateViewsFrames(withAnimation: true) {
-      var dealAnimationDelay = 0.15
+      var dealAnimationDelay = 0.0
       
       for (i, button) in self.buttons.enumerated() {
         // The deal animation is applied only to the hidden buttons.
@@ -175,8 +192,10 @@ class CardContainerView: UIView, UIDynamicAnimatorDelegate {
         snapBehavior.damping = 0.8
         
         Timer.scheduledTimer(withTimeInterval: dealAnimationDelay, repeats: false) { _ in
+          // Apply the snap behavior.
           self.animator.addBehavior(snapBehavior)
           
+          // Animates the button's size.
           UIViewPropertyAnimator.runningPropertyAnimator(
             withDuration: 0.2,
             delay: 0,
@@ -186,6 +205,7 @@ class CardContainerView: UIView, UIDynamicAnimatorDelegate {
             }
           )
           
+          // Flips the card.
           Timer.scheduledTimer(withTimeInterval: 0.8, repeats: false) { _ in
             button.flipCard()
           }
@@ -270,24 +290,6 @@ class CardContainerView: UIView, UIDynamicAnimatorDelegate {
             delegate.cardsRemovalDidFinish()
           }
         }
-        
-//        UIViewPropertyAnimator.runningPropertyAnimator(
-//          withDuration: 0.2,
-//          delay: 0.3,
-//          options: .curveEaseInOut,
-//          animations: {
-//
-//            buttonsCopies.forEach { $0.frame = self.matchedDeckFrame }
-//
-//        }) { _ in
-//          // Removes all the copied buttons
-//          buttonsCopies.forEach { $0.removeFromSuperview() }
-//
-//          // Calls the delegate, if set.
-//          if let delegate = self.delegate {
-//            delegate.cardsRemovalDidFinish()
-//          }
-//        }
       })
     })
   }
@@ -304,6 +306,7 @@ class CardContainerView: UIView, UIDynamicAnimatorDelegate {
   
   func dynamicAnimatorDidPause(_ animator: UIDynamicAnimator) {
     animator.removeAllBehaviors()
+    isPerformingDealAnimation = false
   }
   
 }
