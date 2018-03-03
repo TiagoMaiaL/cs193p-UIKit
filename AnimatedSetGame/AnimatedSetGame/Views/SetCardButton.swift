@@ -74,11 +74,32 @@ class SetCardButton: UIButton, NSCopying {
     }
   }
   
+  /// Tells if the button is face up or not, changing
+  /// this property will flip the card.
   var isFaceUp = true {
     didSet {
+      // TODO: Change the appropriate colors.
+      if isFaceUp {
+        layer.backgroundColor = cleanFrontColor
+      }
+      
       setNeedsDisplay()
     }
   }
+  
+  /// Tells if the button is selected or not.
+  override var isSelected: Bool  {
+    didSet {
+      if isSelected {
+        layer.backgroundColor = #colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1).cgColor
+      } else {
+        layer.backgroundColor = cleanFrontColor
+      }
+    }
+  }
+  
+  /// The default color for the card button when it's not selected or face down.
+  private var cleanFrontColor = UIColor.white.cgColor
   
   /// The path containing all shapes of this view.
   private var path: UIBezierPath?
@@ -130,6 +151,8 @@ class SetCardButton: UIButton, NSCopying {
   
   /// Draws the shapes configured within this card.
   private func drawSetShapes() {
+//    layer.backgroundColor = UIColor.white.cgColor
+    
     guard let shape = symbolShape else { return }
     guard let color = color?.get() else { return }
     guard let shading = symbolShading else { return }
@@ -184,7 +207,7 @@ class SetCardButton: UIButton, NSCopying {
   
   /// Draws the back of the card.
   private func drawBack() {
-    layer.backgroundColor = UIColor.red.cgColor
+    layer.backgroundColor = UIColor.gray.cgColor
   }
 
   // MARK: Imperatives

@@ -140,9 +140,11 @@ class SetViewController: UIViewController, CardContainerViewDelegate, SetGameDel
       // Selection:
       if setGame.selectedCards.contains(currentCard) ||
          setGame.matchedCards.contains(currentCard) {
-        cardButton.layer.backgroundColor = #colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1)
+//        cardButton.layer.backgroundColor = #colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1)
+        cardButton.isSelected = true
       } else {
-        cardButton.layer.backgroundColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 0.849352542)
+//        cardButton.layer.backgroundColor = #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 0.849352542)
+        cardButton.isSelected = false
       }
     }
   }
