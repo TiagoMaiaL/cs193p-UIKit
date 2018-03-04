@@ -17,6 +17,7 @@ protocol CardContainerViewDelegate {
 }
 
 /// The view responsible for holding and displaying a grid of cardButtons.
+@IBDesignable
 class CardContainerView: UIView, UIDynamicAnimatorDelegate {
   
   // MARK: Properties
@@ -57,8 +58,11 @@ class CardContainerView: UIView, UIDynamicAnimatorDelegate {
   
   /// Tells if the dealing animation is running.
   /// If it's running, we shouldn't overlap the current dealing one.
-  /// Only one deal animation can be performed at a time.
+  /// Only one deal animation must be performed at a time.
   private(set) var isPerformingDealAnimation = false
+  
+  /// The number of buttons to be displayed on a storyboard file with this view in it.
+  @IBInspectable private var numberOfButtonsForDisplay: Int = 0
   
   // MARK: Initializer
   
@@ -77,6 +81,29 @@ class CardContainerView: UIView, UIDynamicAnimatorDelegate {
     // the animator is doing it's job.
     if grid.frame != centeredRect {
       updateViewsFrames()
+    }
+  }
+  
+  override func prepareForInterfaceBuilder() {
+    super.prepareForInterfaceBuilder()
+    
+    if numberOfButtonsForDisplay > 0 {
+      addCardButtons(byAmount: numberOfButtonsForDisplay)
+      
+      for (i, button) in self.buttons.enumerated() {
+        if let frame = self.grid[i] {
+          button.frame = frame
+          button.alpha = 1
+          button.isFaceUp = true
+          
+          button.symbolShape = .squiggle
+          button.numberOfSymbols = 1
+          button.color = .green
+          button.symbolShading = .solid
+          
+          button.setNeedsDisplay()
+        }
+      }
     }
   }
   
@@ -134,7 +161,9 @@ class CardContainerView: UIView, UIDynamicAnimatorDelegate {
     grid.cellCount += cardButtons.count
     grid.frame = centeredRect
     
-    animateCardButtonsDeal()
+    if animated {
+      animateCardButtonsDeal()
+    }
   }
   
   /// Removes the empty card buttons from the container.

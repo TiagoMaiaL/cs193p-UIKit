@@ -9,6 +9,7 @@
 import UIKit
 
 /// The view responsible for displaying a single card.
+@IBDesignable
 class SetCardButton: UIButton, NSCopying {
   
   // MARK: Internal types
@@ -76,7 +77,7 @@ class SetCardButton: UIButton, NSCopying {
   
   /// Tells if the button is face up or not, changing
   /// this property will flip the card.
-  var isFaceUp = true {
+  @IBInspectable var isFaceUp: Bool = true {
     didSet {
       // TODO: Change the appropriate colors.
       if isFaceUp {
@@ -88,7 +89,7 @@ class SetCardButton: UIButton, NSCopying {
   }
   
   /// Tells if the button is selected or not.
-  override var isSelected: Bool  {
+  @IBInspectable override var isSelected: Bool  {
     didSet {
       if isSelected {
         layer.backgroundColor = #colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1).cgColor
@@ -148,6 +149,15 @@ class SetCardButton: UIButton, NSCopying {
       drawBack()
     }
   }
+  
+//  override func prepareForInterfaceBuilder() {
+//    symbolShape = .squiggle
+//    numberOfSymbols = 1
+//    color = .green
+//    symbolShading = .solid
+//
+//    setNeedsDisplay()
+//  }
   
   /// Draws the shapes configured within this card.
   private func drawSetShapes() {

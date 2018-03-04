@@ -49,7 +49,7 @@ class SetViewController: UIViewController, CardContainerViewDelegate, SetGameDel
                                             size: matchedDeckPlaceholderCard.frame.size)
     cardsContainerView.matchedDeckFrame = translatedMatchedDeckFrame
     
-    cardsContainerView.addCardButtons(byAmount: 12)
+    cardsContainerView.addCardButtons(byAmount: 12, animated: true)
     assignTargetAction()
   }
   
@@ -181,7 +181,7 @@ class SetViewController: UIViewController, CardContainerViewDelegate, SetGameDel
     }
     
     setGame.dealCards()
-    cardsContainerView.addCardButtons()
+    cardsContainerView.addCardButtons(animated: true)
     assignTargetAction()
     
     displayCards()
@@ -194,7 +194,7 @@ class SetViewController: UIViewController, CardContainerViewDelegate, SetGameDel
     
     setGame.dealCards(forAmount: 12)
     cardsContainerView.clearCardContainer()
-    cardsContainerView.addCardButtons(byAmount: 12)
+    cardsContainerView.addCardButtons(byAmount: 12, animated: true)
     assignTargetAction()
     
     displayCards()

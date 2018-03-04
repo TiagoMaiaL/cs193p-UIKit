@@ -22,23 +22,34 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fdd-gY-LJs" userLabel="Deck Placeholder Card Button" customClass="SetCardButton" customModule="AnimatedSetGamee" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="538" width="120" height="80"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="120" id="QCl-FD-DtD"/>
                                     <constraint firstAttribute="width" secondItem="Fdd-gY-LJs" secondAttribute="height" multiplier="3:2" id="u9T-FD-ASZ"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isFaceUp" value="NO"/>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="didTapDealMore:" destination="BYZ-38-t0r" eventType="touchUpInside" id="BSs-6Y-bmd"/>
                                 </connections>
                             </view>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yfe-5a-bdO" userLabel="Matched Deck Placeholder Card Button" customClass="SetCardButton" customModule="AnimatedSetGamee" customModuleProvider="target">
                                 <rect key="frame" x="255" y="538" width="120" height="80"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isFaceUp" value="NO"/>
+                                </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8VS-48-atU" userLabel="Cards container" customClass="CardContainerView" customModule="AnimatedSetGamee" customModuleProvider="target">
                                 <rect key="frame" x="10" y="74" width="355" height="442"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <gestureRecognizers/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="numberOfButtonsForDisplay">
+                                        <integer key="value" value="12"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="hEg-EG-9m6" appends="YES" id="pBC-ok-lC2"/>
                                     <outletCollection property="gestureRecognizers" destination="NMd-ij-NgN" appends="YES" id="MSj-of-bBS"/>
