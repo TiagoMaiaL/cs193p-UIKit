@@ -300,6 +300,7 @@ class SetCardButton: UIButton, NSCopying {
     let newCardButton = SetCardButton()
     newCardButton.frame = frame
     newCardButton.layer.backgroundColor = layer.backgroundColor
+    newCardButton.isFaceUp = isFaceUp
     newCardButton.symbolShape = symbolShape
     newCardButton.numberOfSymbols = numberOfSymbols
     newCardButton.color = color

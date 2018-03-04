@@ -69,14 +69,7 @@ class SetGame {
   // MARK: Initializers
   
   init() {
-    let fullDeck = makeDeck()
-    var mutableDeck = [SetCard]()
-    
-    for i in 0..<15 {
-      mutableDeck.append(fullDeck[i])
-    }
-    
-    deck = mutableDeck
+    deck = makeDeck()
   }
   
   // MARK: Imperatives
@@ -108,7 +101,7 @@ class SetGame {
     // If the new selected card makes a match,
     // increase the player's score, mark the current selection as matched
     // and deselect the current selection.
-    if selectedCards.count == 3 {//, currentSelectionMatches() {
+    if selectedCards.count == 3, currentSelectionMatches() {
       matchedCards = selectedCards
       selectedCards = []
       score += 4

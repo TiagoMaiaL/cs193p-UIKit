@@ -182,8 +182,11 @@ class CardContainerView: UIView, UIDynamicAnimatorDelegate {
         guard let currentFrame = self.grid[i] else { continue }
         
         button.isFaceUp = false
+        
         // Change the position and size to match the provided deck's frame.
         button.frame = self.deckFrame
+        self.bringSubview(toFront: button)
+        
         // The card will appear on top of the deck.
         button.alpha = 1
         

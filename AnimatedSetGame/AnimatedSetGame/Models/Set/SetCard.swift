@@ -9,12 +9,24 @@
 import Foundation
 
 /// A card of a Set game.
-struct SetCard {
-  
+struct SetCard: CustomStringConvertible {
+
   // MARK: Properties
-  
+
   /// The combined features that makes this card unique.
   private(set) var combination: FeatureCombination
+  
+  var description: String {
+    var representation = ""
+    
+    for _ in 0...combination.number.rawValue {
+      representation += combination.symbol.description
+    }
+    
+    representation += " \(combination.color.description), \(combination.shading.description)"
+    
+    return representation
+  }
   
   // MARK: Initializers
   
@@ -112,11 +124,28 @@ enum Number: Int, Feature {
 
 /// The enum representing the possible
 /// Color feature values of a card in a set game.
-enum Color: Int, Feature {
+enum Color: Int, Feature, CustomStringConvertible {
   case red
   case green
   case purple
   case none
+  
+  var description: String {
+    var colorText = ""
+    
+    switch self {
+    case .red:
+      colorText = "red"
+    case .purple:
+      colorText = "purple"
+    case .green:
+      colorText = "green"
+    default:
+      break
+    }
+    
+    return colorText
+  }
   
   static var values: [Feature] {
     return [Color.red, Color.green, Color.purple]
@@ -129,11 +158,28 @@ enum Color: Int, Feature {
 
 /// The enum representing the possible
 /// Symbol feature values of a card in a set game.
-enum Symbol: Int, Feature {
+enum Symbol: Int, Feature, CustomStringConvertible {
   case squiggle
   case diamond
   case oval
   case none
+  
+  var description: String {
+    var symbolText = ""
+    
+    switch self {
+    case .diamond:
+      symbolText = "▲"
+    case .oval:
+      symbolText = "●"
+    case .squiggle:
+      symbolText = "■"
+    default:
+      break
+    }
+    
+    return symbolText
+  }
   
   static var values: [Feature] {
     return [Symbol.squiggle, Symbol.diamond, Symbol.oval]
@@ -146,11 +192,28 @@ enum Symbol: Int, Feature {
 
 /// The enum representing the possible
 /// Shading feature values of a card in a set game.
-enum Shading: Int, Feature {
+enum Shading: Int, Feature, CustomStringConvertible {
   case solid
   case striped
   case outlined
   case none
+  
+  var description: String {
+    var shadingText = ""
+    
+    switch self {
+    case .solid:
+      shadingText = "solid"
+    case .striped:
+      shadingText = "striped"
+    case .outlined:
+      shadingText = "outlined"
+    default:
+      break
+    }
+    
+    return shadingText
+  }
   
   static var values: [Feature] {
     return [Shading.solid, Shading.striped, Shading.outlined]
