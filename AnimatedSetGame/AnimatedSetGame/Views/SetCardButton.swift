@@ -14,13 +14,17 @@ class SetCardButton: UIButton, NSCopying {
   
   // MARK: Internal types
   
-  enum CardSymbolShape {
+  enum CardSymbolShape: Int, RandomGenerating {
     case squiggle
     case diamond
     case oval
+    
+    static func randomized() -> SetCardButton.CardSymbolShape {
+      return CardSymbolShape(rawValue: 3.arc4random)!
+    }
   }
   
-  enum CardColor {
+  enum CardColor: Int, RandomGenerating {
     case red
     case green
     case purple
@@ -36,13 +40,20 @@ class SetCardButton: UIButton, NSCopying {
         return #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
       }
     }
-
+    
+    static func randomized() -> SetCardButton.CardColor {
+      return CardColor(rawValue: 3.arc4random)!
+    }
   }
   
-  enum CardSymbolShading {
+  enum CardSymbolShading: Int, RandomGenerating {
     case solid
     case striped
     case outlined
+    
+    static func randomized() -> SetCardButton.CardSymbolShading {
+      return CardSymbolShading(rawValue: 3.arc4random)!
+    }
   }
   
   // MARK: Properties
@@ -149,15 +160,6 @@ class SetCardButton: UIButton, NSCopying {
       drawBack()
     }
   }
-  
-//  override func prepareForInterfaceBuilder() {
-//    symbolShape = .squiggle
-//    numberOfSymbols = 1
-//    color = .green
-//    symbolShading = .solid
-//
-//    setNeedsDisplay()
-//  }
   
   /// Draws the shapes configured within this card.
   private func drawSetShapes() {
@@ -319,4 +321,11 @@ class SetCardButton: UIButton, NSCopying {
     return newCardButton
   }
 
+}
+
+/// Defines random capability to a type.
+protocol RandomGenerating {
+  
+  /// Returns a random instance from self.
+  static func randomized() -> Self
 }

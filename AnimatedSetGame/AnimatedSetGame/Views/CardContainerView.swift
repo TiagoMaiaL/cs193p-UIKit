@@ -90,20 +90,24 @@ class CardContainerView: UIView, UIDynamicAnimatorDelegate {
     if numberOfButtonsForDisplay > 0 {
       addCardButtons(byAmount: numberOfButtonsForDisplay)
       
-      for (i, button) in self.buttons.enumerated() {
-        if let frame = self.grid[i] {
-          button.frame = frame
-          button.alpha = 1
-          button.isFaceUp = true
-          
-          button.symbolShape = .squiggle
+      respositionViews()
+      
+      for button in buttons {
+        button.alpha = 1
+        button.isFaceUp = true
+        
+        button.symbolShape = SetCardButton.CardSymbolShape.randomized()
+        button.color = SetCardButton.CardColor.randomized()
+        button.symbolShading = SetCardButton.CardSymbolShading.randomized()
+        button.numberOfSymbols = 4.arc4random
+        
+        if (button.numberOfSymbols == 0 || button.numberOfSymbols > 3) {
           button.numberOfSymbols = 1
-          button.color = .green
-          button.symbolShading = .solid
-          
-          button.setNeedsDisplay()
         }
+        
+        button.setNeedsDisplay()
       }
+
     }
   }
   
@@ -114,22 +118,13 @@ class CardContainerView: UIView, UIDynamicAnimatorDelegate {
                                  andCompletion completion: Optional<() -> ()> = nil) {
     self.grid.frame = self.centeredRect
     
-    /// Assigns each button's frame to the corresponding grid one.
-    func respositionViews() {
-      for (i, button) in self.buttons.enumerated() {
-        if let frame = self.grid[i] {
-          button.frame = frame
-        }
-      }
-    }
-    
     if animated {
       UIViewPropertyAnimator.runningPropertyAnimator(
         withDuration: 0.2,
         delay: 0,
         options: .curveEaseInOut,
         animations: {
-          respositionViews()
+          self.respositionViews()
       }
       ) { _ in
         if let completion = completion {
@@ -138,6 +133,15 @@ class CardContainerView: UIView, UIDynamicAnimatorDelegate {
       }
     } else {
       respositionViews()
+    }
+  }
+  
+  /// Assigns each button's to the corresponding grid's frame.
+  private func respositionViews() {
+    for (i, button) in self.buttons.enumerated() {
+      if let frame = self.grid[i] {
+        button.frame = frame
+      }
     }
   }
   
