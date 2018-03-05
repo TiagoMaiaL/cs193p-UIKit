@@ -40,7 +40,7 @@
                                     <action selector="didTapDealMore:" destination="BYZ-38-t0r" eventType="touchUpInside" id="BSs-6Y-bmd"/>
                                 </connections>
                             </view>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yfe-5a-bdO" userLabel="Matched Deck Placeholder Card Button" customClass="SetCardButton" customModule="AnimatedSetGamee" customModuleProvider="target">
+                            <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yfe-5a-bdO" userLabel="Matched Deck Placeholder Card Button" customClass="SetCardButton" customModule="AnimatedSetGamee" customModuleProvider="target">
                                 <rect key="frame" x="240" y="523" width="120" height="80"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <userDefinedRuntimeAttributes>
@@ -79,7 +79,13 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Set" id="Uzp-Ij-NDf"/>
+                    <navigationItem key="navigationItem" title="Set" id="Uzp-Ij-NDf">
+                        <barButtonItem key="rightBarButtonItem" title="New game" id="TdZ-qC-QVZ">
+                            <connections>
+                                <action selector="didTapNewGame:" destination="BYZ-38-t0r" id="QSm-Uf-vy4"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="cardsContainerView" destination="8VS-48-atU" id="c5x-fT-4pK"/>
                         <outlet property="deckPlaceholderCard" destination="Fdd-gY-LJs" id="7TL-6X-kh5"/>

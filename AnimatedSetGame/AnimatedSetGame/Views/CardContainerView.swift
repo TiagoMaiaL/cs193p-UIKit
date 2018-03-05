@@ -84,6 +84,8 @@ class CardContainerView: UIView, UIDynamicAnimatorDelegate {
     }
   }
   
+  /// Draws the card buttons for storyboard display.
+  /// - Note: The button's properties are randomly generated.
   override func prepareForInterfaceBuilder() {
     super.prepareForInterfaceBuilder()
     
@@ -260,7 +262,7 @@ class CardContainerView: UIView, UIDynamicAnimatorDelegate {
   ///         * The buttons are concentrated in the center of this view
   ///         * The cards are flipped
   ///         * The cards are put in the matched pile
-  func animateMatchedCardButtonsOut(_ buttons: [SetCardButton]) {
+  func animateCardButtonsOut(_ buttons: [SetCardButton]) {
     guard matchedDeckFrame != nil else { return }
     
     var buttonsCopies = [SetCardButton]()
@@ -318,23 +320,39 @@ class CardContainerView: UIView, UIDynamicAnimatorDelegate {
           }
         }
         
-        Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { _ in
-          buttonsCopies.forEach { $0.removeFromSuperview() }
+        UIViewPropertyAnimator.runningPropertyAnimator(
+          withDuration: 0.2,
+          delay: 1,
+          options: .curveEaseInOut,
+          animations: {
+            buttonsCopies.forEach { $0.alpha = 0 }
+        }) { _ in
+          buttonsCopies.forEach {
+            $0.removeFromSuperview()
+          }
           
           // Calls the delegate, if set.
           if let delegate = self.delegate {
             delegate.cardsRemovalDidFinish()
           }
         }
+
       })
     })
   }
   
   /// Removes all buttons from the container.
-  func clearCardContainer() {
+  func clearCardContainer(withAnimation animated: Bool = false, completion: Optional<() -> ()> = nil) {
+    if animated {
+      animateCardButtonsOut(buttons)
+    }
+
+    buttons.forEach {
+      $0.removeFromSuperview()
+    }
     buttons = []
     grid.cellCount = 0
-    removeAllSubviews()
+    
     setNeedsLayout()
   }
   
