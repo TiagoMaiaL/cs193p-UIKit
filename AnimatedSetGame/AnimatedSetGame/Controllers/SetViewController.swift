@@ -22,6 +22,9 @@ class SetViewController: UIViewController, CardContainerViewDelegate, SetGameDel
   /// The matched deck button used as a the deck placeholder.
   @IBOutlet weak var matchedDeckPlaceholderCard: SetCardButton!
   
+  /// The label indicating the number of matches performed.
+  @IBOutlet weak var matchesLabel: UILabel!
+  
   /// The view containing all cards.
   @IBOutlet weak var cardsContainerView: CardContainerView! {
     didSet {
@@ -237,6 +240,8 @@ class SetViewController: UIViewController, CardContainerViewDelegate, SetGameDel
   // MARK: SetGame delegate implementation
   
   func selectedCardsDidMatch(_ cards: [SetCard]) {
+    matchesLabel.text = "Matches: \(setGame.matchedDeck.count)"
+    
     let matchedCardButtons = cards.map({ card -> SetCardButton in
       let cardIndex = self.setGame.tableCards.index(of: card)!
       return self.cardsContainerView.buttons[cardIndex]

@@ -20,6 +20,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Matches: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dij-Em-JA7">
+                                <rect key="frame" x="240" y="494" width="120" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fdd-gY-LJs" userLabel="Deck Placeholder Card Button" customClass="SetCardButton" customModule="AnimatedSetGamee" customModuleProvider="target">
                                 <rect key="frame" x="15" y="523" width="120" height="80"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -42,7 +48,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8VS-48-atU" userLabel="Cards container" customClass="CardContainerView" customModule="AnimatedSetGamee" customModuleProvider="target">
-                                <rect key="frame" x="10" y="74" width="355" height="427"/>
+                                <rect key="frame" x="10" y="74" width="355" height="414"/>
                                 <gestureRecognizers/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="numberOfButtonsForDisplay">
@@ -62,11 +68,14 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="yfe-5a-bdO" secondAttribute="trailing" constant="15" id="7kN-Zc-Vtr"/>
                             <constraint firstItem="8VS-48-atU" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="9SX-Zy-y6t"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="8VS-48-atU" secondAttribute="trailing" constant="10" id="Cqa-pc-jYK"/>
+                            <constraint firstItem="yfe-5a-bdO" firstAttribute="top" secondItem="dij-Em-JA7" secondAttribute="bottom" constant="5" id="EZa-tL-SAv"/>
+                            <constraint firstItem="dij-Em-JA7" firstAttribute="width" secondItem="yfe-5a-bdO" secondAttribute="width" id="Frj-1s-3Ci"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Fdd-gY-LJs" secondAttribute="bottom" constant="15" id="NHh-QK-UOI"/>
                             <constraint firstItem="yfe-5a-bdO" firstAttribute="width" secondItem="Fdd-gY-LJs" secondAttribute="width" id="SUA-0f-5HL"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="yfe-5a-bdO" secondAttribute="bottom" constant="15" id="XY7-cJ-2VV"/>
                             <constraint firstItem="yfe-5a-bdO" firstAttribute="height" secondItem="Fdd-gY-LJs" secondAttribute="height" id="flR-7S-DBA"/>
-                            <constraint firstItem="Fdd-gY-LJs" firstAttribute="top" secondItem="8VS-48-atU" secondAttribute="bottom" constant="22" id="t3w-Qe-AiG"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="dij-Em-JA7" secondAttribute="trailing" constant="15" id="hw8-Cv-qUy"/>
+                            <constraint firstItem="Fdd-gY-LJs" firstAttribute="top" secondItem="8VS-48-atU" secondAttribute="bottom" constant="35" id="t3w-Qe-AiG"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -75,6 +84,7 @@
                         <outlet property="cardsContainerView" destination="8VS-48-atU" id="c5x-fT-4pK"/>
                         <outlet property="deckPlaceholderCard" destination="Fdd-gY-LJs" id="7TL-6X-kh5"/>
                         <outlet property="matchedDeckPlaceholderCard" destination="yfe-5a-bdO" id="aPu-1O-Snm"/>
+                        <outlet property="matchesLabel" destination="dij-Em-JA7" id="DDT-ov-9dr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
