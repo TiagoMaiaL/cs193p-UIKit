@@ -121,7 +121,7 @@ class SetCardButton: UIButton, NSCopying {
     let drawableWidth = frame.size.width * 0.80
     let drawableHeight = frame.size.height * 0.90
     
-    return CGRect(x: frame.size.width * 0.1,
+    return CGRect(x: frame.size.width * 0.10,
                   y: frame.size.height * 0.05,
                   width: drawableWidth,
                   height: drawableHeight)
@@ -163,8 +163,6 @@ class SetCardButton: UIButton, NSCopying {
   
   /// Draws the shapes configured within this card.
   private func drawSetShapes() {
-//    layer.backgroundColor = UIColor.white.cgColor
-    
     guard let shape = symbolShape else { return }
     guard let color = color?.get() else { return }
     guard let shading = symbolShading else { return }
@@ -219,7 +217,11 @@ class SetCardButton: UIButton, NSCopying {
   
   /// Draws the back of the card.
   private func drawBack() {
-    layer.backgroundColor = UIColor.gray.cgColor
+    layer.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1).cgColor
+  }
+  
+  private func getMaskPath() -> CGPath {
+    return UIBezierPath(roundedRect: drawableRect, cornerRadius: 5).cgPath
   }
 
   // MARK: Imperatives

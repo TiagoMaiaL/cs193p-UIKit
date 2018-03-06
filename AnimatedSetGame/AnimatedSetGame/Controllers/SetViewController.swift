@@ -40,6 +40,18 @@ class SetViewController: UIViewController, CardContainerViewDelegate, SetGameDel
     setGame.delegate = self
     setGame.dealCards(forAmount: 12)
     
+    cardsContainerView.addCardButtons(byAmount: 12, animated: true)
+    assignTargetAction()
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    displayCards()
+  }
+  
+  override func viewDidLayoutSubviews() {
+    super.viewDidLayoutSubviews()
+    
     let translatedDeckOrigin = view.convert(deckPlaceholderCard.frame.origin,
                                             to: cardsContainerView)
     let translatedDeckFrame = CGRect(origin: translatedDeckOrigin,
@@ -51,14 +63,6 @@ class SetViewController: UIViewController, CardContainerViewDelegate, SetGameDel
     let translatedMatchedDeckFrame = CGRect(origin: translatedMatchedDeckOrigin,
                                             size: matchedDeckPlaceholderCard.frame.size)
     cardsContainerView.matchedDeckFrame = translatedMatchedDeckFrame
-    
-    cardsContainerView.addCardButtons(byAmount: 12, animated: true)
-    assignTargetAction()
-  }
-  
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    displayCards()
   }
   
   // MARK: Imperatives
@@ -154,7 +158,7 @@ class SetViewController: UIViewController, CardContainerViewDelegate, SetGameDel
   private func updateDeckAppearance() {
     UIViewPropertyAnimator.runningPropertyAnimator(
       withDuration: 0.1,
-      delay: 0.2,
+      delay: 0.3,
       options: .curveEaseIn,
       animations: {
         self.matchedDeckPlaceholderCard.alpha = self.setGame.matchedDeck.isEmpty ? 0 : 1
@@ -230,13 +234,10 @@ class SetViewController: UIViewController, CardContainerViewDelegate, SetGameDel
       return
     }
     
-    if cardsContainerView.buttons.count > setGame.tableCards.count,
-       setGame.deck.isEmpty {
-
+    guard cardsContainerView.buttons.count == setGame.tableCards.count, !setGame.deck.isEmpty else {
       cardsContainerView.removeEmptyCardButtons() {
         self.cardsContainerView.isUserInteractionEnabled = true
       }
-      
       return
     }
     

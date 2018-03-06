@@ -284,7 +284,12 @@ class CardContainerView: UIView, UIDynamicAnimatorDelegate {
       options: .curveEaseIn,
       animations: {
 
-        buttonsCopies.forEach { $0.transform = CGAffineTransform(scaleX: 1.1, y: 1.1) }
+        buttonsCopies.forEach {
+          $0.bounds.size = CGSize(
+            width: $0.frame.size.width * 1.1,
+            height: $0.frame.size.height * 1.1
+          )
+        }
         
     }, completion: { position in
       
@@ -366,14 +371,14 @@ class CardContainerView: UIView, UIDynamicAnimatorDelegate {
 }
 
 extension UIView {
-  
+
   /// Removes all subviews.
   func removeAllSubviews() {
     for subview in subviews {
       subview.removeFromSuperview()
     }
   }
-  
+
 }
 
 extension CGRect {
@@ -381,8 +386,8 @@ extension CGRect {
   /// Returns the center of this rect.
   var center: CGPoint {
     return CGPoint(
-      x: origin.x + size.width / 2,
-      y: origin.y + size.height / 2
+      x: midX,
+      y: midY
     )
   }
   
