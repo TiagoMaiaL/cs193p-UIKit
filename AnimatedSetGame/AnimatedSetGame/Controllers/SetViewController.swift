@@ -39,13 +39,16 @@ class SetViewController: UIViewController, CardContainerViewDelegate, SetGameDel
     
     setGame.delegate = self
     setGame.dealCards(forAmount: 12)
-    
-    cardsContainerView.addCardButtons(byAmount: 12, animated: true)
-    assignTargetAction()
   }
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
+
+    if !setGame.tableCards.isEmpty, cardsContainerView.buttons.isEmpty {
+      cardsContainerView.addCardButtons(byAmount: 12, animated: true)
+      assignTargetAction()
+    }
+    
     displayCards()
   }
   
@@ -229,6 +232,7 @@ class SetViewController: UIViewController, CardContainerViewDelegate, SetGameDel
     
     guard !cardsContainerView.buttons.isEmpty else {
       cardsContainerView.addCardButtons(byAmount: 12, animated: true)
+      assignTargetAction()
       displayCards()
       matchesLabel.text = "Matches: 0"
       return
