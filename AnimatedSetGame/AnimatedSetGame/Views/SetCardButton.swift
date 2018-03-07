@@ -10,7 +10,7 @@ import UIKit
 
 /// The view responsible for displaying a single card.
 @IBDesignable
-class SetCardButton: UIButton, NSCopying {
+class SetCardButton: CardButton, NSCopying {
   
   // MARK: Internal types
   
@@ -86,30 +86,6 @@ class SetCardButton: UIButton, NSCopying {
     }
   }
   
-  /// Tells if the button is face up or not, changing
-  /// this property will flip the card.
-  @IBInspectable var isFaceUp: Bool = true {
-    didSet {
-      // TODO: Change the appropriate colors.
-      if isFaceUp {
-        layer.backgroundColor = cleanFrontColor
-      }
-      
-      setNeedsDisplay()
-    }
-  }
-  
-  /// Tells if the button is selected or not.
-  @IBInspectable override var isSelected: Bool  {
-    didSet {
-      if isSelected {
-        layer.backgroundColor = #colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1).cgColor
-      } else {
-        layer.backgroundColor = cleanFrontColor
-      }
-    }
-  }
-  
   /// The default color for the card button when it's not selected or face down.
   private var cleanFrontColor = UIColor.white.cgColor
   
@@ -149,20 +125,8 @@ class SetCardButton: UIButton, NSCopying {
   
   // MARK: Life cycle
   
-  override func draw(_ rect: CGRect) {
-    layer.cornerRadius = 10
-    layer.borderColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
-    layer.borderWidth = 0.5
-    
-    if isFaceUp {
-      drawSetShapes()
-    } else {
-      drawBack()
-    }
-  }
-  
   /// Draws the shapes configured within this card.
-  private func drawSetShapes() {
+  override func drawFront() {
     guard let shape = symbolShape else { return }
     guard let color = color?.get() else { return }
     guard let shading = symbolShading else { return }
@@ -216,7 +180,7 @@ class SetCardButton: UIButton, NSCopying {
   }
   
   /// Draws the back of the card.
-  private func drawBack() {
+  override func drawBack() {
     layer.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1).cgColor
   }
   

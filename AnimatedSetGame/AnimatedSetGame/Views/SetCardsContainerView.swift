@@ -18,7 +18,7 @@ protocol CardContainerViewDelegate {
 
 /// The view responsible for holding and displaying a grid of cardButtons.
 @IBDesignable
-class CardContainerView: UIView, UIDynamicAnimatorDelegate {
+class SetCardsContainerView: CardsContainerView, UIDynamicAnimatorDelegate {
   
   // MARK: Properties
   
@@ -35,23 +35,6 @@ class CardContainerView: UIView, UIDynamicAnimatorDelegate {
   /// - Note: When the removal animation takes place, all cards will fly from
   ///         their current position to this frame.
   var matchedDeckFrame: CGRect!
-  
-  /// The contained buttons.
-  private(set) var buttons = [SetCardButton]()
-  
-  /// The grid in charge of generating the calculated
-  /// frame of each contained button.
-  private(set) var grid = Grid(layout: Grid.Layout.aspectRatio(3/2))
-  
-  /// The centered rect in which the buttons are going to be positioned.
-  private var centeredRect: CGRect {
-    get {
-      return CGRect(x: bounds.size.width * 0.025,
-                    y: bounds.size.height * 0.025,
-                    width: bounds.size.width * 0.95,
-                    height: bounds.size.height * 0.95)
-    }
-  }
   
   /// The animator object responsible for each button's animations.
   lazy private var animator: UIDynamicAnimator = UIDynamicAnimator(referenceView: self)
@@ -79,7 +62,7 @@ class CardContainerView: UIView, UIDynamicAnimatorDelegate {
     // This will occur when orientation changes.
     // This check will prevent frame changes while
     // the animator is doing it's job.
-    if grid.frame != centeredRect {
+    if grid.frame != gridRect {
       updateViewsFrames()
     }
   }
@@ -94,7 +77,7 @@ class CardContainerView: UIView, UIDynamicAnimatorDelegate {
       
       respositionViews()
       
-      for button in buttons {
+      for button: SetCardButton in buttons as! [SetCardButton] {
         button.alpha = 1
         button.isFaceUp = true
         
@@ -109,43 +92,10 @@ class CardContainerView: UIView, UIDynamicAnimatorDelegate {
         
         button.setNeedsDisplay()
       }
-
     }
   }
   
   // MARK: Imperatives
-  
-  /// Applies the grid frames to all subviews.
-  private func updateViewsFrames(withAnimation animated: Bool = false,
-                                 andCompletion completion: Optional<() -> ()> = nil) {
-    self.grid.frame = self.centeredRect
-    
-    if animated {
-      UIViewPropertyAnimator.runningPropertyAnimator(
-        withDuration: 0.2,
-        delay: 0,
-        options: .curveEaseInOut,
-        animations: {
-          self.respositionViews()
-      }
-      ) { _ in
-        if let completion = completion {
-          completion()
-        }
-      }
-    } else {
-      respositionViews()
-    }
-  }
-  
-  /// Assigns each button's to the corresponding grid's frame.
-  private func respositionViews() {
-    for (i, button) in self.buttons.enumerated() {
-      if let frame = self.grid[i] {
-        button.frame = frame
-      }
-    }
-  }
   
   /// Adds new buttons to the UI.
   /// - Parameter byAmount: The number of buttons to be added.
@@ -159,35 +109,17 @@ class CardContainerView: UIView, UIDynamicAnimatorDelegate {
       // Each button is hidden and face down by default.
       button.alpha = 0
       button.isFaceUp = false
-
+      
       addSubview(button)
       buttons.append(button)
     }
     
     grid.cellCount += cardButtons.count
-    grid.frame = centeredRect
+    grid.frame = gridRect
     
     if animated {
       animateCardButtonsDeal()
     }
-  }
-  
-  /// Removes the empty card buttons from the container.
-  ///
-  /// - Note: The empty card buttons here are the buttons with the
-  ///         alpha property equals to zero.
-  func removeEmptyCardButtons(withCompletion completion: Optional<() -> ()> = nil) {
-    let emptyButtons = buttons.filter { $0.alpha == 0 }
-    
-    guard emptyButtons.count > 0 else { return }
-    
-    for button in emptyButtons {
-      buttons.remove(at: buttons.index(of: button)!)
-      button.removeFromSuperview()
-    }
-    
-    grid.cellCount = buttons.count
-    updateViewsFrames(withAnimation: true, andCompletion: completion)
   }
   
   /// Animates all empty cards to their original position.
@@ -245,7 +177,7 @@ class CardContainerView: UIView, UIDynamicAnimatorDelegate {
           
           // Flips the card.
           Timer.scheduledTimer(withTimeInterval: 0.8, repeats: false) { _ in
-            button.flipCard()
+            button.flipCard(animated: true)
           }
         }
         
@@ -262,8 +194,9 @@ class CardContainerView: UIView, UIDynamicAnimatorDelegate {
   ///         * The buttons are concentrated in the center of this view
   ///         * The cards are flipped
   ///         * The cards are put in the matched pile
-  func animateCardButtonsOut(_ buttons: [SetCardButton]) {
+  override func animateCardsOut(_ buttons: [CardButton]) {
     guard matchedDeckFrame != nil else { return }
+    guard let buttons = buttons as? [SetCardButton] else { return }
     
     var buttonsCopies = [SetCardButton]()
     
@@ -346,21 +279,6 @@ class CardContainerView: UIView, UIDynamicAnimatorDelegate {
     })
   }
   
-  /// Removes all buttons from the container.
-  func clearCardContainer(withAnimation animated: Bool = false, completion: Optional<() -> ()> = nil) {
-    if animated {
-      animateCardButtonsOut(buttons)
-    }
-
-    buttons.forEach {
-      $0.removeFromSuperview()
-    }
-    buttons = []
-    grid.cellCount = 0
-    
-    setNeedsLayout()
-  }
-  
   // MARK: UIDynamicAnimator Delegate methods
   
   func dynamicAnimatorDidPause(_ animator: UIDynamicAnimator) {
@@ -370,25 +288,3 @@ class CardContainerView: UIView, UIDynamicAnimatorDelegate {
   
 }
 
-extension UIView {
-
-  /// Removes all subviews.
-  func removeAllSubviews() {
-    for subview in subviews {
-      subview.removeFromSuperview()
-    }
-  }
-
-}
-
-extension CGRect {
-  
-  /// Returns the center of this rect.
-  var center: CGPoint {
-    return CGPoint(
-      x: midX,
-      y: midY
-    )
-  }
-  
-}

@@ -99,9 +99,6 @@ class ConcentrationViewController: UIViewController {
   
   // MARK: Properties
   
-  /// The cards presented in the UI.
-  @IBOutlet var cardButtons: [UIButton]!
-  
   /// The UI label indicating the amount of flips.
   @IBOutlet weak var flipsLabel: UILabel!
   
@@ -109,8 +106,8 @@ class ConcentrationViewController: UIViewController {
   @IBOutlet weak var scoreLabel: UILabel!
   
   /// The model encapsulating the concentration game's logic.
-  private lazy var concentration = Concentration(numberOfPairs: (cardButtons.count / 2))
-  
+//  private lazy var concentration = Concentration(numberOfPairs: (cardButtons.count / 2))
+//
   /// The user's chosen theme.
   var pickedTheme: Theme? {
     didSet {
@@ -143,9 +140,9 @@ class ConcentrationViewController: UIViewController {
   /// Action fired when a card button is tapped.
   /// It flips a card checks if there's a match or not.
   @IBAction func didTapCard(_ sender: UIButton) {
-    guard let index = cardButtons.index(of: sender) else { return }
+//    guard let index = cardButtons.index(of: sender) else { return }
     
-    concentration.flipCard(at: index)
+//    concentration.flipCard(at: index)
     
     displayCards()
     displayLabels()
@@ -155,7 +152,7 @@ class ConcentrationViewController: UIViewController {
   /// It resets the current game and refreshes the UI.
   @IBAction func didTapNewGame(_ sender: UIButton) {
     configureTheme()
-    concentration.resetGame()
+//    concentration.resetGame()
     displayCards()
     displayLabels()
   }
@@ -174,35 +171,35 @@ class ConcentrationViewController: UIViewController {
     cardsAndEmojisMap = [:]
     var emojis = theme.emojis
     
-    for card in concentration.cards {
-      if cardsAndEmojisMap[card] == nil {
-        cardsAndEmojisMap[card] = emojis.remove(at: emojis.count.arc4random)
-      }
-    }
+//    for card in concentration.cards {
+//      if cardsAndEmojisMap[card] == nil {
+//        cardsAndEmojisMap[card] = emojis.remove(at: emojis.count.arc4random)
+//      }
+//    }
   }
   
   /// Method used to refresh the scores and flips UI labels.
   private func displayLabels() {
-    flipsLabel.text = "Flips: \(concentration.flipsCount)"
-    scoreLabel.text = "Score: \(concentration.score)"
+//    flipsLabel.text = "Flips: \(concentration.flipsCount)"
+//    scoreLabel.text = "Score: \(concentration.score)"
   }
   
   /// Method in charge of displaying each card's state
   /// with the assciated card button.
   private func displayCards() {
-    for (index, cardButton) in cardButtons.enumerated() {
-      guard concentration.cards.indices.contains(index) else { continue }
-      
-      let card = concentration.cards[index]
-      
-      if card.isFaceUp {
-        cardButton.setTitle(cardsAndEmojisMap[card], for: .normal)
-        cardButton.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-      } else {
-        cardButton.setTitle("", for: .normal)
-        cardButton.backgroundColor = card.isMatched ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0) : theme.cardColor
-      }
-    }
+//    for (index, cardButton) in cardButtons.enumerated() {
+//      guard concentration.cards.indices.contains(index) else { continue }
+//
+//      let card = concentration.cards[index]
+//
+//      if card.isFaceUp {
+//        cardButton.setTitle(cardsAndEmojisMap[card], for: .normal)
+//        cardButton.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+//      } else {
+//        cardButton.setTitle("", for: .normal)
+//        cardButton.backgroundColor = card.isMatched ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0) : theme.cardColor
+//      }
+//    }
   }
   
 }

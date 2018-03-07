@@ -26,7 +26,7 @@ class SetViewController: UIViewController, CardContainerViewDelegate, SetGameDel
   @IBOutlet weak var matchesLabel: UILabel!
   
   /// The view containing all cards.
-  @IBOutlet weak var cardsContainerView: CardContainerView! {
+  @IBOutlet weak var cardsContainerView: SetCardsContainerView! {
     didSet {
       cardsContainerView.delegate = self
     }
@@ -92,10 +92,10 @@ class SetViewController: UIViewController, CardContainerViewDelegate, SetGameDel
     // the visible cards should be updated for display.
     if cardsContainerView.buttons.count > setGame.tableCards.count,
        setGame.deck.isEmpty {
-      buttons = cardsContainerView.buttons.filter { $0.alpha == 1 }
+      buttons = cardsContainerView.buttons.filter { $0.alpha == 1 } as! [SetCardButton]
     } else {
       // Otherwise, all cardButtons should be updated for display.
-      buttons = cardsContainerView.buttons
+      buttons = cardsContainerView.buttons as! [SetCardButton]
     }
     
     for (index, cardButton) in buttons.enumerated() {
@@ -259,7 +259,7 @@ class SetViewController: UIViewController, CardContainerViewDelegate, SetGameDel
     
     let matchedCardButtons = cards.map({ card -> SetCardButton in
       let cardIndex = self.setGame.tableCards.index(of: card)!
-      return self.cardsContainerView.buttons[cardIndex]
+      return self.cardsContainerView.buttons[cardIndex] as! SetCardButton
     })
     
     // The replace will happen, if the deck is empty, cards will be
@@ -268,7 +268,7 @@ class SetViewController: UIViewController, CardContainerViewDelegate, SetGameDel
       self.cardsContainerView.isUserInteractionEnabled = false
     }
     
-    cardsContainerView.animateCardButtonsOut(matchedCardButtons)
+    cardsContainerView.animateCardsOut(matchedCardButtons)
   }
 
 }

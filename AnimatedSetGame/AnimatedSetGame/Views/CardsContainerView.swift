@@ -14,15 +14,15 @@ class CardsContainerView: UIView {
   // MARK: Properties
   
   /// The contained card buttons.
-  private(set) var buttons = [CardButton]()
+  var buttons = [CardButton]()
   
   /// The grid in charge of generating the calculated
   /// frame of each contained button.
-  private(set) var grid = Grid(layout: Grid.Layout.aspectRatio(3/2))
+  var grid = Grid(layout: Grid.Layout.aspectRatio(3/2))
   
   /// The rect in which the buttons are going to be positioned,
   /// according to the grid.
-  private var gridRect: CGRect {
+  var gridRect: CGRect {
     get {
       return CGRect(x: bounds.size.width * 0.025,
                     y: bounds.size.height * 0.025,
@@ -48,7 +48,7 @@ class CardsContainerView: UIView {
   // MARK: Imperatives
   
   /// Applies the grid frames to all subviews.
-  private func updateViewsFrames(withAnimation animated: Bool = false,
+  func updateViewsFrames(withAnimation animated: Bool = false,
                                  andCompletion completion: Optional<() -> ()> = nil) {
     grid.frame = gridRect
     
@@ -71,37 +71,12 @@ class CardsContainerView: UIView {
   }
   
   /// Assigns each button's to the corresponding grid's frame.
-  private func respositionViews() {
+  func respositionViews() {
     for (i, button) in self.buttons.enumerated() {
       if let frame = grid[i] {
         button.frame = frame
       }
     }
-  }
-  
-  /// Adds new buttons to the UI.
-  /// - Parameter byAmount: The number of buttons to be added.
-  /// - Parameter animated: Bool indicating if the addition should be animated.
-  func addCardButtons(byAmount numberOfButtons: Int = 3, animated: Bool = false) {
-//    guard isPerformingDealAnimation == false else { return }
-    
-    let cardButtons = (0..<numberOfButtons).map { _ in SetCardButton() }
-    
-    for button in cardButtons {
-      // Each button is hidden and face down by default.
-      button.alpha = 0
-      button.isFaceUp = false
-      
-      addSubview(button)
-//      buttons.append(button)
-    }
-    
-    grid.cellCount += cardButtons.count
-    grid.frame = gridRect
-    
-//    if animated {
-//      animateCardButtonsDeal()
-//    }
   }
   
   /// Removes the empty card buttons from the container.
@@ -124,9 +99,9 @@ class CardsContainerView: UIView {
   
   /// Removes all buttons from the container.
   func clearCardContainer(withAnimation animated: Bool = false, completion: Optional<() -> ()> = nil) {
-//    if animated {
-//      animateCardButtonsOut(buttons)
-//    }
+    if animated {
+      animateCardsOut(buttons)
+    }
     
     buttons.forEach {
       $0.removeFromSuperview()
@@ -136,5 +111,31 @@ class CardsContainerView: UIView {
     
     setNeedsLayout()
   }
+  
+  /// Animates the passed buttons out of the container.
+  func animateCardsOut(_ buttons: [CardButton]) {}
 
+}
+
+extension UIView {
+  
+  /// Removes all subviews.
+  func removeAllSubviews() {
+    for subview in subviews {
+      subview.removeFromSuperview()
+    }
+  }
+  
+}
+
+extension CGRect {
+  
+  /// Returns the center of this rect.
+  var center: CGPoint {
+    return CGPoint(
+      x: midX,
+      y: midY
+    )
+  }
+  
 }

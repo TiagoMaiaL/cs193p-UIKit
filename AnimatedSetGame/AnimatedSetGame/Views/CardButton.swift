@@ -26,6 +26,17 @@ class CardButton: UIButton {
     }
   }
   
+  /// Tells if the button is selected or not.
+  @IBInspectable override var isSelected: Bool  {
+    didSet {
+      if isSelected {
+        layer.backgroundColor = #colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1).cgColor
+      } else {
+        layer.backgroundColor = defaultBackgroundColor
+      }
+    }
+  }
+  
   // MARK: Drawing
   
   override func draw(_ rect: CGRect) {
@@ -34,7 +45,7 @@ class CardButton: UIButton {
     layer.borderWidth = 0.5
     
     if isFaceUp {
-      drawSetShapes()
+      drawFront()
     } else {
       drawBack()
     }
