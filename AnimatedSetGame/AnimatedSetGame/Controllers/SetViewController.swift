@@ -68,6 +68,10 @@ class SetViewController: UIViewController, CardContainerViewDelegate, SetGameDel
     cardsContainerView.matchedDeckFrame = translatedMatchedDeckFrame
   }
   
+  override var shouldAutorotate: Bool {
+    return false
+  }
+  
   // MARK: Imperatives
   
   private func assignTargetAction() {

@@ -220,10 +220,6 @@ class SetCardButton: UIButton, NSCopying {
     layer.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1).cgColor
   }
   
-  private func getMaskPath() -> CGPath {
-    return UIBezierPath(roundedRect: drawableRect, cornerRadius: 5).cgPath
-  }
-
   // MARK: Imperatives
   
   /// Flips the card with a flip transition from left to right.
