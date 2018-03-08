@@ -26,6 +26,18 @@ class CardButton: UIButton {
     }
   }
   
+  /// Tells if the button is active or not. Changing this
+  /// property will change the alpha accordingly.
+  var isActive: Bool = true {
+    didSet {
+      if isActive {
+        alpha = 1
+      } else {
+        alpha = 0
+      }
+    }
+  }
+  
   /// Tells if the button is selected or not.
   @IBInspectable override var isSelected: Bool  {
     didSet {

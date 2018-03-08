@@ -239,7 +239,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sfv-Xy-i7j" customClass="CardsContainerView" customModule="AnimatedSetGamee" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sfv-Xy-i7j" customClass="ConcentrationCardsContainerView" customModule="AnimatedSetGamee" customModuleProvider="target">
                                 <rect key="frame" x="15" y="79" width="345" height="389"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
@@ -294,6 +294,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Concentration" id="u6H-dO-Btl"/>
                     <connections>
+                        <outlet property="containerView" destination="sfv-Xy-i7j" id="qmW-CO-yAd"/>
                         <outlet property="flipsLabel" destination="zzI-zD-39K" id="YUi-Kr-CQl"/>
                         <outlet property="scoreLabel" destination="Ekc-rx-c5K" id="qSm-JD-JXd"/>
                     </connections>

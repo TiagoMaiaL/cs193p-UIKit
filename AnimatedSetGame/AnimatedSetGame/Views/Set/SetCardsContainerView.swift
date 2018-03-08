@@ -37,7 +37,7 @@ class SetCardsContainerView: CardsContainerView, UIDynamicAnimatorDelegate {
   var matchedDeckFrame: CGRect!
   
   /// The animator object responsible for each button's animations.
-  lazy private var animator: UIDynamicAnimator = UIDynamicAnimator(referenceView: self)
+  lazy private var animator = UIDynamicAnimator(referenceView: self)
   
   /// Tells if the dealing animation is running.
   /// If it's running, we shouldn't overlap the current dealing one.
