@@ -123,54 +123,49 @@ class ConcentrationCardsContainerView: CardsContainerView, UIDynamicAnimatorDele
       button.isActive = false
     }
     
-    // Starts animating by scaling each button.
+    // Animates each card to the center of the container.
     UIViewPropertyAnimator.runningPropertyAnimator(
-      withDuration: 0.1,
-      delay: 0,
-      options: .curveEaseIn,
+      withDuration: 0.2,
+      delay: 0.2,
+      options: .curveEaseInOut,
       animations: {
         
         buttonsCopies.forEach {
-          $0.bounds.size = CGSize(
-            width: $0.frame.size.width * 1.1,
-            height: $0.frame.size.height * 1.1
-          )
+          $0.center = self.center
         }
         
     }, completion: { position in
       
-      // Animates each card to the matched deck.
-      
-      Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false) { _ in
-        buttonsCopies.forEach { button in
-          let snapOutBehavior = UISnapBehavior(item: button, snapTo: self.discardToFrame.center)
-          snapOutBehavior.damping = 0.8
-          self.animator.addBehavior(snapOutBehavior)
-          
-          UIViewPropertyAnimator.runningPropertyAnimator(
-            withDuration: 0.2,
-            delay: 0,
-            options: .curveEaseIn,
-            animations: {
-              button.bounds.size = self.discardToFrame.size
-            }
-          )
-        }
-      }
-      
+      // Starts animating by scaling each button.
       UIViewPropertyAnimator.runningPropertyAnimator(
-        withDuration: 0.2,
-        delay: 1,
+        withDuration: 0.3,
+        delay: 0,
         options: .curveEaseInOut,
         animations: {
-          buttonsCopies.forEach { $0.isActive = false }
-      }) { _ in
-        buttonsCopies.forEach {
-          $0.removeFromSuperview()
+          
+          buttonsCopies.forEach {
+            $0.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+          }
+          
+      }, completion: { position in
+        
+        // Animates each card to the matched deck.
+        Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { _ in
+          buttonsCopies.forEach { button in
+            let snapOutBehavior = UISnapBehavior(item: button, snapTo: self.discardToFrame.center)
+            snapOutBehavior.damping = 1
+            self.animator.addBehavior(snapOutBehavior)
+          }
+          
+          // Removes the button copies.
+          Timer.scheduledTimer(withTimeInterval: 0.8, repeats: false) { _ in
+            buttonsCopies.forEach { $0.isActive = false }
+            buttonsCopies.forEach { $0.removeFromSuperview() }
+            
+            self.delegate?.cardsRemovalDidFinish()
+          }
         }
-
-        self.delegate?.cardsRemovalDidFinish()
-      }
+      })
       
     })
   }

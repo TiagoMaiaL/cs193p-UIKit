@@ -54,6 +54,7 @@ class ConcentrationCardButton: CardButton, NSCopying {
     let newCardButton = ConcentrationCardButton()
     newCardButton.frame = frame
     newCardButton.layer.backgroundColor = layer.backgroundColor
+    newCardButton.isActive = isActive
     newCardButton.isFaceUp = isFaceUp
     newCardButton.backColor = backColor
     newCardButton.buttonText = buttonText

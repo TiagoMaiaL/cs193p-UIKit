@@ -153,7 +153,7 @@ class ConcentrationViewController: UIViewController, ConcentrationDelegate, Card
     guard let index = containerView.buttons.index(of: sender) else { return }
     concentration.flipCard(at: index)
     sender.flipCard(animated: true)
-    
+
     displayCards()
     displayLabels()
   }
