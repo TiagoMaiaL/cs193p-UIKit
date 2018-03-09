@@ -194,6 +194,7 @@ class ConcentrationViewController: UIViewController {
     // Goes through all buttons and configures each one
     // according to the theme.
     for (index, cardButton) in (containerView.buttons as! [ConcentrationCardButton]).enumerated() {
+      guard concentration.cards.indices.contains(index) else { continue }
       let card = concentration.cards[index]
       
       cardButton.backColor = theme.cardColor.cgColor
@@ -210,19 +211,25 @@ class ConcentrationViewController: UIViewController {
   /// Method in charge of displaying each card's state
   /// with the assciated card button.
   private func displayCards() {
-//    for (index, cardButton) in containerView.buttons.enumerated() {
-//      guard concentration.cards.indices.contains(index) else { continue }
-//
-//      let card = concentration.cards[index]
-//
+    for (index, cardButton) in containerView.buttons.enumerated() {
+      guard concentration.cards.indices.contains(index) else { continue }
+      let card = concentration.cards[index]
+
 //      if card.isFaceUp {
 //        cardButton.setTitle(cardsAndEmojisMap[card], for: .normal)
 //        cardButton.layer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1).cgColor
 //      } else {
 //        cardButton.setTitle("", for: .normal)
+      
+      cardButton.isActive = !card.isMatched
+      
+      if !card.isFaceUp && cardButton.isFaceUp {
+        cardButton.flipCard(animated: true)
+      }
+      
 //        cardButton.layer.backgroundColor = card.isMatched ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0).cgColor : theme.cardColor.cgColor
 //      }
-//    }
+    }
   }
   
 }
