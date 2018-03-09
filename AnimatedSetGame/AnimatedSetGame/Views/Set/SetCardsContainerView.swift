@@ -8,22 +8,11 @@
 
 import UIKit
 
-/// Protocol used to give the superview or controller a
-/// chance to act after some card container events.
-protocol CardContainerViewDelegate {
-  
-  /// Method called when the removal animation becomes finished.
-  func cardsRemovalDidFinish()
-}
-
 /// The view responsible for holding and displaying a grid of cardButtons.
 @IBDesignable
 class SetCardsContainerView: CardsContainerView, UIDynamicAnimatorDelegate {
   
   // MARK: Properties
-  
-  /// The container's delegate
-  var delegate: CardContainerViewDelegate?
   
   /// The translated deck frame used by the dealing animation.
   /// - Note: This frame is the origin and size for all added buttons.

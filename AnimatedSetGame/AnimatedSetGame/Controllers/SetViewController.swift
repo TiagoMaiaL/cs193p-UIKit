@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SetViewController: UIViewController, CardContainerViewDelegate, SetGameDelegate {
+class SetViewController: UIViewController, CardsContainerViewDelegate, SetGameDelegate {
   
   // MARK: Properties
   
@@ -243,7 +243,7 @@ class SetViewController: UIViewController, CardContainerViewDelegate, SetGameDel
     }
     
     guard cardsContainerView.buttons.count == setGame.tableCards.count, !setGame.deck.isEmpty else {
-      cardsContainerView.removeEmptyCardButtons() {
+      cardsContainerView.removeInactiveCardButtons() {
         self.cardsContainerView.isUserInteractionEnabled = true
       }
       return

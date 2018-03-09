@@ -9,6 +9,13 @@
 import Foundation
 import GameplayKit
 
+/// The concentration's delegate
+protocol ConcentrationDelegate {
+  
+  /// Called after a match happens.
+  func didMatch(cards: [Card])
+}
+
 class Concentration {
   
   // MARK: Properties
@@ -45,6 +52,9 @@ class Concentration {
   
   /// The player's score.
   private(set) var score = 0
+  
+  /// The game's delegate
+  var delegate: ConcentrationDelegate?
   
   // MARK: Initialization
   
@@ -90,7 +100,7 @@ class Concentration {
     guard !selectedCard.isMatched else { return }
     
     // If we already have one previously flipped card,
-    // This also means that we now have two faced up cards.
+    // it means that we now have two faced up cards.
     // Thus we need to check for a match.
     if let firstCardIndex = oneAndOnlyFlippedCardIndex, firstCardIndex != index {
       
@@ -101,13 +111,14 @@ class Concentration {
         firstCard.isMatched = true
         selectedCard.isMatched = true
         increaseScore()
+        
+        delegate?.didMatch(cards: [firstCard, selectedCard])
+        removeMatchedPair()
       }
       
       cards[firstCardIndex] = firstCard
     } else {
       // We don't have a single flipped card, it's time to set one.
-      // And the player missed the right cards,
-      // in case it's not the first flip.
       oneAndOnlyFlippedCardIndex = index
     }
     
@@ -115,6 +126,19 @@ class Concentration {
     
     flipsCount += 1
     cards[index] = selectedCard
+  }
+  
+  /// Removes the matched pair out of the cards array.
+  private func removeMatchedPair() {
+    let matchedCards = cards.filter { $0.isMatched }
+    
+    guard !matchedCards.isEmpty else { return }
+    
+    for card in matchedCards {
+      if let index = cards.index(of: card) {
+        cards.remove(at: index)
+      }
+    }
   }
   
   /// Flips back the previous chosen pair,

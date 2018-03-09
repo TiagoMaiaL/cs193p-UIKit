@@ -8,10 +8,21 @@
 
 import UIKit
 
+/// Protocol used to give the superview or controller a
+/// chance to act after some card container events.
+protocol CardsContainerViewDelegate {
+  
+  /// Method called when the removal animation becomes finished.
+  func cardsRemovalDidFinish()
+}
+
 /// A view holding card buttons.
 class CardsContainerView: UIView {
 
   // MARK: Properties
+  
+  /// The container's delegate
+  var delegate: CardsContainerViewDelegate?
   
   /// The contained card buttons.
   var buttons = [CardButton]()
@@ -79,11 +90,8 @@ class CardsContainerView: UIView {
     }
   }
   
-  /// Removes the empty card buttons from the container.
-  ///
-  /// - Note: The empty card buttons here are the buttons with the
-  ///         alpha property equals to zero.
-  func removeEmptyCardButtons(withCompletion completion: Optional<() -> ()> = nil) {
+  /// Removes the inactive card buttons from the container.
+  func removeInactiveCardButtons(withCompletion completion: Optional<() -> ()> = nil) {
     let emptyButtons = buttons.filter { $0.alpha == 0 }
     
     guard emptyButtons.count > 0 else { return }

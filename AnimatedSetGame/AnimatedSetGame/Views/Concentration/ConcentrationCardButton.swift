@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ConcentrationCardButton: CardButton {
+class ConcentrationCardButton: CardButton, NSCopying {
   
   typealias Emoji = String
 
@@ -47,5 +47,17 @@ class ConcentrationCardButton: CardButton {
     layer.backgroundColor = backColor ?? UIColor.gray.cgColor
     setTitle(nil, for: .normal)
   }
-
+  
+  // MARK: NSCopying implementation
+  
+  func copy(with zone: NSZone? = nil) -> Any {
+    let newCardButton = ConcentrationCardButton()
+    newCardButton.frame = frame
+    newCardButton.layer.backgroundColor = layer.backgroundColor
+    newCardButton.isFaceUp = isFaceUp
+    newCardButton.backColor = backColor
+    newCardButton.buttonText = buttonText
+    
+    return newCardButton
+  }
 }

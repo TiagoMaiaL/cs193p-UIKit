@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ConcentrationViewController: UIViewController {
+class ConcentrationViewController: UIViewController, ConcentrationDelegate, CardsContainerViewDelegate {
   
   typealias Emojis = [String]
   
@@ -106,7 +106,11 @@ class ConcentrationViewController: UIViewController {
   @IBOutlet weak var scoreLabel: UILabel!
   
   /// The cards container view.
-  @IBOutlet weak var containerView: ConcentrationCardsContainerView!
+  @IBOutlet weak var containerView: ConcentrationCardsContainerView! {
+    didSet {
+      containerView.delegate = self
+    }
+  }
   
   /// The model encapsulating the concentration game's logic.
   private lazy var concentration = Concentration(numberOfPairs: 8)
@@ -133,6 +137,8 @@ class ConcentrationViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    concentration.delegate = self
     
     containerView.addButtons(byAmount: 8 * 2,
                              animated: true)
@@ -214,21 +220,30 @@ class ConcentrationViewController: UIViewController {
     for (index, cardButton) in containerView.buttons.enumerated() {
       guard concentration.cards.indices.contains(index) else { continue }
       let card = concentration.cards[index]
-
-//      if card.isFaceUp {
-//        cardButton.setTitle(cardsAndEmojisMap[card], for: .normal)
-//        cardButton.layer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1).cgColor
-//      } else {
-//        cardButton.setTitle("", for: .normal)
-      
-      cardButton.isActive = !card.isMatched
       
       if !card.isFaceUp && cardButton.isFaceUp {
         cardButton.flipCard(animated: true)
       }
-      
-//        cardButton.layer.backgroundColor = card.isMatched ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0).cgColor : theme.cardColor.cgColor
-//      }
+    }
+  }
+  
+  // MARK: Concentration Delegate
+  
+  func didMatch(cards: [Card]) {
+    let matchedCardButtons: [CardButton] = cards.map {
+      let cardIndex = self.concentration.cards.index(of: $0)
+      return self.containerView.buttons[cardIndex!]
+    }
+    
+    containerView.animateCardsOut(matchedCardButtons)
+    containerView.isUserInteractionEnabled = false
+  }
+  
+  // MARK: CardsContainerViewDelegate
+  
+  func cardsRemovalDidFinish() {
+    containerView.removeInactiveCardButtons {
+      self.containerView.isUserInteractionEnabled = true
     }
   }
   

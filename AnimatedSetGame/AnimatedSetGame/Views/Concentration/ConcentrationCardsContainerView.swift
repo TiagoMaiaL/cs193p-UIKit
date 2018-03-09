@@ -169,11 +169,7 @@ class ConcentrationCardsContainerView: CardsContainerView, UIDynamicAnimatorDele
           $0.removeFromSuperview()
         }
 
-        // TODO: Put this in the SuperView.
-//          // Calls the delegate, if set.
-//          if let delegate = self.delegate {
-//            delegate.cardsRemovalDidFinish()
-//          }
+        self.delegate?.cardsRemovalDidFinish()
       }
       
     })
