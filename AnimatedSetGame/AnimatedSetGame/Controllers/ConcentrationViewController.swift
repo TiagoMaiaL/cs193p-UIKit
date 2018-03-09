@@ -139,20 +139,15 @@ class ConcentrationViewController: UIViewController {
     assignTargets()
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(true)
-    
-    configureTheme()
-    displayCards()
-  }
-  
   // MARK: Actions
   
   /// Action fired when a card button is tapped.
   /// It flips a card checks if there's a match or not.
-  @objc func didTapCard(_ sender: UIButton) {
-    guard let index = containerView.buttons.index(of: sender as! CardButton) else { return }
+  @objc func didTapCard(_ sender: ConcentrationCardButton) {
+    guard let index = containerView.buttons.index(of: sender) else { return }
     concentration.flipCard(at: index)
+    sender.flipCard(animated: true)
+    
     displayCards()
     displayLabels()
   }
@@ -195,6 +190,15 @@ class ConcentrationViewController: UIViewController {
         cardsAndEmojisMap[card] = emojis.remove(at: emojis.count.arc4random)
       }
     }
+    
+    // Goes through all buttons and configures each one
+    // according to the theme.
+    for (index, cardButton) in (containerView.buttons as! [ConcentrationCardButton]).enumerated() {
+      let card = concentration.cards[index]
+      
+      cardButton.backColor = theme.cardColor.cgColor
+      cardButton.buttonText = cardsAndEmojisMap[card]
+    }
   }
   
   /// Method used to refresh the scores and flips UI labels.
@@ -206,19 +210,19 @@ class ConcentrationViewController: UIViewController {
   /// Method in charge of displaying each card's state
   /// with the assciated card button.
   private func displayCards() {
-    for (index, cardButton) in containerView.buttons.enumerated() {
-      guard concentration.cards.indices.contains(index) else { continue }
-
-      let card = concentration.cards[index]
-
-      if card.isFaceUp {
-        cardButton.setTitle(cardsAndEmojisMap[card], for: .normal)
-        cardButton.layer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1).cgColor
-      } else {
-        cardButton.setTitle("", for: .normal)
-        cardButton.layer.backgroundColor = card.isMatched ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0).cgColor : theme.cardColor.cgColor
-      }
-    }
+//    for (index, cardButton) in containerView.buttons.enumerated() {
+//      guard concentration.cards.indices.contains(index) else { continue }
+//
+//      let card = concentration.cards[index]
+//
+//      if card.isFaceUp {
+//        cardButton.setTitle(cardsAndEmojisMap[card], for: .normal)
+//        cardButton.layer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1).cgColor
+//      } else {
+//        cardButton.setTitle("", for: .normal)
+//        cardButton.layer.backgroundColor = card.isMatched ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0).cgColor : theme.cardColor.cgColor
+//      }
+//    }
   }
   
 }

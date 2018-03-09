@@ -15,10 +15,22 @@ class ConcentrationCardButton: CardButton {
   // MARK: Properties
   
   /// The concentration text emoji.
-  var buttonText: Emoji?
+  var buttonText: Emoji? {
+    didSet {
+      if isFaceUp {
+        setNeedsDisplay()
+      }
+    }
+  }
   
   /// The color of the back of the card when flipped down.
-  var backColor: CGColor?
+  var backColor: CGColor? {
+    didSet {
+      if !isFaceUp {
+        setNeedsDisplay()
+      }
+    }
+  }
   
   // MARK: Imperatives
   

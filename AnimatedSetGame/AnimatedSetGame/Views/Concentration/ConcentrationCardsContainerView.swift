@@ -50,7 +50,7 @@ class ConcentrationCardsContainerView: CardsContainerView, UIDynamicAnimatorDele
     
     for button in cardButtons {
       // Each button is hidden and face down by default.
-      button.alpha = 0
+      button.isActive = false
       button.isFaceUp = false
       
       addSubview(button)
@@ -67,7 +67,7 @@ class ConcentrationCardsContainerView: CardsContainerView, UIDynamicAnimatorDele
   
   // TODO: Consider changing this to the superclass.
   func dealCardsWithAnimation() {
-    let inactiveButtons = buttons.filter { $0.alpha == 0 }
+    let inactiveButtons = buttons.filter { !$0.isActive }
     
     guard !inactiveButtons.isEmpty else { return }
     
@@ -81,7 +81,7 @@ class ConcentrationCardsContainerView: CardsContainerView, UIDynamicAnimatorDele
         
         self.bringSubview(toFront: button)
         
-        button.alpha = 1
+        button.isActive = true
         
         let snapBehavior = UISnapBehavior(item: button,
                                           snapTo: buttonFrame.center)
@@ -120,7 +120,7 @@ class ConcentrationCardsContainerView: CardsContainerView, UIDynamicAnimatorDele
       addSubview(buttonCopy)
       
       // Hides the original button.
-      button.alpha = 0
+      button.isActive = false
     }
     
     // Starts animating by scaling each button.
@@ -163,7 +163,7 @@ class ConcentrationCardsContainerView: CardsContainerView, UIDynamicAnimatorDele
         delay: 1,
         options: .curveEaseInOut,
         animations: {
-          buttonsCopies.forEach { $0.alpha = 0 }
+          buttonsCopies.forEach { $0.isActive = false }
       }) { _ in
         buttonsCopies.forEach {
           $0.removeFromSuperview()
