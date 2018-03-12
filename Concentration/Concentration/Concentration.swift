@@ -77,6 +77,7 @@ class Concentration {
     Card.resetIdentifiersCount()
     let pairsCount = cards.count / 2
     cards = []
+    currentPairIndices = nil
     setPairs(withCount: pairsCount)
   }
   

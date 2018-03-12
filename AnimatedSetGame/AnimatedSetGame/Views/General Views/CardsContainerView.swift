@@ -12,8 +12,11 @@ import UIKit
 /// chance to act after some card container events.
 protocol CardsContainerViewDelegate {
   
-  /// Method called when the removal animation becomes finished.
+  /// Method called when the removal animation ends.
   func cardsRemovalDidFinish()
+  
+  /// Method called when the deal animation ends.
+  func cardsDealDidFinish()
 }
 
 /// A view holding card buttons.

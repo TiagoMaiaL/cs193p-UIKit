@@ -270,5 +270,9 @@ class SetViewController: UIViewController, CardsContainerViewDelegate, SetGameDe
     
     cardsContainerView.animateCardsOut(matchedCardButtons)
   }
+  
+  func cardsDealDidFinish() {
+    // TODO:
+  }
 
 }

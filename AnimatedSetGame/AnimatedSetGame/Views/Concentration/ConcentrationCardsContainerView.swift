@@ -181,7 +181,11 @@ class ConcentrationCardsContainerView: CardsContainerView, UIDynamicAnimatorDele
   
   func dynamicAnimatorDidPause(_ animator: UIDynamicAnimator) {
     animator.removeAllBehaviors()
-//    isPerformingDealAnimation = false
+
+    // If there's not inactive cards, the deal animation was happening.
+    if buttons.filter({ !$0.isActive }).isEmpty {
+      delegate?.cardsDealDidFinish()
+    }
   }
   
 }

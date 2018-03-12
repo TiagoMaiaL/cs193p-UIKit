@@ -133,6 +133,10 @@ class ConcentrationViewController: UIViewController, ConcentrationDelegate, Card
     }
   }
   
+  /// The flag indicating if the controller is
+  /// performing the reset animation or not.
+  private var isPerformingDealAnimation = false
+  
   // MARK: Life Cycle
   
   override func viewDidLoad() {
@@ -142,6 +146,8 @@ class ConcentrationViewController: UIViewController, ConcentrationDelegate, Card
     
     containerView.addButtons(byAmount: 8 * 2,
                              animated: true)
+    isPerformingDealAnimation = true
+    
     assignTargets()
   }
   
@@ -162,11 +168,11 @@ class ConcentrationViewController: UIViewController, ConcentrationDelegate, Card
   /// Action fired when the new game button is tapped.
   /// It resets the current game and refreshes the UI.
   @IBAction func didTapNewGame(_ sender: UIBarButtonItem) {
-    configureTheme()
-    concentration.resetGame()
-    containerView.animateCardsOut(containerView.buttons)
-//    displayCards()
-//    displayLabels()
+    if !isPerformingDealAnimation {
+      containerView.animateCardsOut(containerView.buttons)
+      concentration.resetGame()
+      isPerformingDealAnimation = true
+    }
   }
   
   // MARK: Imperatives
@@ -233,22 +239,32 @@ class ConcentrationViewController: UIViewController, ConcentrationDelegate, Card
   // MARK: Concentration Delegate
   
   func didMatchCards(withIndices indices: [Int]) {
-    Timer.scheduledTimer(withTimeInterval: 0.4, repeats: false) { _ in
-      let matchedCardButtons: [CardButton] = indices.map {
-        return self.containerView.buttons[$0]
-      }
-      
-      self.containerView.animateCardsOut(matchedCardButtons)
-      self.containerView.isUserInteractionEnabled = false
+    let matchedCardButtons: [CardButton] = indices.map {
+      return self.containerView.buttons[$0]
     }
+    
+    self.containerView.animateCardsOut(matchedCardButtons)
+    self.containerView.isUserInteractionEnabled = false
   }
   
   // MARK: CardsContainerViewDelegate
   
   func cardsRemovalDidFinish() {
-    containerView.removeInactiveCardButtons {
-      self.containerView.isUserInteractionEnabled = true
+    if containerView.buttons.filter({ $0.isActive }).isEmpty {
+      containerView.clearCardContainer()
+      containerView.addButtons(byAmount: 16, animated: true)
+      assignTargets()
+      configureTheme()
+      displayLabels()
+    } else {
+      containerView.removeInactiveCardButtons {
+        self.containerView.isUserInteractionEnabled = true
+      }
     }
+  }
+  
+  func cardsDealDidFinish() {
+    isPerformingDealAnimation = false
   }
   
 }
