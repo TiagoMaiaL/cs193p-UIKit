@@ -83,7 +83,7 @@ class CardsContainerView: UIView {
   
   /// Assigns each button's to the corresponding grid's frame.
   func respositionViews() {
-    for (i, button) in self.buttons.enumerated() {
+    for (i, button) in buttons.filter({ $0.isActive }).enumerated() {
       if let frame = grid[i] {
         button.frame = frame
       }
@@ -92,11 +92,11 @@ class CardsContainerView: UIView {
   
   /// Removes the inactive card buttons from the container.
   func removeInactiveCardButtons(withCompletion completion: Optional<() -> ()> = nil) {
-    let emptyButtons = buttons.filter { $0.alpha == 0 }
+    let inactiveButtons = buttons.filter { !$0.isActive }
     
-    guard emptyButtons.count > 0 else { return }
+    guard inactiveButtons.count > 0 else { return }
     
-    for button in emptyButtons {
+    for button in inactiveButtons {
       buttons.remove(at: buttons.index(of: button)!)
       button.removeFromSuperview()
     }

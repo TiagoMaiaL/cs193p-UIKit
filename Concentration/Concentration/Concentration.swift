@@ -13,7 +13,7 @@ import GameplayKit
 protocol ConcentrationDelegate {
   
   /// Called after a match happens.
-  func didMatch(cards: [Card])
+  func didMatchCards(withIndices indices: [Int])
 }
 
 class Concentration {
@@ -52,6 +52,9 @@ class Concentration {
   
   /// The player's score.
   private(set) var score = 0
+  
+  /// The index of each card in the currently faced up pair.
+  private var currentPairIndices: [Int]?
   
   /// The game's delegate
   var delegate: ConcentrationDelegate?
@@ -99,6 +102,13 @@ class Concentration {
     // If the card was matched, ignore the flip request.
     guard !selectedCard.isMatched else { return }
     
+    // If we have matched cards, the delegate is called
+    // and the matched cards are removed.
+    if let currentPairIndices = currentPairIndices {
+      delegate?.didMatchCards(withIndices: currentPairIndices)
+      self.currentPairIndices = nil
+    }
+    
     // If we already have one previously flipped card,
     // it means that we now have two faced up cards.
     // Thus we need to check for a match.
@@ -112,8 +122,7 @@ class Concentration {
         selectedCard.isMatched = true
         increaseScore()
         
-        delegate?.didMatch(cards: [firstCard, selectedCard])
-        removeMatchedPair()
+        currentPairIndices = [firstCardIndex, index]
       }
       
       cards[firstCardIndex] = firstCard

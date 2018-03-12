@@ -151,6 +151,7 @@ class ConcentrationViewController: UIViewController, ConcentrationDelegate, Card
   /// It flips a card checks if there's a match or not.
   @objc func didTapCard(_ sender: ConcentrationCardButton) {
     guard let index = containerView.buttons.index(of: sender) else { return }
+    
     concentration.flipCard(at: index)
     sender.flipCard(animated: true)
 
@@ -218,10 +219,12 @@ class ConcentrationViewController: UIViewController, ConcentrationDelegate, Card
   /// with the assciated card button.
   private func displayCards() {
     for (index, cardButton) in containerView.buttons.enumerated() {
+      guard cardButton.isActive else { continue }
       guard concentration.cards.indices.contains(index) else { continue }
+      
       let card = concentration.cards[index]
       
-      if !card.isFaceUp && cardButton.isFaceUp {
+      if !card.isFaceUp && cardButton.isFaceUp && !card.isMatched {
         cardButton.flipCard(animated: true)
       }
     }
@@ -229,20 +232,22 @@ class ConcentrationViewController: UIViewController, ConcentrationDelegate, Card
   
   // MARK: Concentration Delegate
   
-  func didMatch(cards: [Card]) {
-    let matchedCardButtons: [CardButton] = cards.map {
-      let cardIndex = self.concentration.cards.index(of: $0)
-      return self.containerView.buttons[cardIndex!]
+  func didMatchCards(withIndices indices: [Int]) {
+    Timer.scheduledTimer(withTimeInterval: 0.4, repeats: false) { _ in
+      let matchedCardButtons: [CardButton] = indices.map {
+        return self.containerView.buttons[$0]
+      }
+      
+      self.containerView.animateCardsOut(matchedCardButtons)
+      self.containerView.isUserInteractionEnabled = false
     }
-    
-    containerView.animateCardsOut(matchedCardButtons)
-    containerView.isUserInteractionEnabled = false
   }
   
   // MARK: CardsContainerViewDelegate
   
   func cardsRemovalDidFinish() {
     containerView.removeInactiveCardButtons {
+//      self.configureTheme()
       self.containerView.isUserInteractionEnabled = true
     }
   }

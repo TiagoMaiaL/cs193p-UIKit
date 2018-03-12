@@ -166,8 +166,22 @@ class ConcentrationCardsContainerView: CardsContainerView, UIDynamicAnimatorDele
           }
         }
       })
-      
     })
+  }
+  
+  override func removeInactiveCardButtons(withCompletion completion: Optional<() -> ()>) {
+    let inactiveButtons = buttons.filter { !$0.isActive }
+    guard inactiveButtons.count > 0 else { return }
+    
+    grid.cellCount = buttons.filter({ $0.isActive }).count
+    updateViewsFrames(withAnimation: true, andCompletion: completion)
+  }
+  
+  // MARK: UIDynamicAnimator Delegate methods
+  
+  func dynamicAnimatorDidPause(_ animator: UIDynamicAnimator) {
+    animator.removeAllBehaviors()
+//    isPerformingDealAnimation = false
   }
   
 }
