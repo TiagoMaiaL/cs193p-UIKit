@@ -240,11 +240,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sfv-Xy-i7j" customClass="ConcentrationCardsContainerView" customModule="AnimatedSetGamee" customModuleProvider="target">
-                                <rect key="frame" x="15" y="79" width="345" height="389"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <rect key="frame" x="15" y="79" width="345" height="467"/>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="ZRw-Cj-1R7">
-                                <rect key="frame" x="16" y="488" width="343" height="42"/>
+                                <rect key="frame" x="16" y="566" width="343" height="42"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Flips: 0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zzI-zD-39K" userLabel="Flips count">
                                         <rect key="frame" x="0.0" y="0.0" width="167.5" height="42"/>
@@ -263,36 +262,26 @@
                                     <constraint firstAttribute="height" constant="42" id="I1K-DR-tGK"/>
                                 </constraints>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ikz-Yc-Uun">
-                                <rect key="frame" x="107" y="560" width="160" height="48"/>
-                                <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="160" id="mQF-pF-zcF"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                <state key="normal" title="New game">
-                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="didTapNewGame:" destination="yPJ-0R-5Pp" eventType="touchUpInside" id="Ij2-Bi-4Qb"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="sfv-Xy-i7j" firstAttribute="top" secondItem="Fxs-K0-HMT" secondAttribute="top" constant="15" id="6yf-ZZ-7gl"/>
                             <constraint firstItem="Fxs-K0-HMT" firstAttribute="trailing" secondItem="ZRw-Cj-1R7" secondAttribute="trailing" constant="16" id="LMP-Ek-0N1"/>
                             <constraint firstItem="sfv-Xy-i7j" firstAttribute="leading" secondItem="Fxs-K0-HMT" secondAttribute="leading" constant="15" id="MFq-SK-AlU"/>
-                            <constraint firstItem="Fxs-K0-HMT" firstAttribute="bottom" secondItem="Ikz-Yc-Uun" secondAttribute="bottom" constant="10" id="OXf-HC-Usq"/>
-                            <constraint firstItem="Ikz-Yc-Uun" firstAttribute="top" secondItem="ZRw-Cj-1R7" secondAttribute="bottom" constant="30" id="Tb7-RN-wmT"/>
+                            <constraint firstItem="Fxs-K0-HMT" firstAttribute="bottom" secondItem="ZRw-Cj-1R7" secondAttribute="bottom" constant="10" id="VpY-PO-0Ad"/>
                             <constraint firstItem="Fxs-K0-HMT" firstAttribute="trailing" secondItem="sfv-Xy-i7j" secondAttribute="trailing" constant="15" id="WvA-W3-aiT"/>
                             <constraint firstItem="ZRw-Cj-1R7" firstAttribute="leading" secondItem="Fxs-K0-HMT" secondAttribute="leading" constant="15.999999999999972" id="YRo-0X-uwQ"/>
-                            <constraint firstItem="Ikz-Yc-Uun" firstAttribute="centerX" secondItem="Fxs-K0-HMT" secondAttribute="centerX" id="fCV-9J-Ed9"/>
                             <constraint firstItem="ZRw-Cj-1R7" firstAttribute="top" secondItem="sfv-Xy-i7j" secondAttribute="bottom" constant="20" id="pVW-Uf-IX0"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Fxs-K0-HMT"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Concentration" id="u6H-dO-Btl"/>
+                    <navigationItem key="navigationItem" title="Concentration" id="u6H-dO-Btl">
+                        <barButtonItem key="rightBarButtonItem" title="New game" id="H91-7Y-RDK">
+                            <connections>
+                                <action selector="didTapNewGame:" destination="yPJ-0R-5Pp" id="VwK-vZ-PfU"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="containerView" destination="sfv-Xy-i7j" id="qmW-CO-yAd"/>
                         <outlet property="flipsLabel" destination="zzI-zD-39K" id="YUi-Kr-CQl"/>

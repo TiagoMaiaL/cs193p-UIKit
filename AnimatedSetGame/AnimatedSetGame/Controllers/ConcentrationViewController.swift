@@ -161,7 +161,7 @@ class ConcentrationViewController: UIViewController, ConcentrationDelegate, Card
   
   /// Action fired when the new game button is tapped.
   /// It resets the current game and refreshes the UI.
-  @IBAction func didTapNewGame(_ sender: UIButton) {
+  @IBAction func didTapNewGame(_ sender: UIBarButtonItem) {
     configureTheme()
     concentration.resetGame()
     containerView.animateCardsOut(containerView.buttons)
@@ -247,7 +247,6 @@ class ConcentrationViewController: UIViewController, ConcentrationDelegate, Card
   
   func cardsRemovalDidFinish() {
     containerView.removeInactiveCardButtons {
-//      self.configureTheme()
       self.containerView.isUserInteractionEnabled = true
     }
   }
