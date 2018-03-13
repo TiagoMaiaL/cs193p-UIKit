@@ -45,7 +45,7 @@ class SetViewController: UIViewController, CardsContainerViewDelegate, SetGameDe
     super.viewWillAppear(animated)
 
     if !setGame.tableCards.isEmpty, cardsContainerView.buttons.isEmpty {
-      cardsContainerView.addCardButtons(byAmount: 12, animated: true)
+      cardsContainerView.addButtons(byAmount: 12, animated: true)
       assignTargetAction()
     }
     
@@ -55,17 +55,17 @@ class SetViewController: UIViewController, CardsContainerViewDelegate, SetGameDe
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
     
-    let translatedDeckOrigin = view.convert(deckPlaceholderCard.frame.origin,
+    let translatedDealOrigin = view.convert(deckPlaceholderCard.frame.origin,
                                             to: cardsContainerView)
-    let translatedDeckFrame = CGRect(origin: translatedDeckOrigin,
+    let translatedDealFrame = CGRect(origin: translatedDealOrigin,
                                      size: deckPlaceholderCard.frame.size)
-    cardsContainerView.deckFrame = translatedDeckFrame
+    cardsContainerView.dealingFromFrame = translatedDealFrame
     
-    let translatedMatchedDeckOrigin = view.convert(matchedDeckPlaceholderCard.frame.origin,
+    let translatedDiscardOrigin = view.convert(matchedDeckPlaceholderCard.frame.origin,
                                                    to: cardsContainerView)
-    let translatedMatchedDeckFrame = CGRect(origin: translatedMatchedDeckOrigin,
+    let translatedDiscardFrame = CGRect(origin: translatedDiscardOrigin,
                                             size: matchedDeckPlaceholderCard.frame.size)
-    cardsContainerView.matchedDeckFrame = translatedMatchedDeckFrame
+    cardsContainerView.discardToFrame = translatedDiscardFrame
   }
   
   override var shouldAutorotate: Bool {
@@ -197,7 +197,7 @@ class SetViewController: UIViewController, CardsContainerViewDelegate, SetGameDe
     }
     
     setGame.dealCards()
-    cardsContainerView.addCardButtons(animated: true)
+    cardsContainerView.addButtons(animated: true)
     assignTargetAction()
     
     displayCards()
@@ -235,7 +235,7 @@ class SetViewController: UIViewController, CardsContainerViewDelegate, SetGameDe
     updateDeckAppearance()
     
     guard !cardsContainerView.buttons.isEmpty else {
-      cardsContainerView.addCardButtons(byAmount: 12, animated: true)
+      cardsContainerView.addButtons(byAmount: 12, animated: true)
       assignTargetAction()
       displayCards()
       matchesLabel.text = "Matches: 0"
@@ -249,7 +249,7 @@ class SetViewController: UIViewController, CardsContainerViewDelegate, SetGameDe
       return
     }
     
-    cardsContainerView.animateCardButtonsDeal()
+    cardsContainerView.dealCardsWithAnimation()
   }
   
   // MARK: SetGame delegate implementation
@@ -271,8 +271,12 @@ class SetViewController: UIViewController, CardsContainerViewDelegate, SetGameDe
     cardsContainerView.animateCardsOut(matchedCardButtons)
   }
   
-  func cardsDealDidFinish() {
-    // TODO:
+  func cardsDealDidFinish() {}
+  
+  func didFinishDealingCard(_ button: CardButton) {
+    button.flipCard(animated: true)
   }
+  
+  
 
 }

@@ -133,10 +133,6 @@ class ConcentrationViewController: UIViewController, ConcentrationDelegate, Card
     }
   }
   
-  /// The flag indicating if the controller is
-  /// performing the reset animation or not.
-  private var isPerformingDealAnimation = false
-  
   // MARK: Life Cycle
   
   override func viewDidLoad() {
@@ -146,7 +142,6 @@ class ConcentrationViewController: UIViewController, ConcentrationDelegate, Card
     
     containerView.addButtons(byAmount: 8 * 2,
                              animated: true)
-    isPerformingDealAnimation = true
     
     assignTargets()
   }
@@ -168,10 +163,9 @@ class ConcentrationViewController: UIViewController, ConcentrationDelegate, Card
   /// Action fired when the new game button is tapped.
   /// It resets the current game and refreshes the UI.
   @IBAction func didTapNewGame(_ sender: UIBarButtonItem) {
-    if !isPerformingDealAnimation {
+    if !containerView.isPerformingDealAnimation {
       containerView.animateCardsOut(containerView.buttons)
       concentration.resetGame()
-      isPerformingDealAnimation = true
     }
   }
   
@@ -263,9 +257,9 @@ class ConcentrationViewController: UIViewController, ConcentrationDelegate, Card
     }
   }
   
-  func cardsDealDidFinish() {
-    isPerformingDealAnimation = false
-  }
+  func cardsDealDidFinish() {}
+  
+  func didFinishDealingCard(_ button: CardButton) {}
   
 }
 

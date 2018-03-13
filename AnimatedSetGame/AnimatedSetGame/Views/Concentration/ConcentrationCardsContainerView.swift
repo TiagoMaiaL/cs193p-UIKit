@@ -8,22 +8,16 @@
 
 import UIKit
 
-class ConcentrationCardsContainerView: CardsContainerView, UIDynamicAnimatorDelegate {
+class ConcentrationCardsContainerView: CardsContainerView {
 
   // TODO: Prepare for IB.
   
   // MARK: Properties
   
-  private var discardToFrame: CGRect!
-  
-  private var dealingFromFrame: CGRect!
-  
-  lazy private var animator = UIDynamicAnimator(referenceView: self)
-  
   // MARK: Initializer
   
   override func awakeFromNib() {
-    animator.delegate = self
+    super.awakeFromNib()
     
     let discardToOrigin = convert(CGPoint(x: UIScreen.main.bounds.width,
                                           y: UIScreen.main.bounds.height / 2),
@@ -42,69 +36,8 @@ class ConcentrationCardsContainerView: CardsContainerView, UIDynamicAnimatorDele
   
   // MARK: Imperatives
   
-  // TODO: Refactor this: Put in the superclass.
-  func addButtons(byAmount numberOfButtons: Int = 2, animated: Bool = true) {
-    // Check to see if a deal animation is being performed.
-    
-    let cardButtons = (0..<numberOfButtons).map { _ in ConcentrationCardButton() }
-    
-    for button in cardButtons {
-      // Each button is hidden and face down by default.
-      button.isActive = false
-      button.isFaceUp = false
-      
-      addSubview(button)
-      buttons.append(button)
-    }
-    
-    grid.cellCount += cardButtons.count
-    grid.frame = gridRect
-    
-    if animated {
-      dealCardsWithAnimation()
-    }
-  }
-  
-  // TODO: Consider changing this to the superclass.
-  func dealCardsWithAnimation() {
-    let inactiveButtons = buttons.filter { !$0.isActive }
-    
-    guard !inactiveButtons.isEmpty else { return }
-    
-    updateViewsFrames(withAnimation: true) {
-      var dealAnimationDelay = 0.0
-      for (index, button) in inactiveButtons.enumerated() {
-        guard let buttonFrame = self.grid[index] else { continue }
-        
-        button.isFaceUp = false
-        button.frame = self.dealingFromFrame
-        
-        self.bringSubview(toFront: button)
-        
-        button.isActive = true
-        
-        let snapBehavior = UISnapBehavior(item: button,
-                                          snapTo: buttonFrame.center)
-        snapBehavior.damping = 1
-        
-        Timer.scheduledTimer(withTimeInterval: dealAnimationDelay, repeats: false) { _ in
-          // Apply the snap behavior.
-          self.animator.addBehavior(snapBehavior)
-          
-          // Animates the button's size.
-          UIViewPropertyAnimator.runningPropertyAnimator(
-            withDuration: 0.2,
-            delay: 0,
-            options: .curveEaseIn,
-            animations: {
-              button.bounds.size = buttonFrame.size
-            }
-          )
-        }
-        
-        dealAnimationDelay += 0.2
-      }
-    }
+  override func makeButtons(byAmount numberOfButtons: Int) -> [CardButton] {
+    return (0..<numberOfButtons).map { _ in ConcentrationCardButton() }
   }
   
   override func animateCardsOut(_ buttons: [CardButton]) {
@@ -175,17 +108,6 @@ class ConcentrationCardsContainerView: CardsContainerView, UIDynamicAnimatorDele
     
     grid.cellCount = buttons.filter({ $0.isActive }).count
     updateViewsFrames(withAnimation: true, andCompletion: completion)
-  }
-  
-  // MARK: UIDynamicAnimator Delegate methods
-  
-  func dynamicAnimatorDidPause(_ animator: UIDynamicAnimator) {
-    animator.removeAllBehaviors()
-
-    // If there's not inactive cards, the deal animation was happening.
-    if buttons.filter({ !$0.isActive }).isEmpty {
-      delegate?.cardsDealDidFinish()
-    }
   }
   
 }
