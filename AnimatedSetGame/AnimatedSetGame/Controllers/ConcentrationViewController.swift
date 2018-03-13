@@ -188,6 +188,8 @@ class ConcentrationViewController: UIViewController, ConcentrationDelegate, Card
   /// Configures each card text according to the picked theme.
   private func configureTheme() {
     view.backgroundColor = theme.backgroundColor
+    scoreLabel.textColor = theme.cardColor
+    flipsLabel.textColor = theme.cardColor
     
     cardsAndEmojisMap = [:]
     var emojis = theme.emojis
