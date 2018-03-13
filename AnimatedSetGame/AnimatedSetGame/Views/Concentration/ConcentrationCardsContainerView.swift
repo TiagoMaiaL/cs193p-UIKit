@@ -12,8 +12,6 @@ class ConcentrationCardsContainerView: CardsContainerView {
 
   // TODO: Prepare for IB.
   
-  // MARK: Properties
-  
   // MARK: Initializer
   
   override func awakeFromNib() {
@@ -36,10 +34,13 @@ class ConcentrationCardsContainerView: CardsContainerView {
   
   // MARK: Imperatives
   
+  /// Instantiates an array with the right amount of
+  /// concentration cards buttons.
   override func makeButtons(byAmount numberOfButtons: Int) -> [CardButton] {
     return (0..<numberOfButtons).map { _ in ConcentrationCardButton() }
   }
   
+  /// The removal animation implementation.
   override func animateCardsOut(_ buttons: [CardButton]) {
     guard discardToFrame != nil else { return }
     guard let buttons = buttons as? [ConcentrationCardButton] else { return }
@@ -88,6 +89,15 @@ class ConcentrationCardsContainerView: CardsContainerView {
             let snapOutBehavior = UISnapBehavior(item: button, snapTo: self.discardToFrame.center)
             snapOutBehavior.damping = 1
             self.animator.addBehavior(snapOutBehavior)
+            
+            UIViewPropertyAnimator.runningPropertyAnimator(
+              withDuration: 0.2,
+              delay: 0,
+              options: .curveEaseInOut,
+              animations: {
+                button.bounds.size = self.discardToFrame.size
+              }
+            )
           }
           
           // Removes the button copies.
@@ -102,6 +112,9 @@ class ConcentrationCardsContainerView: CardsContainerView {
     })
   }
   
+  /// The method in charge of removing the inactive buttons.
+  /// - Note: This implementation only hides the inactive buttons,
+  ///         the array of buttons is not modified.
   override func removeInactiveCardButtons(withCompletion completion: Optional<() -> ()>) {
     let inactiveButtons = buttons.filter { !$0.isActive }
     guard inactiveButtons.count > 0 else { return }
