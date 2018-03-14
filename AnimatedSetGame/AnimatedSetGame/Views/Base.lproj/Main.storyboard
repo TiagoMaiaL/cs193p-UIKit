@@ -87,7 +87,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="cardsContainerView" destination="8VS-48-atU" id="c5x-fT-4pK"/>
+                        <outlet property="containerView" destination="8VS-48-atU" id="c5x-fT-4pK"/>
                         <outlet property="deckPlaceholderCard" destination="Fdd-gY-LJs" id="7TL-6X-kh5"/>
                         <outlet property="matchedDeckPlaceholderCard" destination="yfe-5a-bdO" id="aPu-1O-Snm"/>
                         <outlet property="matchesLabel" destination="dij-Em-JA7" id="DDT-ov-9dr"/>

@@ -91,5 +91,21 @@ class CardButton: UIButton {
       self.isFaceUp = !self.isFaceUp
     }
   }
+  
+  /// Flips the card to face up only.
+  ///
+  /// - Parameter animated: flips with a transition from left to right.
+  func turnFaceUp(animated: Bool = true) {
+    if animated {
+      UIView.transition(with: self,
+                        duration: 0.3,
+                        options: .transitionFlipFromLeft,
+                        animations: {
+                          self.isFaceUp = true
+      })
+    } else {
+      self.isFaceUp = true
+    }
+  }
 
 }

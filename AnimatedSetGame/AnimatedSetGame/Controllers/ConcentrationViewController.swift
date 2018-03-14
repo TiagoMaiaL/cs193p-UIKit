@@ -146,6 +146,14 @@ class ConcentrationViewController: UIViewController, ConcentrationDelegate, Card
     assignTargets()
   }
   
+  override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+    coordinator.animate(alongsideTransition: { _ in
+      self.containerView.prepareForRotation()
+    }) { _ in
+      self.containerView.updateViewsFrames(withAnimation: true)
+    }
+  }
+  
   // MARK: Actions
   
   /// Action fired when a card button is tapped.

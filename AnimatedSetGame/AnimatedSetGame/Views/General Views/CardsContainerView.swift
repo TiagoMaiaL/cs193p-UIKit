@@ -40,6 +40,9 @@ class CardsContainerView: UIView, UIDynamicAnimatorDelegate {
   /// The animator object responsible for each button's animations.
   lazy var animator = UIDynamicAnimator(referenceView: self)
   
+  /// The animator in charge of positioning each contained button.
+  var positioningAnimator: UIViewPropertyAnimator?
+  
   /// The translated frame used by the dealing animation.
   /// - Note: This frame is the origin and size for all added buttons.
   ///         When the deal animation takes place, all cards will fly from
@@ -61,6 +64,10 @@ class CardsContainerView: UIView, UIDynamicAnimatorDelegate {
                     height: bounds.size.height * 0.95)
     }
   }
+  
+  /// The scheduled deal animations of each card button.
+  /// - Note: This array can be used to cancel any scheduled animations
+  var scheduledDealAnimations: [Timer]?
   
   /// Tells if the dealing animation is running.
   /// If it's running, we shouldn't overlap the current dealing one.
@@ -88,6 +95,28 @@ class CardsContainerView: UIView, UIDynamicAnimatorDelegate {
   }
   
   // MARK: Imperatives
+  
+  /// Prepares the container for the device's rotation event.
+  /// Stops any running deal animations and respositions all the views.
+  func prepareForRotation() {
+    animator.removeAllBehaviors()
+    
+    // Invalidates all scheduled deal animations.
+    scheduledDealAnimations?.forEach { timer in
+      if timer.isValid {
+        timer.invalidate()
+      }
+    }
+    
+    positioningAnimator?.stopAnimation(true)
+    
+    for button in buttons {
+      button.transform = .identity
+      button.setNeedsDisplay()
+    }
+    
+    isPerformingDealAnimation = false
+  }
   
   /// Instantiates a new array of buttons with the specified count of elements.
   func makeButtons(byAmount numberOfButtons: Int) -> [CardButton] { return [] }
@@ -156,7 +185,11 @@ class CardsContainerView: UIView, UIDynamicAnimatorDelegate {
                                           snapTo: currentFrame.center)
         snapBehavior.damping = 0.8
         
-        Timer.scheduledTimer(withTimeInterval: dealAnimationDelay, repeats: false) { _ in
+        if self.scheduledDealAnimations == nil {
+          self.scheduledDealAnimations = []
+        }
+        
+        let animationTimer = Timer.scheduledTimer(withTimeInterval: dealAnimationDelay, repeats: false) { _ in
           // Apply the snap behavior.
           self.animator.addBehavior(snapBehavior)
           
@@ -167,7 +200,7 @@ class CardsContainerView: UIView, UIDynamicAnimatorDelegate {
             options: .curveEaseIn,
             animations: {
               button.bounds.size = currentFrame.size
-          }
+            }
           )
           
           // Flips the card.
@@ -175,6 +208,8 @@ class CardsContainerView: UIView, UIDynamicAnimatorDelegate {
             self.delegate?.didFinishDealingCard(button)
           }
         }
+        
+        self.scheduledDealAnimations!.append(animationTimer)
         
         dealAnimationDelay += 0.2
       }
@@ -187,18 +222,25 @@ class CardsContainerView: UIView, UIDynamicAnimatorDelegate {
     grid.frame = gridRect
     
     if animated {
-      UIViewPropertyAnimator.runningPropertyAnimator(
+      if let propertyAnimator = positioningAnimator {
+        propertyAnimator.stopAnimation(true)
+        positioningAnimator = nil
+      }
+      
+      positioningAnimator = UIViewPropertyAnimator.runningPropertyAnimator(
         withDuration: 0.2,
         delay: 0,
         options: .curveEaseInOut,
         animations: {
           self.respositionViews()
-      }
+        }
       ) { _ in
         if let completion = completion {
           completion()
         }
       }
+      
+      print("Positioning animator: \(positioningAnimator!)")
     } else {
       respositionViews()
     }
@@ -206,11 +248,15 @@ class CardsContainerView: UIView, UIDynamicAnimatorDelegate {
   
   /// Assigns each button's to the corresponding grid's frame.
   func respositionViews() {
-    for (i, button) in buttons.filter({ $0.isActive }).enumerated() {
+    grid.frame = gridRect
+    
+    for (i, button) in buttons/*.filter({ $0.isActive })*/.enumerated() {
       if let frame = grid[i] {
         button.frame = frame
       }
     }
+    
+    setNeedsLayout()
   }
   
   /// Removes the inactive card buttons from the container.
@@ -251,6 +297,7 @@ class CardsContainerView: UIView, UIDynamicAnimatorDelegate {
   func dynamicAnimatorDidPause(_ animator: UIDynamicAnimator) {
     animator.removeAllBehaviors()
     isPerformingDealAnimation = false
+    scheduledDealAnimations = nil
   }
   
 }
