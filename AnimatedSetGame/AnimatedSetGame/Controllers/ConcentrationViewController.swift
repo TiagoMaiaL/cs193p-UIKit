@@ -142,11 +142,16 @@ class ConcentrationViewController: UIViewController, ConcentrationDelegate, Card
     
     containerView.addButtons(byAmount: 8 * 2,
                              animated: true)
-    
     assignTargets()
+    
+    configureTheme()
   }
-  
+
   override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+    // In case the controller is still being presented and the
+    // views haven't been instantiated.
+    guard containerView != nil else { return }
+    
     coordinator.animate(alongsideTransition: { _ in
       self.containerView.prepareForRotation()
     }) { _ in

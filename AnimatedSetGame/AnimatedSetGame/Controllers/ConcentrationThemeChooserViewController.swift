@@ -23,7 +23,7 @@ class ConcentrationThemeChooserViewController: UIViewController, UISplitViewCont
   ///         it's possible to get it's detail controller and avoid the segue,
   ///         preserving the game's current state.
   var splitDetailConcentrationController: ConcentrationViewController? {
-    return splitViewController?.viewControllers.last as? ConcentrationViewController
+    return (splitViewController?.viewControllers.last as? UINavigationController)?.visibleViewController as? ConcentrationViewController
   }
   
   /// The last segued view controller.
@@ -81,6 +81,7 @@ class ConcentrationThemeChooserViewController: UIViewController, UISplitViewCont
   
   func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
     if let concentrationController = secondaryViewController as? ConcentrationViewController {
+      
       if concentrationController.pickedTheme == nil {
         return true
       }

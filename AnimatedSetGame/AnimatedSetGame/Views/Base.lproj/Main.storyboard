@@ -114,7 +114,7 @@
                     <tabBarItem key="tabBarItem" title="Concentration" id="Q5P-U9-88N"/>
                     <connections>
                         <segue destination="Olu-Ar-dg9" kind="relationship" relationship="masterViewController" id="IXI-DM-DUm"/>
-                        <segue destination="yPJ-0R-5Pp" kind="relationship" relationship="detailViewController" id="YyI-bE-zNt"/>
+                        <segue destination="q6J-Nf-Pec" kind="relationship" relationship="detailViewController" id="YyI-bE-zNt"/>
                     </connections>
                 </splitViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EV5-uM-bCu" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -224,7 +224,7 @@
                         <outletCollection property="themeButtons" destination="pmE-70-BHD" collectionClass="NSMutableArray" id="J8w-Zp-zPO"/>
                         <outletCollection property="themeButtons" destination="4lp-hO-QTy" collectionClass="NSMutableArray" id="chV-tf-aqL"/>
                         <outletCollection property="themeButtons" destination="2Yh-Sz-Jfu" collectionClass="NSMutableArray" id="PFb-Mm-f4V"/>
-                        <segue destination="yPJ-0R-5Pp" kind="showDetail" identifier="show concentration" id="NmQ-AJ-MLy"/>
+                        <segue destination="q6J-Nf-Pec" kind="showDetail" identifier="show concentration" id="NmQ-AJ-MLy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MvW-up-NaN" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -290,7 +290,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iJB-28-oBC" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1997.5999999999999" y="212.74362818590706"/>
+            <point key="canvasLocation" x="2798" y="212"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="BjF-VZ-XZK">
@@ -348,6 +348,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Edh-q8-fW8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1110" y="1011"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="w2P-Nn-P8t">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="q6J-Nf-Pec" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="FJ6-hX-Bkg">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="yPJ-0R-5Pp" kind="relationship" relationship="rootViewController" id="Myd-LM-Yfw"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gek-5f-9xl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1996" y="212"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
