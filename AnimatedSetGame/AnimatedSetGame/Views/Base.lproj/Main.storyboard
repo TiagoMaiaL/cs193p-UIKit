@@ -20,7 +20,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Matches: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dij-Em-JA7">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Matches: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dij-Em-JA7">
                                 <rect key="frame" x="229.5" y="487.5" width="130.5" height="24"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -67,6 +67,7 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="yfe-5a-bdO" secondAttribute="trailing" constant="15" id="7kN-Zc-Vtr"/>
                             <constraint firstItem="8VS-48-atU" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="9SX-Zy-y6t"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="8VS-48-atU" secondAttribute="trailing" constant="10" id="Cqa-pc-jYK"/>
+                            <constraint firstItem="dij-Em-JA7" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Fdd-gY-LJs" secondAttribute="trailing" constant="10" id="Crs-z9-FAx"/>
                             <constraint firstItem="yfe-5a-bdO" firstAttribute="top" secondItem="dij-Em-JA7" secondAttribute="bottom" constant="5" id="EZa-tL-SAv"/>
                             <constraint firstItem="dij-Em-JA7" firstAttribute="width" secondItem="yfe-5a-bdO" secondAttribute="width" id="Frj-1s-3Ci"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Fdd-gY-LJs" secondAttribute="bottom" constant="15" id="NHh-QK-UOI"/>
