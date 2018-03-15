@@ -12,11 +12,6 @@ import UIKit
 @IBDesignable
 class SetCardsContainerView: CardsContainerView {
   
-  // MARK: Properties
-  
-  /// The number of buttons to be displayed on a storyboard file with this view in it.
-  @IBInspectable private var numberOfButtonsForDisplay: Int = 0
-  
   // MARK: View life cycle
   
   override func layoutSubviews() {

@@ -241,6 +241,11 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sfv-Xy-i7j" customClass="ConcentrationCardsContainerView" customModule="AnimatedSetGamee" customModuleProvider="target">
                                 <rect key="frame" x="15" y="79" width="345" height="467"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="numberOfButtonsForDisplay">
+                                        <integer key="value" value="16"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="ZRw-Cj-1R7">
                                 <rect key="frame" x="16" y="566" width="343" height="42"/>
@@ -248,13 +253,13 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Flips: 0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zzI-zD-39K" userLabel="Flips count">
                                         <rect key="frame" x="0.0" y="0.0" width="167.5" height="42"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="35"/>
-                                        <color key="textColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Score: 0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ekc-rx-c5K" userLabel="Score count">
                                         <rect key="frame" x="175.5" y="0.0" width="167.5" height="42"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="35"/>
-                                        <color key="textColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -263,7 +268,7 @@
                                 </constraints>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="sfv-Xy-i7j" firstAttribute="top" secondItem="Fxs-K0-HMT" secondAttribute="top" constant="15" id="6yf-ZZ-7gl"/>
                             <constraint firstItem="Fxs-K0-HMT" firstAttribute="trailing" secondItem="ZRw-Cj-1R7" secondAttribute="trailing" constant="16" id="LMP-Ek-0N1"/>

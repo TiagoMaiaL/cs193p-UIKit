@@ -8,10 +8,9 @@
 
 import UIKit
 
+@IBDesignable
 class ConcentrationCardsContainerView: CardsContainerView {
 
-  // TODO: Prepare for IB.
-  
   // MARK: Initializer
   
   override func awakeFromNib() {
@@ -30,6 +29,20 @@ class ConcentrationCardsContainerView: CardsContainerView {
     dealingFromFrame = CGRect(origin: dealFromOrigin,
                               size: CGSize(width: 80,
                                            height: 120))
+  }
+  
+  override func prepareForInterfaceBuilder() {
+    super.prepareForInterfaceBuilder()
+    
+    addButtons(byAmount: numberOfButtonsForDisplay)
+    
+    respositionViews()
+    
+    for button in buttons {
+      button.isActive = true
+      button.isFaceUp = false
+      button.setNeedsDisplay()
+    }
   }
   
   // MARK: Imperatives

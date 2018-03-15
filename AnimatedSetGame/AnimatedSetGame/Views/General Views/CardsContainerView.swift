@@ -23,9 +23,13 @@ protocol CardsContainerViewDelegate {
 }
 
 /// A view holding card buttons.
+@IBDesignable
 class CardsContainerView: UIView, UIDynamicAnimatorDelegate {
 
   // MARK: Properties
+  
+  /// The number of buttons to be displayed on a storyboard file with this view in it.
+  @IBInspectable var numberOfButtonsForDisplay: Int = 0
   
   /// The container's delegate
   var delegate: CardsContainerViewDelegate?
