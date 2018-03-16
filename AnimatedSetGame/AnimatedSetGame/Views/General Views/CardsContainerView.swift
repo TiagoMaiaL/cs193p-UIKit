@@ -78,6 +78,11 @@ class CardsContainerView: UIView, UIDynamicAnimatorDelegate {
   /// Only one deal animation must be performed at a time.
   var isPerformingDealAnimation = false
   
+  /// The buttons that are going to be positioned in the grid.
+  var buttonsToPosition: [CardButton] {
+    return buttons
+  }
+  
   // MARK: Initializer
   
   override func awakeFromNib() {
@@ -92,7 +97,7 @@ class CardsContainerView: UIView, UIDynamicAnimatorDelegate {
     // Only updates the buttons frames if the centered rect has changed,
     // This will occur when orientation changes.
     // This check will prevent frame changes while
-    // the animator is doing it's job.
+    // the dynamic animator is doing it's job.
     if grid.frame != gridRect {
       updateViewsFrames()
     }
@@ -135,7 +140,7 @@ class CardsContainerView: UIView, UIDynamicAnimatorDelegate {
     
     for button in cardButtons {
       // Each button is hidden and face down by default.
-      button.alpha = 0
+      button.isActive = false
       button.isFaceUp = false
       
       addSubview(button)
@@ -151,18 +156,17 @@ class CardsContainerView: UIView, UIDynamicAnimatorDelegate {
   }
   
   /// Animates all empty cards to their original positions.
-  ///
   /// - Note: The animation is performed by taking a copy of
-  ///         each hidden button and animating them from the deck
+  ///         each inactive button and animating them from the deck
   ///         to their current position.
   func dealCardsWithAnimation() {
     // The animation is only performed if a previous one isn't happening.
-    // If two animations run at the same time, the frame is changed and the
+    // If two animations run at the same time, the frames are changed and the
     // animator doesn't handle this well.
     guard isPerformingDealAnimation == false else { return }
     
-    // The animation is only applied to the hidden cards.
-    guard buttons.filter({ $0.alpha == 0 }).count > 0 else { return }
+    // The animation is only applied to the inactive cards.
+    guard !buttons.filter({ !$0.isActive }).isEmpty else { return }
     
     // The animation now has taken place.
     isPerformingDealAnimation = true
@@ -171,19 +175,19 @@ class CardsContainerView: UIView, UIDynamicAnimatorDelegate {
       var dealAnimationDelay = 0.0
       
       for (i, button) in self.buttons.enumerated() {
-        // The deal animation is applied only to the hidden buttons.
-        if button.alpha != 0 { continue }
+        // The deal animation is applied only to the inactive buttons.
+        if button.isActive { continue }
         
         guard let currentFrame = self.grid[i] else { continue }
         
         button.isFaceUp = false
         
-        // Change the position and size to match the provided deck's frame.
+        // Changes the position and size to match the provided deck's frame.
         button.frame = self.dealingFromFrame
         self.bringSubview(toFront: button)
         
         // The card will appear on top of the deck.
-        button.alpha = 1
+        button.isActive = true
         
         let snapBehavior = UISnapBehavior(item: button,
                                           snapTo: currentFrame.center)
@@ -207,7 +211,6 @@ class CardsContainerView: UIView, UIDynamicAnimatorDelegate {
             }
           )
           
-          // Flips the card.
           Timer.scheduledTimer(withTimeInterval: 0.8, repeats: false) { _ in
             self.delegate?.didFinishDealingCard(button)
           }
@@ -254,7 +257,7 @@ class CardsContainerView: UIView, UIDynamicAnimatorDelegate {
   func respositionViews() {
     grid.frame = gridRect
     
-    for (i, button) in buttons/*.filter({ $0.isActive })*/.enumerated() {
+    for (i, button) in buttonsToPosition.enumerated() {
       if let frame = grid[i] {
         button.frame = frame
       }

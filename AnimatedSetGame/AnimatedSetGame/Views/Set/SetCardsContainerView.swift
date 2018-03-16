@@ -81,7 +81,7 @@ class SetCardsContainerView: CardsContainerView {
       addSubview(buttonCopy)
       
       // Hides the original button.
-      button.alpha = 0
+      button.isActive = false
     }
     
     // Starts animating by scaling each button.

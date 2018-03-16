@@ -256,8 +256,9 @@ class SetViewController: UIViewController, CardsContainerViewDelegate, SetGameDe
       return
     }
     
-    guard containerView.buttons.count == setGame.tableCards.count, !setGame.deck.isEmpty else {
+    guard containerView.buttons.count == setGame.tableCards.count else {
       containerView.removeInactiveCardButtons() {
+        self.displayCards()
         self.containerView.isUserInteractionEnabled = true
       }
       return
