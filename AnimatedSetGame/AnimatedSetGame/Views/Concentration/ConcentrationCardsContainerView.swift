@@ -14,7 +14,7 @@ class ConcentrationCardsContainerView: CardsContainerView {
   // MARK: Properties
   
   override var buttonsToPosition: [CardButton] {
-    return buttons.filter({ !$0.isActive })
+    return buttons.filter({ $0.isActive })
   }
   
   // MARK: Initializer
