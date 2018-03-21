@@ -13,39 +13,55 @@ class GallerySelectionTableViewController: UITableViewController {
 
   // MARK: Properties
   
+  /// The galleries for display.
+  private var galleries = [ImageGallery]()
+  
+  /// The deleted galleries.
+  private var deletedGalleries = [ImageGallery]()
+  
+  /// The table view's data.
+  private var galleriesSource: [[ImageGallery]] {
+    get {
+      var source = [galleries]
+      
+      if !deletedGalleries.isEmpty {
+        source.append(deletedGalleries)
+      }
+      
+      return source
+    }
+  }
+  
   // MARK: Life cycle
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    // TODO: pre-populate the data
     
-    // Uncomment the following line to preserve selection between presentations
-    // self.clearsSelectionOnViewWillAppear = false
+    galleries = [ImageGallery(images: [], title: "Gallery 1"),
+                 ImageGallery(images: [], title: "Gallery 2"),
+                 ImageGallery(images: [], title: "Gallery 3"),
+    ]
     
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem
   }
   
-  // MARK: - Table view data source
   
-  override func numberOfSections(in tableView: UITableView) -> Int {
-    // #warning Incomplete implementation, return the number of sections
-    return 0
+  // MARK: - Navigation
+  
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if let selectedCell = sender as? UITableViewCell {
+      if let indexPath = tableView.indexPath(for: selectedCell) {
+        
+        let selectedGallery = galleriesSource[indexPath.section][indexPath.row]
+        
+        if let navigationController = segue.destination as? UINavigationController {
+          if let displayController = navigationController.visibleViewController as? GalleryDisplayCollectionViewController {
+            displayController.gallery = selectedGallery
+          }
+        }
+      }
+    }
   }
-  
-  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    // #warning Incomplete implementation, return the number of rows
-    return 0
-  }
-  
-  /*
-   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-   let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-   
-   // Configure the cell...
-   
-   return cell
-   }
-   */
   
   /*
    // Override to support conditional editing of the table view.
@@ -82,14 +98,25 @@ class GallerySelectionTableViewController: UITableViewController {
    }
    */
   
-  /*
-   // MARK: - Navigation
-   
-   // In a storyboard-based application, you will often want to do a little preparation before navigation
-   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-   // Get the new view controller using segue.destinationViewController.
-   // Pass the selected object to the new view controller.
-   }
-   */
+  // MARK: - Table view data source
+  
+  override func numberOfSections(in tableView: UITableView) -> Int {
+    return galleriesSource.count
+  }
+  
+  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return galleriesSource[section].count
+  }
+  
+  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    let cell = tableView.dequeueReusableCell(withIdentifier: "galleryCell",
+                                             for: indexPath)
+    
+    let gallery = galleriesSource[indexPath.section][indexPath.row]
+    cell.textLabel?.text = gallery.title
+    
+    return cell
+  }
+
   
 }

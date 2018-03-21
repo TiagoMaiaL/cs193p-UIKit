@@ -23,7 +23,7 @@
             </objects>
             <point key="canvasLocation" x="-676" y="-291"/>
         </scene>
-        <!--Gallery Selection Table View Controller-->
+        <!--Galleries-->
         <scene sceneID="4O5-mM-avs">
             <objects>
                 <tableViewController id="I1E-Rj-5JE" customClass="GallerySelectionTableViewController" customModule="ImageGallery" customModuleProvider="target" sceneMemberID="viewController">
@@ -48,6 +48,9 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="E0V-0e-aac" kind="showDetail" id="cem-NY-kBB"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -55,7 +58,7 @@
                             <outlet property="delegate" destination="I1E-Rj-5JE" id="Cga-u3-EH9"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="6ic-Cf-Vic"/>
+                    <navigationItem key="navigationItem" title="Galleries" id="6ic-Cf-Vic"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fbr-Jv-pTu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -152,4 +155,7 @@
             <point key="canvasLocation" x="138.79941434846265" y="174.609375"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="cem-NY-kBB"/>
+    </inferredMetricsTieBreakers>
 </document>

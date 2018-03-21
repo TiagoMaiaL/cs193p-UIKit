@@ -28,4 +28,7 @@ struct ImageGallery {
   /// The gallery's images.
   var images: [Image]
   
+  /// The gallery's title.
+  var title: String
+  
 }
