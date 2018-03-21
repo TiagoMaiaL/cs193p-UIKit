@@ -69,7 +69,7 @@
             <objects>
                 <viewController id="W1r-A5-5Gj" customClass="ImageDisplayViewController" customModule="ImageGallery" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6fn-s7-bMr">
-                        <rect key="frame" x="0.0" y="0.0" width="1366" height="1024"/>
+                        <rect key="frame" x="0.0" y="0.0" width="990.5" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <viewLayoutGuide key="safeArea" id="2jb-8o-tnn"/>
@@ -112,7 +112,7 @@
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="wb4-aR-cDb">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="imageCell" id="wb4-aR-cDb" customClass="ImageCollectionViewCell" customModule="ImageGallery" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="200" height="300"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
@@ -120,10 +120,10 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ltH-0a-GH2">
-                                            <rect key="frame" x="0.0" y="0.0" width="200" height="300"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="0.0" height="300"/>
                                         </imageView>
                                         <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="GxW-eQ-Yur">
-                                            <rect key="frame" x="90.5" y="140" width="20" height="20"/>
+                                            <rect key="frame" x="-10" y="140" width="20" height="20"/>
                                         </activityIndicatorView>
                                     </subviews>
                                 </view>
@@ -135,6 +135,11 @@
                                     <constraint firstItem="GxW-eQ-Yur" firstAttribute="centerX" secondItem="wb4-aR-cDb" secondAttribute="centerX" id="r7M-Xu-Ftf"/>
                                     <constraint firstItem="ltH-0a-GH2" firstAttribute="top" secondItem="wb4-aR-cDb" secondAttribute="top" id="rBL-bm-FxH"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="activityIndicator" destination="GxW-eQ-Yur" id="wCT-K0-Zq0"/>
+                                    <outlet property="imageView" destination="ltH-0a-GH2" id="Jj6-vm-0ip"/>
+                                    <segue destination="W1r-A5-5Gj" kind="show" id="gWI-Rz-HEY"/>
+                                </connections>
                             </collectionViewCell>
                         </cells>
                         <connections>

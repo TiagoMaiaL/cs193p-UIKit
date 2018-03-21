@@ -16,6 +16,7 @@
 		474E62992062D036002E1E00 /* GalleryDisplayCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474E62982062D036002E1E00 /* GalleryDisplayCollectionViewController.swift */; };
 		474E629B2062D046002E1E00 /* ImageDisplayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474E629A2062D046002E1E00 /* ImageDisplayViewController.swift */; };
 		474E62A12062D0BE002E1E00 /* ImageGallery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474E62A02062D0BE002E1E00 /* ImageGallery.swift */; };
+		47EA0E0E206307B20032CB98 /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EA0E0D206307B20032CB98 /* ImageCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +43,7 @@
 		474E62982062D036002E1E00 /* GalleryDisplayCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryDisplayCollectionViewController.swift; sourceTree = "<group>"; };
 		474E629A2062D046002E1E00 /* ImageDisplayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDisplayViewController.swift; sourceTree = "<group>"; };
 		474E62A02062D0BE002E1E00 /* ImageGallery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGallery.swift; sourceTree = "<group>"; };
+		47EA0E0D206307B20032CB98 /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +127,7 @@
 			isa = PBXGroup;
 			children = (
 				474E62792062CD31002E1E00 /* Main.storyboard */,
+				47EA0E0D206307B20032CB98 /* ImageCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -240,6 +243,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				47EA0E0E206307B20032CB98 /* ImageCollectionViewCell.swift in Sources */,
 				474E62762062CD31002E1E00 /* AppDelegate.swift in Sources */,
 				474E62A12062D0BE002E1E00 /* ImageGallery.swift in Sources */,
 				474E62972062CFF0002E1E00 /* GallerySelectionTableViewController.swift in Sources */,
