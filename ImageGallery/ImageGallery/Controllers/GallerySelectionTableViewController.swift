@@ -36,7 +36,6 @@ class GallerySelectionTableViewController: UITableViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    // TODO: pre-populate the data
     
     galleries = [ImageGallery(images: [], title: "Gallery 1"),
                  ImageGallery(images: [], title: "Gallery 2"),
