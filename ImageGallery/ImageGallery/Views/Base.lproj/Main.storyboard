@@ -23,10 +23,10 @@
             </objects>
             <point key="canvasLocation" x="-676" y="-291"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Gallery Selection Table View Controller-->
         <scene sceneID="4O5-mM-avs">
             <objects>
-                <tableViewController id="I1E-Rj-5JE" sceneMemberID="viewController">
+                <tableViewController id="I1E-Rj-5JE" customClass="GallerySelectionTableViewController" customModule="ImageGallery" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="6Q0-8G-JwU">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -61,10 +61,10 @@
             </objects>
             <point key="canvasLocation" x="835" y="-548"/>
         </scene>
-        <!--View Controller-->
+        <!--Image Display View Controller-->
         <scene sceneID="igS-5k-pth">
             <objects>
-                <viewController id="W1r-A5-5Gj" sceneMemberID="viewController">
+                <viewController id="W1r-A5-5Gj" customClass="ImageDisplayViewController" customModule="ImageGallery" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" misplaced="YES" id="6fn-s7-bMr">
                         <rect key="frame" x="0.0" y="0.0" width="1366" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -94,10 +94,10 @@
             </objects>
             <point key="canvasLocation" x="138.79941434846265" y="-548.4375"/>
         </scene>
-        <!--Collection View Controller-->
+        <!--Gallery Display Collection View Controller-->
         <scene sceneID="lj0-OD-YLi">
             <objects>
-                <collectionViewController id="d2J-Bw-SWY" sceneMemberID="viewController">
+                <collectionViewController id="d2J-Bw-SWY" customClass="GalleryDisplayCollectionViewController" customModule="ImageGallery" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="e90-Fc-QHi">
                         <rect key="frame" x="0.0" y="0.0" width="1366" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
