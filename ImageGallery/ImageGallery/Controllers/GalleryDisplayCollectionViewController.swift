@@ -10,7 +10,7 @@ import UIKit
 
 private let reuseIdentifier = "imageCell"
 
-class GalleryDisplayCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class GalleryDisplayCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDropDelegate {
 
   // MARK: Properties
   
@@ -28,13 +28,18 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
     super.viewDidLoad()
   }
   
+  override func loadView() {
+    super.loadView()
+    collectionView?.dropDelegate = self
+  }
+  
   // MARK: - Navigation
    
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     // TODO: prepare the detail controller.
   }
   
-  // MARK: UICollectionViewDataSource
+  // MARK: - Collection view data source
   
   override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return gallery?.images.count ?? 0
@@ -49,7 +54,7 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
 
       if imageCell.imageView.image == nil {
         // Code to download the image.
-        URLSession(configuration: .default).dataTask(with: galleryImage.imagePath, completionHandler: { (data, response, error) in
+        URLSession(configuration: .default).dataTask(with: galleryImage.imagePath.imageURL, completionHandler: { (data, response, error) in
           DispatchQueue.main.async {
             if let data = data, let image = UIImage(data: data) {
               imageCell.imageView.image = image
@@ -72,13 +77,13 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
     return cell
   }
   
-  // MARK: Layout delegate methods
+  // MARK: - Flow layout delegate
   
   func collectionView(_ collectionView: UICollectionView,
                       layout collectionViewLayout: UICollectionViewLayout,
                       sizeForItemAt indexPath: IndexPath) -> CGSize {
     let galleryImage = gallery.images[indexPath.item]
-    let itemWidth: Double = 200 // TODO: Change this later on.
+    let itemWidth: Double = 200 // TODO: Change this to be besed on the width of the collection view scrollable width.
     let defaultItemHeight: Double = 300
     
     if galleryImage.aspectRatio > 0 {
@@ -87,6 +92,52 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
     } else {
       return CGSize(width: itemWidth, height: defaultItemHeight)
     }
+  }
+  
+  // MARK: - Collection view drop delegate
+  
+  func collectionView(_ collectionView: UICollectionView, canHandle session: UIDropSession) -> Bool {
+    return session.canLoadObjects(ofClass: URL.self) && session.canLoadObjects(ofClass: UIImage.self)
+  }
+  
+  func collectionView(_ collectionView: UICollectionView,
+                      dropSessionDidUpdate session: UIDropSession,
+                      withDestinationIndexPath destinationIndexPath: IndexPath?
+    ) -> UICollectionViewDropProposal {
+    return UICollectionViewDropProposal(
+      operation: .copy,
+      intent: .insertAtDestinationIndexPath
+    )
+  }
+  
+  func collectionView(_ collectionView: UICollectionView,
+                      performDropWith coordinator: UICollectionViewDropCoordinator) {
+    // For now it's only going to accept drops from outside the app.
+    if let item = coordinator.items.last {
+      let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(item: 0, section: 0)
+      
+      let placeholderContext = coordinator.drop(
+        item.dragItem,
+        to: UICollectionViewDropPlaceholder(
+          insertionIndexPath: destinationIndexPath,
+          reuseIdentifier: reuseIdentifier
+        )
+      )
+      
+      _ = item.dragItem.itemProvider.loadObject(ofClass: URL.self) { (provider, error) in
+        DispatchQueue.main.async {
+          if let url = provider {
+            placeholderContext.commitInsertion { indexPath in
+              let draggedImage = ImageGallery.Image(imagePath: url, aspectRatio: 1)
+              self.gallery.images.insert(draggedImage, at: indexPath.item)
+            }
+          } else {
+            placeholderContext.deletePlaceholder()
+          }
+        }
+      }
+    }
+    
   }
   
 }

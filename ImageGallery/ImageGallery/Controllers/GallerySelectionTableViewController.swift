@@ -32,16 +32,15 @@ class GallerySelectionTableViewController: UITableViewController {
     }
   }
   
-  // MARK: Life cycle
+  // MARK: - Life cycle
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    galleries = [ImageGallery(images: [ImageGallery.Image(imagePath: URL(string: "https://images.pexels.com/photos/459225/pexels-photo-459225.jpeg?auto=compress&cs=tinysrgb&h=350")!, aspectRatio: 1)], title: "Gallery 1"),
+    galleries = [ImageGallery(images: [], title: "Gallery 1"),
                  ImageGallery(images: [], title: "Gallery 2"),
                  ImageGallery(images: [], title: "Gallery 3"),
     ]
-    
   }
   
   
