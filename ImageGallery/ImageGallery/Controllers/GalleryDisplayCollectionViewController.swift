@@ -47,28 +47,32 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
       var galleryImage = gallery.images[indexPath.item]
       imageCell.isLoading = true
 
-      // Code to download the image.
-      URLSession(configuration: .default).dataTask(with: galleryImage.imagePath, completionHandler: { (data, response, error) in
-        DispatchQueue.main.async {
-          if let data = data, let image = UIImage(data: data) {
-            imageCell.imageView.image = image
-
-            if let cgImage = image.cgImage {
-              let imageHeight = cgImage.height
-              let imageWidth = cgImage.width
+      if imageCell.imageView.image == nil {
+        // Code to download the image.
+        URLSession(configuration: .default).dataTask(with: galleryImage.imagePath, completionHandler: { (data, response, error) in
+          DispatchQueue.main.async {
+            if let data = data, let image = UIImage(data: data) {
+              imageCell.imageView.image = image
               
-              galleryImage.aspectRatio = Double(imageWidth / imageHeight)
-              self.gallery.images[indexPath.item] = galleryImage
+              if let cgImage = image.cgImage {
+                let imageHeight = cgImage.height
+                let imageWidth = cgImage.width
+                
+                galleryImage.aspectRatio = Double(imageWidth / imageHeight)
+                self.gallery.images[indexPath.item] = galleryImage
+              }
             }
+            imageCell.isLoading = false
           }
-          imageCell.isLoading = false
-        }
-      }).resume()
-    
+        }).resume()
+      }
+
     }
     
     return cell
   }
+  
+  // MARK: Layout delegate methods
   
   func collectionView(_ collectionView: UICollectionView,
                       layout collectionViewLayout: UICollectionViewLayout,
@@ -84,36 +88,5 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
       return CGSize(width: itemWidth, height: defaultItemHeight)
     }
   }
-  
-  // MARK: UICollectionViewDelegate
-  
-  /*
-   // Uncomment this method to specify if the specified item should be highlighted during tracking
-   override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-   return true
-   }
-   */
-  
-  /*
-   // Uncomment this method to specify if the specified item should be selected
-   override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-   return true
-   }
-   */
-  
-  /*
-   // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-   override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-   return false
-   }
-   
-   override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-   return false
-   }
-   
-   override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
-   
-   }
-   */
   
 }
