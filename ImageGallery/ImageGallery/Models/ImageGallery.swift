@@ -20,7 +20,7 @@ struct ImageGallery {
     let imagePath: URL
     
     /// The image's aspect ratio.
-    let aspectRatio: Double
+    var aspectRatio: Double
   }
   
   // MARK: Properties

@@ -10,7 +10,7 @@ import UIKit
 
 private let reuseIdentifier = "imageCell"
 
-class GalleryDisplayCollectionViewController: UICollectionViewController {
+class GalleryDisplayCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
   // MARK: Properties
   
@@ -44,14 +44,22 @@ class GalleryDisplayCollectionViewController: UICollectionViewController {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
     
     if let imageCell = cell as? ImageCollectionViewCell {
-      let image = gallery.images[indexPath.row]
+      var galleryImage = gallery.images[indexPath.item]
       imageCell.isLoading = true
 
       // Code to download the image.
-      URLSession(configuration: .default).dataTask(with: image.imagePath, completionHandler: { (data, response, error) in
+      URLSession(configuration: .default).dataTask(with: galleryImage.imagePath, completionHandler: { (data, response, error) in
         DispatchQueue.main.async {
           if let data = data, let image = UIImage(data: data) {
             imageCell.imageView.image = image
+
+            if let cgImage = image.cgImage {
+              let imageHeight = cgImage.height
+              let imageWidth = cgImage.width
+              
+              galleryImage.aspectRatio = Double(imageWidth / imageHeight)
+              self.gallery.images[indexPath.item] = galleryImage
+            }
           }
           imageCell.isLoading = false
         }
@@ -60,6 +68,21 @@ class GalleryDisplayCollectionViewController: UICollectionViewController {
     }
     
     return cell
+  }
+  
+  func collectionView(_ collectionView: UICollectionView,
+                      layout collectionViewLayout: UICollectionViewLayout,
+                      sizeForItemAt indexPath: IndexPath) -> CGSize {
+    let galleryImage = gallery.images[indexPath.item]
+    let itemWidth: Double = 200 // TODO: Change this later on.
+    let defaultItemHeight: Double = 300
+    
+    if galleryImage.aspectRatio > 0 {
+      let itemHeight = itemWidth / galleryImage.aspectRatio
+      return CGSize(width: itemWidth, height: itemHeight)
+    } else {
+      return CGSize(width: itemWidth, height: defaultItemHeight)
+    }
   }
   
   // MARK: UICollectionViewDelegate
