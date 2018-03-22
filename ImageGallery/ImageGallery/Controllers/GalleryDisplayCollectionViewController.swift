@@ -8,7 +8,7 @@
 
 import UIKit
 
-private let reuseIdentifier = "Cell"
+private let reuseIdentifier = "imageCell"
 
 class GalleryDisplayCollectionViewController: UICollectionViewController {
 
@@ -26,30 +26,38 @@ class GalleryDisplayCollectionViewController: UICollectionViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
-    // Register cell classes
-    // TODO: Check if this is going to be necessary.
-    self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
   }
   
   // MARK: - Navigation
    
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    // TODO: prepare the detail controller.
   }
-
   
   // MARK: UICollectionViewDataSource
   
   override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return gallery.images.count
+    return gallery?.images.count ?? 0
   }
   
   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
     
-    // Configure the cell
+    if let imageCell = cell as? ImageCollectionViewCell {
+      let image = gallery.images[indexPath.row]
+      imageCell.isLoading = true
+
+      // Code to download the image.
+      URLSession(configuration: .default).dataTask(with: image.imagePath, completionHandler: { (data, response, error) in
+        DispatchQueue.main.async {
+          if let data = data, let image = UIImage(data: data) {
+            imageCell.imageView.image = image
+          }
+          imageCell.isLoading = false
+        }
+      }).resume()
+    
+    }
     
     return cell
   }
