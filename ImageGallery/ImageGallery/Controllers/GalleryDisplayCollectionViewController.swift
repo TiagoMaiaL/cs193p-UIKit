@@ -18,7 +18,7 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
   var gallery: ImageGallery! {
     didSet {
       title = gallery?.title
-      collectionView?.reloadData()
+//      collectionView?.reloadData()
     }
   }
   
@@ -60,22 +60,14 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
     
-    if let imageCell = cell as? ImageCollectionViewCell,
-       let galleryImage = getImage(at: indexPath) {
-      imageCell.isLoading = true
-
-      if imageCell.imageView.image == nil, galleryImage.imagePath != nil {
-        // Code to download the image.
-        URLSession(configuration: .default).dataTask(with: galleryImage.imagePath!.imageURL, completionHandler: { (data, response, error) in
-          DispatchQueue.main.async {
-            if let data = data, let image = UIImage(data: data) {
-              imageCell.imageView.image = image
-            }
-            imageCell.isLoading = false
-          }
-        }).resume()
+    guard let galleryImage = getImage(at: indexPath) else {
+      return cell
+    }
+    
+    if let imageCell = cell as? ImageCollectionViewCell {
+      if let data = galleryImage.imageData, let image = UIImage(data: data) {
+        imageCell.imageView.image = image
       }
-
     }
     
     return cell
@@ -137,28 +129,36 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
         DispatchQueue.main.async {
           if let image = provider as? UIImage {
             self.gallery.images[destinationIndexPath.item].aspectRatio = image.aspectRatio
+            placeholderContext.setNeedsCellUpdate()
           }
         }
       }
       
+      // TODO: So many nested blocks. Refactor this code.
       // Loads the URL.
       _ = item.dragItem.itemProvider.loadObject(ofClass: URL.self) { (provider, error) in
-        DispatchQueue.main.async {
-          if let url = provider {
-            // TODO: Set the image url.
-            // Request it now?
-            placeholderContext.commitInsertion { indexPath in
-              self.gallery.images[destinationIndexPath.item].imagePath = url
+        
+        if let url = provider?.imageURL {
+          self.gallery.images[destinationIndexPath.item].imagePath = url
+          
+          // Downloads the image from the fetched url.
+          URLSession(configuration: .default).dataTask(with: url) { (data, response, error) in
+            DispatchQueue.main.async {
+              if let data = data {
+                placeholderContext.commitInsertion {
+                  self.gallery.images[$0.item].imageData = data
+                }
+              } else {
+                // There was an error. Remove placeholder.
+                placeholderContext.deletePlaceholder()
+              }
             }
-          } else {
-            placeholderContext.deletePlaceholder()
-          }
+          }.resume()
+          
         }
+        
       }
-      
-      
     }
-    
   }
   
 }

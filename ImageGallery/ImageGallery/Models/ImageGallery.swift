@@ -14,16 +14,26 @@ struct ImageGallery {
   /// Model representing a gallery's image.
   struct Image {
     
-    // MARK: Properties
+    // MARK: - Properties
     
     /// The image's URL.
     var imagePath: URL?
     
     /// The image's aspect ratio.
     var aspectRatio: Double
+    
+    /// The fetched image's data.
+    var imageData: Data?
+    
+    /// MARK: - Initializer
+    
+    init(imagePath: URL?, aspectRatio: Double) {
+      self.imagePath = imagePath
+      self.aspectRatio = aspectRatio
+    }
   }
   
-  // MARK: Properties
+  // MARK: - Properties
   
   /// The gallery's images.
   var images: [Image]
