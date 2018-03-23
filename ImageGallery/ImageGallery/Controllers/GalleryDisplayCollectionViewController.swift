@@ -35,7 +35,13 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
   // MARK: - Navigation
    
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    // TODO: prepare the detail controller.
+    if let destination = segue.destination as? ImageDisplayViewController {
+      let cell = sender as! UICollectionViewCell
+      if let indexPath = collectionView?.indexPath(for: cell) {
+        let selectedImage = getImage(at: indexPath)
+        destination.image = selectedImage
+      }
+    }
   }
   
   // MARK: - Imperatives
