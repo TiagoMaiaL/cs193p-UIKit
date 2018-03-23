@@ -123,6 +123,7 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
       insertImage(draggedImage, at: destinationIndexPath)
       
       // Loads the image.
+      // TODO: Check if it's possible to add the placeholder only after figuring out what's the aspect ratio.
       _ = item.dragItem.itemProvider.loadObject(ofClass: UIImage.self){ (provider, error) in
         DispatchQueue.main.async {
           if let image = provider as? UIImage {
