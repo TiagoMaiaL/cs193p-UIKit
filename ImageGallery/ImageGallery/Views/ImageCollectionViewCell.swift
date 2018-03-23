@@ -11,6 +11,8 @@ import UIKit
 /// The cell in charge of displaying a single image of the gallery.
 class ImageCollectionViewCell: UICollectionViewCell {
 
+  // MARK: - Properties
+  
   /// The cell's image view.
   @IBOutlet weak var imageView: UIImageView!
   
@@ -22,6 +24,13 @@ class ImageCollectionViewCell: UICollectionViewCell {
     didSet {
       activityIndicator.isHidden = !isLoading
     }
+  }
+  
+  // MARK: - Life cycle
+  
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    imageView.image = nil
   }
   
 }

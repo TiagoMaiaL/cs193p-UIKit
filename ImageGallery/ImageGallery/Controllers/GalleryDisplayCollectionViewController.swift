@@ -17,7 +17,7 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
   /// The gallery to be displayed.
   var gallery: ImageGallery! {
     didSet {
-      title = gallery.title
+      title = gallery?.title
       collectionView?.reloadData()
     }
   }
@@ -39,6 +39,18 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
     // TODO: prepare the detail controller.
   }
   
+  // MARK: - Imperatives
+  
+  /// Returns the image at the provided indexPath.
+  private func getImage(at indexPath: IndexPath) -> ImageGallery.Image? {
+    return gallery?.images[indexPath.item]
+  }
+  
+  /// Inserts the provided image at the provided indexPath.
+  private func insertImage(_ image: ImageGallery.Image, at indexPath: IndexPath) {
+    gallery?.images.insert(image, at: indexPath.item)
+  }
+  
   // MARK: - Collection view data source
   
   override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -48,24 +60,16 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
     
-    if let imageCell = cell as? ImageCollectionViewCell {
-      var galleryImage = gallery.images[indexPath.item]
+    if let imageCell = cell as? ImageCollectionViewCell,
+       let galleryImage = getImage(at: indexPath) {
       imageCell.isLoading = true
 
-      if imageCell.imageView.image == nil {
+      if imageCell.imageView.image == nil, galleryImage.imagePath != nil {
         // Code to download the image.
-        URLSession(configuration: .default).dataTask(with: galleryImage.imagePath.imageURL, completionHandler: { (data, response, error) in
+        URLSession(configuration: .default).dataTask(with: galleryImage.imagePath!.imageURL, completionHandler: { (data, response, error) in
           DispatchQueue.main.async {
             if let data = data, let image = UIImage(data: data) {
               imageCell.imageView.image = image
-              
-              if let cgImage = image.cgImage {
-                let imageHeight = cgImage.height
-                let imageWidth = cgImage.width
-                
-                galleryImage.aspectRatio = Double(imageWidth / imageHeight)
-                self.gallery.images[indexPath.item] = galleryImage
-              }
             }
             imageCell.isLoading = false
           }
@@ -124,18 +128,35 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
         )
       )
       
+      // Creates a new image to hold the place for the dragged one.
+      let draggedImage = ImageGallery.Image(imagePath: nil, aspectRatio: 1)
+      insertImage(draggedImage, at: destinationIndexPath)
+      
+      // Loads the image.
+      _ = item.dragItem.itemProvider.loadObject(ofClass: UIImage.self){ (provider, error) in
+        DispatchQueue.main.async {
+          if let image = provider as? UIImage {
+            self.gallery.images[destinationIndexPath.item].aspectRatio = image.aspectRatio
+          }
+        }
+      }
+      
+      // Loads the URL.
       _ = item.dragItem.itemProvider.loadObject(ofClass: URL.self) { (provider, error) in
         DispatchQueue.main.async {
           if let url = provider {
+            // TODO: Set the image url.
+            // Request it now?
             placeholderContext.commitInsertion { indexPath in
-              let draggedImage = ImageGallery.Image(imagePath: url, aspectRatio: 1)
-              self.gallery.images.insert(draggedImage, at: indexPath.item)
+              self.gallery.images[destinationIndexPath.item].imagePath = url
             }
           } else {
             placeholderContext.deletePlaceholder()
           }
         }
       }
+      
+      
     }
     
   }
