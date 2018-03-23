@@ -135,8 +135,8 @@ extension UIImage
   /// Returns the aspect ratio of the passed UIImage.
   var aspectRatio: Double {
     if let cgImage = cgImage {
-      let imageHeight = cgImage.height
-      let imageWidth = cgImage.width
+      let imageHeight = Double(cgImage.height)
+      let imageWidth = Double(cgImage.width)
       
       return Double(imageWidth / imageHeight)
     } else {

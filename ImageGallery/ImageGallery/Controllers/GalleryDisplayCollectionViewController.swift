@@ -18,7 +18,6 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
   var gallery: ImageGallery! {
     didSet {
       title = gallery?.title
-//      collectionView?.reloadData()
     }
   }
   
@@ -79,15 +78,11 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
                       layout collectionViewLayout: UICollectionViewLayout,
                       sizeForItemAt indexPath: IndexPath) -> CGSize {
     let galleryImage = gallery.images[indexPath.item]
-    let itemWidth: Double = 200 // TODO: Change this to be besed on the width of the collection view scrollable width.
-    let defaultItemHeight: Double = 300
     
-    if galleryImage.aspectRatio > 0 {
-      let itemHeight = itemWidth / galleryImage.aspectRatio
-      return CGSize(width: itemWidth, height: itemHeight)
-    } else {
-      return CGSize(width: itemWidth, height: defaultItemHeight)
-    }
+    let itemWidth: Double = 200 // TODO: Change this to be besed on the width of the collection view scrollable width.
+    let itemHeight = itemWidth / galleryImage.aspectRatio
+    
+    return CGSize(width: itemWidth, height: itemHeight)
   }
   
   // MARK: - Collection view drop delegate
@@ -149,7 +144,7 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
                   self.gallery.images[$0.item].imageData = data
                 }
               } else {
-                // There was an error. Remove placeholder.
+                // There was an error. Remove the placeholder.
                 placeholderContext.deletePlaceholder()
               }
             }
