@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ImageDisplayViewController: UIViewController {
+class ImageDisplayViewController: UIViewController, UIScrollViewDelegate {
 
   // MARK: - Properties
   
@@ -16,7 +16,12 @@ class ImageDisplayViewController: UIViewController {
   @IBOutlet weak var imageView: UIImageView!
   
   /// The scrollView containing the view.
-  @IBOutlet weak var scrollView: UIScrollView!
+  @IBOutlet weak var scrollView: UIScrollView! {
+    didSet {
+      scrollView.minimumZoomScale = 1/8
+      scrollView.maximumZoomScale = 1
+    }
+  }
   
   /// The height constraint used to keep the image centered after the zoom.
   @IBOutlet weak var scrollViewHeight: NSLayoutConstraint!
@@ -39,5 +44,11 @@ class ImageDisplayViewController: UIViewController {
     if let data = image.imageData {
       imageView?.image = UIImage(data: data)
     }
+  }
+  
+  // MARK: - scroll view delegate
+  
+  func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+    return imageView
   }
 }
