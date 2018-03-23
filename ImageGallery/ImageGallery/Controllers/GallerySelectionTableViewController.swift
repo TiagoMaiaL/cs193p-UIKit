@@ -32,6 +32,11 @@ class GallerySelectionTableViewController: UITableViewController {
     }
   }
   
+  /// The split's detail controller, if set.
+  private var detailController: GalleryDisplayCollectionViewController? {
+    return splitViewController?.viewControllers.last?.contents as? GalleryDisplayCollectionViewController
+  }
+  
   // MARK: - Life cycle
   
   override func viewDidLoad() {
@@ -41,6 +46,11 @@ class GallerySelectionTableViewController: UITableViewController {
                  ImageGallery(images: [], title: "Gallery 2"),
                  ImageGallery(images: [], title: "Gallery 3"),
     ]
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    detailController?.gallery = galleries.first
   }
   
   

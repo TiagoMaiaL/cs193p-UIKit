@@ -20,9 +20,13 @@ class ImageCollectionViewCell: UICollectionViewCell {
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
   /// The cell's loading flag.
-  var isLoading = false {
+  var isLoading = true {
     didSet {
-      activityIndicator.isHidden = !isLoading
+      if isLoading {
+        activityIndicator.startAnimating()
+      } else {
+        activityIndicator.stopAnimating()
+      }
     }
   }
   
@@ -30,7 +34,7 @@ class ImageCollectionViewCell: UICollectionViewCell {
   
   override func prepareForReuse() {
     super.prepareForReuse()
-//    imageView.image = nil
+    isLoading = false
   }
   
 }

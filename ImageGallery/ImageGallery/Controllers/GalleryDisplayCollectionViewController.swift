@@ -12,7 +12,7 @@ private let reuseIdentifier = "imageCell"
 
 class GalleryDisplayCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDropDelegate {
 
-  // MARK: Properties
+  // MARK: - Properties
   
   /// The gallery to be displayed.
   var gallery: ImageGallery! {
@@ -21,7 +21,7 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
     }
   }
   
-  // MARK: Life Cycle
+  // MARK: - Life Cycle
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -66,6 +66,9 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
     if let imageCell = cell as? ImageCollectionViewCell {
       if let data = galleryImage.imageData, let image = UIImage(data: data) {
         imageCell.imageView.image = image
+        imageCell.isLoading = false
+      } else {
+        imageCell.isLoading = true
       }
     }
     
