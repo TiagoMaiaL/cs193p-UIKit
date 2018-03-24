@@ -18,6 +18,7 @@
 		474E62A12062D0BE002E1E00 /* ImageGallery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474E62A02062D0BE002E1E00 /* ImageGallery.swift */; };
 		47EA0E0E206307B20032CB98 /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EA0E0D206307B20032CB98 /* ImageCollectionViewCell.swift */; };
 		47EA0E1020631ACA0032CB98 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EA0E0F20631AC90032CB98 /* Utilities.swift */; };
+		47EA0E13206702F30032CB98 /* ImageGalleryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EA0E12206702F30032CB98 /* ImageGalleryStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,7 @@
 		474E62A02062D0BE002E1E00 /* ImageGallery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGallery.swift; sourceTree = "<group>"; };
 		47EA0E0D206307B20032CB98 /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		47EA0E0F20631AC90032CB98 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		47EA0E12206702F30032CB98 /* ImageGalleryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGalleryStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +89,7 @@
 		474E62742062CD31002E1E00 /* ImageGallery */ = {
 			isa = PBXGroup;
 			children = (
+				47EA0E11206702D50032CB98 /* Stores */,
 				474E629F2062D0A0002E1E00 /* Models */,
 				474E629D2062D05E002E1E00 /* Controllers */,
 				474E629E2062D06B002E1E00 /* Views */,
@@ -141,6 +144,14 @@
 				474E62A02062D0BE002E1E00 /* ImageGallery.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		47EA0E11206702D50032CB98 /* Stores */ = {
+			isa = PBXGroup;
+			children = (
+				47EA0E12206702F30032CB98 /* ImageGalleryStore.swift */,
+			);
+			path = Stores;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -248,6 +259,7 @@
 			files = (
 				47EA0E0E206307B20032CB98 /* ImageCollectionViewCell.swift in Sources */,
 				474E62762062CD31002E1E00 /* AppDelegate.swift in Sources */,
+				47EA0E13206702F30032CB98 /* ImageGalleryStore.swift in Sources */,
 				47EA0E1020631ACA0032CB98 /* Utilities.swift in Sources */,
 				474E62A12062D0BE002E1E00 /* ImageGallery.swift in Sources */,
 				474E62972062CFF0002E1E00 /* GallerySelectionTableViewController.swift in Sources */,

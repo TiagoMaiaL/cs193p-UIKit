@@ -9,7 +9,7 @@
 import Foundation
 
 /// Model representing a gallery with it's images.
-struct ImageGallery {
+struct ImageGallery: Hashable {
   
   /// Model representing a gallery's image.
   struct Image {
@@ -35,10 +35,23 @@ struct ImageGallery {
   
   // MARK: - Properties
   
+  /// The gallery's identifier.
+  let identifier: String = UUID().uuidString
+  
   /// The gallery's images.
   var images: [Image]
   
   /// The gallery's title.
   var title: String
+  
+  // MARK: - Hashable implementation
+  
+  var hashValue: Int {
+    return identifier.hashValue
+  }
+  
+  static func ==(lhs: ImageGallery, rhs: ImageGallery) -> Bool {
+    return lhs.identifier == rhs.identifier
+  }
   
 }
