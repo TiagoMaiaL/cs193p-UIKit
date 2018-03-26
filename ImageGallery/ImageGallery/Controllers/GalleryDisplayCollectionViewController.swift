@@ -26,6 +26,11 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
     }
   }
   
+  /// The width of each cell in the collection view.
+  var itemWidth: CGFloat {
+    return ((collectionView?.frame.size.width ?? 0) / 2) - 25
+  }
+  
   // MARK: - Life Cycle
   
   override func viewDidLoad() {
@@ -93,9 +98,7 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
                       layout collectionViewLayout: UICollectionViewLayout,
                       sizeForItemAt indexPath: IndexPath) -> CGSize {
     let galleryImage = gallery.images[indexPath.item]
-    
-    let itemWidth: Double = 200 // TODO: Change this to be besed on the width of the collection view scrollable width.
-    let itemHeight = itemWidth / galleryImage.aspectRatio
+    let itemHeight = itemWidth / CGFloat(galleryImage.aspectRatio)
     
     return CGSize(width: itemWidth, height: itemHeight)
   }
