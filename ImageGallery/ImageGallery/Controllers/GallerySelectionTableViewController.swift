@@ -66,13 +66,21 @@ class GallerySelectionTableViewController: UITableViewController {
     }
   }
   
+  // MARK: - Imperatives
+  
+  private func getGallery(at indexPath: IndexPath) -> ImageGallery? {
+    return galleriesSource[indexPath.section][indexPath.row]
+  }
+  
   // MARK: - Table view data source
   
   override func numberOfSections(in tableView: UITableView) -> Int {
+    print("sections: - \(galleriesSource.count)")
     return galleriesSource.count
   }
   
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    print("rows: - \(galleriesSource[section].count) in section: - \(section)")
     return galleriesSource[section].count
   }
   
@@ -85,6 +93,33 @@ class GallerySelectionTableViewController: UITableViewController {
     
     return cell
   }
-
+  
+  override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    switch editingStyle {
+    case .delete:
+      if let deletedGallery = getGallery(at: indexPath) {
+        
+        self.galleriesStore?.removeGallery(deletedGallery)
+        tableView.reloadData()
+        
+        // TODO: Make animations work.
+//        tableView.deleteRows(at: [indexPath], with: .fade)
+      }
+      break
+      
+    default:
+      break
+    }
+  }
+  
+  // MARK: - Table view delegate
+  
+  override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    if section == 1 {
+      return "Deleted"
+    } else {
+      return nil
+    }
+  }
   
 }
