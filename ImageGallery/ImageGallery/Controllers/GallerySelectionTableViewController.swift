@@ -74,6 +74,10 @@ class GallerySelectionTableViewController: UITableViewController {
     galleriesStore?.addNewGallery()
   }
   
+  @IBAction func didDoubleTap(_ sender: UITapGestureRecognizer) {
+    print("did double tap")
+  }
+  
   // MARK: - Imperatives
   
   private func getGallery(at indexPath: IndexPath) -> ImageGallery? {
@@ -97,7 +101,9 @@ class GallerySelectionTableViewController: UITableViewController {
                                              for: indexPath)
     
     let gallery = galleriesSource[indexPath.section][indexPath.row]
-    cell.textLabel?.text = gallery.title
+    if let galleryCell = cell as? GallerySelectionTableViewCell {
+      galleryCell.title = gallery.title
+    }
     
     return cell
   }

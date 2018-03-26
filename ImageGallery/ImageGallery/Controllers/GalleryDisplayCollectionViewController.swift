@@ -115,12 +115,6 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
     var dragItems = [UIDragItem]()
     
     if let galleryImage = getImage(at: indexPath) {
-//      if let imageData = galleryImage.imageData, let image = UIImage(data: imageData) {
-//        let imageItem = UIDragItem(itemProvider: NSItemProvider(object: image))
-//        imageItem.localObject = galleryImage
-//        dragItems.append(imageItem)
-//      }
-      
       if let imageURL = galleryImage.imagePath as NSURL? {
         let urlItem = UIDragItem(itemProvider: NSItemProvider(object: imageURL))
         urlItem.localObject = galleryImage
@@ -136,7 +130,6 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
   func collectionView(_ collectionView: UICollectionView, canHandle session: UIDropSession) -> Bool {
     if collectionView.hasActiveDrag {
       // if the drag is from this collection view, the image isn't needed.
-      print("=D")
       return session.canLoadObjects(ofClass: URL.self)
     } else {
       return session.canLoadObjects(ofClass: URL.self) && session.canLoadObjects(ofClass: UIImage.self)

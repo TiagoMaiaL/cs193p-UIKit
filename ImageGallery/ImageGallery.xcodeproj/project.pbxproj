@@ -19,6 +19,7 @@
 		47EA0E0E206307B20032CB98 /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EA0E0D206307B20032CB98 /* ImageCollectionViewCell.swift */; };
 		47EA0E1020631ACA0032CB98 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EA0E0F20631AC90032CB98 /* Utilities.swift */; };
 		47EA0E13206702F30032CB98 /* ImageGalleryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EA0E12206702F30032CB98 /* ImageGalleryStore.swift */; };
+		47EA0E1520698B1E0032CB98 /* GallerySelectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EA0E1420698B1E0032CB98 /* GallerySelectionTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,7 @@
 		47EA0E0D206307B20032CB98 /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		47EA0E0F20631AC90032CB98 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		47EA0E12206702F30032CB98 /* ImageGalleryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGalleryStore.swift; sourceTree = "<group>"; };
+		47EA0E1420698B1E0032CB98 /* GallerySelectionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GallerySelectionTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +136,7 @@
 			children = (
 				474E62792062CD31002E1E00 /* Main.storyboard */,
 				47EA0E0D206307B20032CB98 /* ImageCollectionViewCell.swift */,
+				47EA0E1420698B1E0032CB98 /* GallerySelectionTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -259,6 +262,7 @@
 			files = (
 				47EA0E0E206307B20032CB98 /* ImageCollectionViewCell.swift in Sources */,
 				474E62762062CD31002E1E00 /* AppDelegate.swift in Sources */,
+				47EA0E1520698B1E0032CB98 /* GallerySelectionTableViewCell.swift in Sources */,
 				47EA0E13206702F30032CB98 /* ImageGalleryStore.swift in Sources */,
 				47EA0E1020631ACA0032CB98 /* Utilities.swift in Sources */,
 				474E62A12062D0BE002E1E00 /* ImageGallery.swift in Sources */,

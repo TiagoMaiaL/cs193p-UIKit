@@ -27,28 +27,35 @@
         <scene sceneID="4O5-mM-avs">
             <objects>
                 <tableViewController id="I1E-Rj-5JE" customClass="GallerySelectionTableViewController" customModule="ImageGallery" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="6Q0-8G-JwU">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="6Q0-8G-JwU">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="galleryCell" textLabel="gRP-Bo-9EI" style="IBUITableViewCellStyleDefault" id="JR2-jF-B7e">
-                                <rect key="frame" x="0.0" y="28" width="375" height="52"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="galleryCell" rowHeight="50" id="JR2-jF-B7e" customClass="GallerySelectionTableViewCell" customModule="ImageGallery" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="375" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="JR2-jF-B7e" id="wgu-0A-enf">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="51.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="49.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Gallery 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gRP-Bo-9EI">
-                                            <rect key="frame" x="16" y="0.0" width="343" height="51.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Mae-gH-0SG">
+                                            <rect key="frame" x="16" y="0.0" width="343" height="49.5"/>
                                             <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <textInputTraits key="textInputTraits"/>
+                                        </textField>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="Mae-gH-0SG" firstAttribute="leading" secondItem="wgu-0A-enf" secondAttribute="leading" constant="16" id="Smd-3f-XGo"/>
+                                        <constraint firstAttribute="bottom" secondItem="Mae-gH-0SG" secondAttribute="bottom" id="dOj-es-pAT"/>
+                                        <constraint firstAttribute="trailing" secondItem="Mae-gH-0SG" secondAttribute="trailing" constant="16" id="gmp-ax-emh"/>
+                                        <constraint firstItem="Mae-gH-0SG" firstAttribute="top" secondItem="wgu-0A-enf" secondAttribute="top" id="xbk-zN-8BG"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="titleTextField" destination="Mae-gH-0SG" id="cQw-oQ-dLw"/>
                                     <segue destination="E0V-0e-aac" kind="showDetail" id="cem-NY-kBB"/>
                                 </connections>
                             </tableViewCell>
@@ -56,6 +63,7 @@
                         <connections>
                             <outlet property="dataSource" destination="I1E-Rj-5JE" id="JHO-EA-S9f"/>
                             <outlet property="delegate" destination="I1E-Rj-5JE" id="Cga-u3-EH9"/>
+                            <outletCollection property="gestureRecognizers" destination="HDg-D0-d0z" appends="YES" id="SFM-v0-P2m"/>
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Galleries" id="6ic-Cf-Vic">
@@ -67,6 +75,11 @@
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fbr-Jv-pTu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer numberOfTapsRequired="2" id="HDg-D0-d0z">
+                    <connections>
+                        <action selector="didDoubleTap:" destination="I1E-Rj-5JE" id="m4g-NR-2rC"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="835" y="-548"/>
         </scene>
