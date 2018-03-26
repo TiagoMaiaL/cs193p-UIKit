@@ -60,6 +60,9 @@ class GallerySelectionTableViewController: UITableViewController {
     if let selectedCell = sender as? UITableViewCell {
       if let indexPath = tableView.indexPath(for: selectedCell) {
         
+        let section = Section(rawValue: indexPath.section)
+        guard section == .available else { return }
+        
         let selectedGallery = galleriesSource[indexPath.section][indexPath.row]
         
         if let navigationController = segue.destination as? UINavigationController {
@@ -80,12 +83,12 @@ class GallerySelectionTableViewController: UITableViewController {
   // MARK: - Table view data source
   
   override func numberOfSections(in tableView: UITableView) -> Int {
-    print("sections: - \(galleriesSource.count)")
+//    print("sections: - \(galleriesSource.count)")
     return galleriesSource.count
   }
   
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    print("rows: - \(galleriesSource[section].count) in section: - \(section)")
+//    print("rows: - \(galleriesSource[section].count) in section: - \(section)")
     return galleriesSource[section].count
   }
   
@@ -97,27 +100,6 @@ class GallerySelectionTableViewController: UITableViewController {
     cell.textLabel?.text = gallery.title
     
     return cell
-  }
-  
-  override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-    let section = Section(rawValue: indexPath.section)
-    
-    if section == .deleted {
-      var actions = [UIContextualAction]()
-      
-      let recoverAction = UIContextualAction(style: .normal, title: "recover") { (action, view, _) in
-        if let deletedGallery = self.getGallery(at: indexPath) {
-          self.galleriesStore?.recoverGallery(deletedGallery)
-          self.tableView.reloadData()
-        }
-      }
-      
-      actions.append(recoverAction)
-      return UISwipeActionsConfiguration(actions: actions)
-      
-    } else {
-      return nil
-    }
   }
   
   override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
@@ -143,6 +125,27 @@ class GallerySelectionTableViewController: UITableViewController {
   override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
     if section == 1 {
       return "Deleted"
+    } else {
+      return nil
+    }
+  }
+  
+  override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    let section = Section(rawValue: indexPath.section)
+    
+    if section == .deleted {
+      var actions = [UIContextualAction]()
+      
+      let recoverAction = UIContextualAction(style: .normal, title: "recover") { (action, view, _) in
+        if let deletedGallery = self.getGallery(at: indexPath) {
+          self.galleriesStore?.recoverGallery(deletedGallery)
+          self.tableView.reloadData()
+        }
+      }
+      
+      actions.append(recoverAction)
+      return UISwipeActionsConfiguration(actions: actions)
+      
     } else {
       return nil
     }
