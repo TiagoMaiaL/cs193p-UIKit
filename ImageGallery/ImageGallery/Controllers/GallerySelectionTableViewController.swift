@@ -11,6 +11,11 @@ import UIKit
 /// The controller responsible for the selection of galleries.
 class GallerySelectionTableViewController: UITableViewController {
 
+  enum Section: Int {
+    case available = 0
+    case deleted
+  }
+  
   // MARK: Properties
   
   /// The store containing the user's galleries.
@@ -94,19 +99,40 @@ class GallerySelectionTableViewController: UITableViewController {
     return cell
   }
   
+  override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    let section = Section(rawValue: indexPath.section)
+    
+    if section == .deleted {
+      var actions = [UIContextualAction]()
+      
+      let recoverAction = UIContextualAction(style: .normal, title: "recover") { (action, view, _) in
+        if let deletedGallery = self.getGallery(at: indexPath) {
+          self.galleriesStore?.recoverGallery(deletedGallery)
+          self.tableView.reloadData()
+        }
+      }
+      
+      actions.append(recoverAction)
+      return UISwipeActionsConfiguration(actions: actions)
+      
+    } else {
+      return nil
+    }
+  }
+  
   override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
     switch editingStyle {
     case .delete:
       if let deletedGallery = getGallery(at: indexPath) {
-        
+
         self.galleriesStore?.removeGallery(deletedGallery)
         tableView.reloadData()
-        
+
         // TODO: Make animations work.
 //        tableView.deleteRows(at: [indexPath], with: .fade)
       }
       break
-      
+
     default:
       break
     }

@@ -54,4 +54,11 @@ struct ImageGalleryStore {
     }
   }
   
+  /// Recovers the passed gallery, if it's a deleted one.
+  mutating func recoverGallery(_ gallery: ImageGallery) {
+    if let deletedIndex = deletedGalleries.index(of: gallery) {
+      galleries.append(deletedGalleries.remove(at: deletedIndex))
+    }
+  }
+  
 }
