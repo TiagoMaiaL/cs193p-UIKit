@@ -75,7 +75,11 @@ class GallerySelectionTableViewController: UITableViewController {
   }
   
   @IBAction func didDoubleTap(_ sender: UITapGestureRecognizer) {
-    print("did double tap")
+    if let indexPath = tableView.indexPathForRow(at: sender.location(in: tableView)) {
+      if let cell = tableView.cellForRow(at: indexPath) as? GallerySelectionTableViewCell {
+        cell.isEditing = true
+      }
+    }
   }
   
   // MARK: - Imperatives

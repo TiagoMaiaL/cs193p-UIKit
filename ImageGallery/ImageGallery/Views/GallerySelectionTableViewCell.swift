@@ -33,6 +33,24 @@ class GallerySelectionTableViewCell: UITableViewCell, UITextFieldDelegate {
     }
   }
   
+  override var isEditing: Bool {
+    didSet {
+      titleTextField.isEnabled = isEditing
+      
+      if isEditing == true {
+        titleTextField.becomeFirstResponder()
+      } else {
+        titleTextField.resignFirstResponder()
+      }
+    }
+  }
+  
+  // MARK: - Imperatives
+  
+  private func endEditing() {
+    isEditing = false
+  }
+  
   // MARK: - Actions
   
   @objc func titleDidChange(_ sender: UITextField) {
@@ -42,12 +60,16 @@ class GallerySelectionTableViewCell: UITableViewCell, UITextFieldDelegate {
   
   // MARK: - Text field delegate
   
+  override var canBecomeFirstResponder: Bool {
+    return isEditing
+  }
+  
   func textFieldDidEndEditing(_ textField: UITextField) {
-    textField.resignFirstResponder()
+    endEditing()
   }
   
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-    textField.resignFirstResponder()
+    endEditing()
     return true
   }
 }
