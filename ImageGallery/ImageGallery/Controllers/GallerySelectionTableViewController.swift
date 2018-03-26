@@ -9,7 +9,7 @@
 import UIKit
 
 /// The controller responsible for the selection of galleries.
-class GallerySelectionTableViewController: UITableViewController {
+class GallerySelectionTableViewController: UITableViewController, GallerySelectionTableViewCellDelegate {
 
   enum Section: Int {
     case available = 0
@@ -106,6 +106,7 @@ class GallerySelectionTableViewController: UITableViewController {
     
     let gallery = galleriesSource[indexPath.section][indexPath.row]
     if let galleryCell = cell as? GallerySelectionTableViewCell {
+      galleryCell.delegate = self
       galleryCell.title = gallery.title
     }
     
@@ -158,6 +159,18 @@ class GallerySelectionTableViewController: UITableViewController {
       
     } else {
       return nil
+    }
+  }
+  
+  // MARK: - Gallery selection cell delegate
+  
+  func titleDidChange(_ title: String, in cell: UITableViewCell) {
+    if let indexPath = tableView.indexPath(for: cell) {
+      if var gallery = getGallery(at: indexPath) {
+        gallery.title = title
+        galleriesStore?.updateGallery(gallery)
+        tableView.reloadData()
+      }
     }
   }
   
