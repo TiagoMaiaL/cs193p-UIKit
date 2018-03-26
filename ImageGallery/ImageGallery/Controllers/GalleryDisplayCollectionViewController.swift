@@ -28,7 +28,12 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
   
   /// The width of each cell in the collection view.
   var itemWidth: CGFloat {
-    return ((collectionView?.frame.size.width ?? 0) / 2) - 25
+    return ((collectionView?.frame.size.width ?? 0) / 2) - 5
+  }
+  
+  /// The collection view's flow layout.
+  var flowLayout: UICollectionViewFlowLayout? {
+    return collectionView?.collectionViewLayout as? UICollectionViewFlowLayout
   }
   
   // MARK: - Life Cycle
@@ -41,6 +46,9 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
     super.loadView()
     collectionView!.dragDelegate = self
     collectionView!.dropDelegate = self
+    
+    flowLayout?.minimumLineSpacing = 5
+    flowLayout?.minimumInteritemSpacing = 5
   }
   
   // MARK: - Navigation
