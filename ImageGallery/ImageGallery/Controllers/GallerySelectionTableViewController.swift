@@ -13,18 +13,15 @@ class GallerySelectionTableViewController: UITableViewController {
 
   // MARK: Properties
   
-  /// The galleries for display.
-  private var galleries = [ImageGallery]()
-  
-  /// The deleted galleries.
-  private var deletedGalleries = [ImageGallery]()
+  /// The store containing the user's galleries.
+  var galleriesStore: ImageGalleryStore?
   
   /// The table view's data.
   private var galleriesSource: [[ImageGallery]] {
     get {
-      var source = [galleries]
+      var source = [galleriesStore?.galleries ?? []]
       
-      if !deletedGalleries.isEmpty {
+      if let deletedGalleries = galleriesStore?.deletedGalleries {
         source.append(deletedGalleries)
       }
       
@@ -39,20 +36,9 @@ class GallerySelectionTableViewController: UITableViewController {
   
   // MARK: - Life cycle
   
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    
-    galleries = [ImageGallery(images: [], title: "Gallery 1"),
-                 ImageGallery(images: [], title: "Gallery 2"),
-                 ImageGallery(images: [], title: "Gallery 3"),
-    ]
-  }
-  
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    detailController?.gallery = galleries.first
   }
-  
   
   // MARK: - Navigation
   

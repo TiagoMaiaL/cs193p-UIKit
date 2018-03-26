@@ -44,7 +44,7 @@ struct ImageGallery: Hashable {
   /// The gallery's title.
   var title: String
   
-  // MARK: - Hashable implementation
+  // MARK: - Hashable
   
   var hashValue: Int {
     return identifier.hashValue

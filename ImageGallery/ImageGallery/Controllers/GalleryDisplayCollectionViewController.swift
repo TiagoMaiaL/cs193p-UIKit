@@ -14,6 +14,11 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
 
   // MARK: - Properties
   
+  /// The galleries' store.
+  /// - Note: The store is used to update the current gallery
+  ///         every time a new image is added.
+  var galleriesStore: ImageGalleryStore?
+  
   /// The gallery to be displayed.
   var gallery: ImageGallery! {
     didSet {

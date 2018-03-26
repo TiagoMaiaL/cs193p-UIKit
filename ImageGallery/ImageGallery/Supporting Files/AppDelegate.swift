@@ -15,7 +15,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-    // Override point for customization after application launch.
+
+    let galleriesStore = ImageGalleryStore()
+    
+    if let gallerySelectionController = (window?.rootViewController as? UISplitViewController)?.viewControllers.first as? GallerySelectionTableViewController {
+      gallerySelectionController.galleriesStore = galleriesStore
+    }
+    
+    if let galleryDisplayController = (window?.rootViewController as? UISplitViewController)?.viewControllers.last as? GalleryDisplayCollectionViewController {
+      galleryDisplayController.galleriesStore = galleriesStore
+    }
+    
     return true
   }
 
