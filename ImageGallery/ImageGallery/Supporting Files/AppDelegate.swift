@@ -18,11 +18,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     let galleriesStore = ImageGalleryStore()
     
-    if let gallerySelectionController = (window?.rootViewController as? UISplitViewController)?.viewControllers.first as? GallerySelectionTableViewController {
+    if let gallerySelectionController = (window?.rootViewController as? UISplitViewController)?.viewControllers.first?.contents as? GallerySelectionTableViewController {
       gallerySelectionController.galleriesStore = galleriesStore
     }
     
-    if let galleryDisplayController = (window?.rootViewController as? UISplitViewController)?.viewControllers.last as? GalleryDisplayCollectionViewController {
+    if let galleryDisplayController = (window?.rootViewController as? UISplitViewController)?.viewControllers.last?.contents as? GalleryDisplayCollectionViewController {
       galleryDisplayController.galleriesStore = galleriesStore
     }
     

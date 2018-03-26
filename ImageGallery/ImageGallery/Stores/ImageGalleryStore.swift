@@ -19,6 +19,15 @@ struct ImageGalleryStore {
   /// The deleted galleries.
   private(set) var deletedGalleries = [ImageGallery]()
   
+  // MARK: - Initializer
+  
+  init() {
+    if galleries.isEmpty {
+      // Creates an empty gallery
+      galleries.append(ImageGallery(images: [], title: "Empty 1"))
+    }
+  }
+  
   // MARK: - Imperatives
   
   /// Adds a new gallery into the store.

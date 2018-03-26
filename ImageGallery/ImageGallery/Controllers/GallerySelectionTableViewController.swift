@@ -14,18 +14,27 @@ class GallerySelectionTableViewController: UITableViewController {
   // MARK: Properties
   
   /// The store containing the user's galleries.
-  var galleriesStore: ImageGalleryStore?
+  var galleriesStore: ImageGalleryStore? {
+    didSet {
+      tableView?.reloadData()
+      detailController?.gallery = galleriesStore?.galleries.first
+    }
+  }
   
   /// The table view's data.
   private var galleriesSource: [[ImageGallery]] {
     get {
-      var source = [galleriesStore?.galleries ?? []]
-      
-      if let deletedGalleries = galleriesStore?.deletedGalleries {
-        source.append(deletedGalleries)
+      if let store = galleriesStore {
+        var source = [store.galleries]
+        
+        if !store.deletedGalleries.isEmpty {
+          source.append(store.deletedGalleries)
+        }
+        
+        return source
+      } else {
+        return []
       }
-      
-      return source
     }
   }
   
