@@ -36,11 +36,11 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="52"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="JR2-jF-B7e" id="wgu-0A-enf">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="52"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="51.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Gallery 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gRP-Bo-9EI">
-                                            <rect key="frame" x="16" y="0.0" width="343" height="51"/>
+                                            <rect key="frame" x="16" y="0.0" width="343" height="51.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
@@ -58,7 +58,13 @@
                             <outlet property="delegate" destination="I1E-Rj-5JE" id="Cga-u3-EH9"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Galleries" id="6ic-Cf-Vic"/>
+                    <navigationItem key="navigationItem" title="Galleries" id="6ic-Cf-Vic">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="NB9-ex-VDX">
+                            <connections>
+                                <action selector="didTapAddMore:" destination="I1E-Rj-5JE" id="CYF-Ic-CDQ"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fbr-Jv-pTu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

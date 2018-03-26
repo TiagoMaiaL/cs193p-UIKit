@@ -24,15 +24,25 @@ struct ImageGalleryStore {
   init() {
     if galleries.isEmpty {
       // Creates an empty gallery
-      galleries.append(ImageGallery(images: [], title: "Empty 1"))
+      galleries.append(makeGallery())
     }
   }
   
   // MARK: - Imperatives
   
   /// Adds a new gallery into the store.
-  mutating func addGallery(_ gallery: ImageGallery) {
-    galleries.append(gallery)
+  mutating func addNewGallery() {
+    galleries.append(makeGallery())
+  }
+  
+  private func makeGallery() -> ImageGallery {
+    let galleryNames = galleries.map { gallery in
+      return gallery.title
+    }
+    return ImageGallery(
+      images: [],
+      title: "Empty".madeUnique(withRespectTo: galleryNames)
+    )
   }
   
   /// Updates the passed gallery into the store.

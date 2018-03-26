@@ -30,13 +30,7 @@ class GallerySelectionTableViewController: UITableViewController {
   private var galleriesSource: [[ImageGallery]] {
     get {
       if let store = galleriesStore {
-        var source = [store.galleries]
-        
-        if !store.deletedGalleries.isEmpty {
-          source.append(store.deletedGalleries)
-        }
-        
-        return source
+        return [store.galleries, store.deletedGalleries]
       } else {
         return []
       }
@@ -72,6 +66,12 @@ class GallerySelectionTableViewController: UITableViewController {
         }
       }
     }
+  }
+  
+  // MARK: - Actions
+  
+  @IBAction func didTapAddMore(_ sender: UIBarButtonItem) {
+    galleriesStore?.addNewGallery()
   }
   
   // MARK: - Imperatives
@@ -124,7 +124,7 @@ class GallerySelectionTableViewController: UITableViewController {
   
   override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
     if section == 1 {
-      return "Deleted"
+      return "Recently Deleted"
     } else {
       return nil
     }
