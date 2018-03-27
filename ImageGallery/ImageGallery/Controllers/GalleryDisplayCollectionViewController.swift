@@ -26,13 +26,24 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
     }
   }
   
-  /// The width of each cell in the collection view.
-  var itemWidth: CGFloat {
-    return ((collectionView?.frame.size.width ?? 0) / 2) - 5
+  /// The maximum collection view's item width.
+  private var maximumItemWidth: CGFloat? {
+    return collectionView?.frame.size.width
   }
   
+  /// The minimum collection view's item width.
+  private var minimumItemWidth: CGFloat? {
+    guard let collectionView = collectionView else { return nil }
+    return (collectionView.frame.size.width / 2) - 5
+  }
+  
+  /// The width of each cell in the collection view.
+  private lazy var itemWidth: CGFloat = {
+    return minimumItemWidth ?? 0
+  }()
+  
   /// The collection view's flow layout.
-  var flowLayout: UICollectionViewFlowLayout? {
+  private var flowLayout: UICollectionViewFlowLayout? {
     return collectionView?.collectionViewLayout as? UICollectionViewFlowLayout
   }
   
@@ -60,6 +71,26 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
         let selectedImage = getImage(at: indexPath)
         destination.image = selectedImage
       }
+    }
+  }
+  
+  // MARK: - Actions
+  
+  @IBAction func didPinch(_ sender: UIPinchGestureRecognizer) {
+    guard let maximumItemWidth = maximumItemWidth else { return }
+    guard let minimumItemWidth = minimumItemWidth else { return }
+    guard itemWidth <= maximumItemWidth else { return }
+    
+    if sender.state == .began || sender.state == .changed {
+      let scaledWidth = itemWidth * sender.scale
+      
+      if scaledWidth <= maximumItemWidth,
+         scaledWidth >= minimumItemWidth {
+        itemWidth = scaledWidth
+        flowLayout?.invalidateLayout()
+      }
+      
+      sender.scale = 1
     }
   }
   

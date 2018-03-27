@@ -159,6 +159,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="990.5" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="HmN-Ho-Ykv">
                             <size key="itemSize" width="200" height="300"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -199,11 +200,17 @@
                         <connections>
                             <outlet property="dataSource" destination="d2J-Bw-SWY" id="pFJ-Az-4FF"/>
                             <outlet property="delegate" destination="d2J-Bw-SWY" id="pnq-ze-Elz"/>
+                            <outletCollection property="gestureRecognizers" destination="chG-ye-TbL" appends="YES" id="XFK-tp-oqI"/>
                         </connections>
                     </collectionView>
                     <navigationItem key="navigationItem" id="i80-Ol-s7p"/>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="K3b-pF-8DS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <pinchGestureRecognizer id="chG-ye-TbL">
+                    <connections>
+                        <action selector="didPinch:" destination="d2J-Bw-SWY" id="7up-WE-lzV"/>
+                    </connections>
+                </pinchGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="835" y="175"/>
         </scene>
