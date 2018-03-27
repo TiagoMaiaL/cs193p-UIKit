@@ -67,10 +67,20 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if let destination = segue.destination as? ImageDisplayViewController {
       let cell = sender as! UICollectionViewCell
-      if let indexPath = collectionView?.indexPath(for: cell) {
-        let selectedImage = getImage(at: indexPath)
+      if let indexPath = collectionView?.indexPath(for: cell),
+         let selectedImage = getImage(at: indexPath) {
         destination.image = selectedImage
       }
+    }
+  }
+  
+  override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+    let cell = sender as! UICollectionViewCell
+    if let indexPath = collectionView?.indexPath(for: cell),
+       let selectedImage = getImage(at: indexPath) {
+      return selectedImage.imageData != nil
+    } else {
+      return false
     }
   }
   
@@ -218,16 +228,14 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
         )
         
         // Creates a new image to hold the place for the dragged one.
-        let draggedImage = ImageGallery.Image(imagePath: nil, aspectRatio: 1)
-        insertImage(draggedImage, at: destinationIndexPath)
+        var draggedImage = ImageGallery.Image(imagePath: nil, aspectRatio: 1)
         
         // Loads the image.
         // TODO: Check if it's possible to add the placeholder only after figuring out what's the aspect ratio.
         _ = item.dragItem.itemProvider.loadObject(ofClass: UIImage.self){ (provider, error) in
           DispatchQueue.main.async {
             if let image = provider as? UIImage {
-              self.gallery.images[destinationIndexPath.item].aspectRatio = image.aspectRatio
-              placeholderContext.setNeedsCellUpdate()
+              draggedImage.aspectRatio = image.aspectRatio
             }
           }
         }
@@ -235,14 +243,15 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
         // Loads the URL.
         _ = item.dragItem.itemProvider.loadObject(ofClass: URL.self) { (provider, error) in
           if let url = provider?.imageURL {
-            self.gallery.images[destinationIndexPath.item].imagePath = url
-            
+            draggedImage.imagePath = url
+
             // Downloads the image from the fetched url.
             URLSession(configuration: .default).dataTask(with: url) { (data, response, error) in
               DispatchQueue.main.async {
-                if let data = data {
-                  placeholderContext.commitInsertion {
-                    self.gallery.images[$0.item].imageData = data
+                if let data = data, let _ = UIImage(data: data) {
+                  placeholderContext.commitInsertion { indexPath in
+                    draggedImage.imageData = data
+                    self.insertImage(draggedImage, at: indexPath)
                   }
                 } else {
                   // There was an error. Remove the placeholder.

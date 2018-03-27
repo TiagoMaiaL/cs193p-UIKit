@@ -182,6 +182,7 @@
                                         </activityIndicatorView>
                                     </subviews>
                                 </view>
+                                <color key="backgroundColor" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="ltH-0a-GH2" firstAttribute="leading" secondItem="wb4-aR-cDb" secondAttribute="leading" id="0Zf-JT-6DF"/>
                                     <constraint firstItem="GxW-eQ-Yur" firstAttribute="centerY" secondItem="wb4-aR-cDb" secondAttribute="centerY" id="Du6-3s-i0b"/>

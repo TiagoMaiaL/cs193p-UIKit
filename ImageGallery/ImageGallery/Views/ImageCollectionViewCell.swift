@@ -34,7 +34,8 @@ class ImageCollectionViewCell: UICollectionViewCell {
   
   override func prepareForReuse() {
     super.prepareForReuse()
-    isLoading = false
+    imageView.image = nil
+    isLoading = true
   }
   
 }

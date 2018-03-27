@@ -41,7 +41,7 @@ class ImageDisplayViewController: UIViewController, UIScrollViewDelegate {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     
-    if let data = image.imageData {
+    if let data = image?.imageData {
       imageView?.image = UIImage(data: data)
     }
   }
