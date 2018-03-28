@@ -21,21 +21,15 @@ struct ImageGalleryStore {
   
   /// The available image galleries.
   private(set) var galleries: [ImageGallery] {
-    get {
-      return getGalleriesBy(key: StorageKeys.galleries) ?? []
-    }
-    set {
-      setGalleries(newValue, at: StorageKeys.galleries)
+    didSet {
+      setGalleries(galleries, at: StorageKeys.galleries)
     }
   }
   
   /// The deleted galleries.
   private(set) var deletedGalleries: [ImageGallery] {
-    get {
-      return getGalleriesBy(key: StorageKeys.deletedGalleries) ?? []
-    }
-    set {
-      setGalleries(newValue, at: StorageKeys.deletedGalleries)
+    didSet {
+      setGalleries(deletedGalleries, at: StorageKeys.deletedGalleries)
     }
   }
   
@@ -45,6 +39,17 @@ struct ImageGalleryStore {
   // MARK: - Initializer
   
   init() {
+    galleries = []
+    deletedGalleries = []
+    
+    if let storedGalleries = getGalleriesBy(key: StorageKeys.galleries) {
+      galleries = storedGalleries
+    }
+
+    if let storedDeletedGalleries = getGalleriesBy(key: StorageKeys.deletedGalleries) {
+      deletedGalleries = storedDeletedGalleries
+    }
+    
     if galleries.isEmpty {
       addNewGallery()
     }
