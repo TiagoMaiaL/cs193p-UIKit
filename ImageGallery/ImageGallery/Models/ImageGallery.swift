@@ -9,10 +9,10 @@
 import Foundation
 
 /// Model representing a gallery with it's images.
-struct ImageGallery: Hashable {
+struct ImageGallery: Hashable, Codable {
   
   /// Model representing a gallery's image.
-  struct Image {
+  struct Image: Codable {
     
     // MARK: - Properties
     

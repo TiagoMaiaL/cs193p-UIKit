@@ -11,24 +11,69 @@ import Foundation
 /// The class responsible for managing each gallery model.
 struct ImageGalleryStore {
   
+  /// The keys used to store the models within UserDefaults.
+  private struct StorageKeys {
+    static let galleries = "gallery"
+    static let deletedGalleries = "deleted_galleries"
+  }
+  
   // MARK: - Properties
   
   /// The available image galleries.
-  private(set) var galleries = [ImageGallery]()
+  private(set) var galleries: [ImageGallery] {
+    get {
+      return getGalleriesBy(key: StorageKeys.galleries) ?? []
+    }
+    set {
+      setGalleries(newValue, at: StorageKeys.galleries)
+    }
+  }
   
   /// The deleted galleries.
-  private(set) var deletedGalleries = [ImageGallery]()
+  private(set) var deletedGalleries: [ImageGallery] {
+    get {
+      return getGalleriesBy(key: StorageKeys.deletedGalleries) ?? []
+    }
+    set {
+      setGalleries(newValue, at: StorageKeys.deletedGalleries)
+    }
+  }
+  
+  /// The store's user defaults instance.
+  private let userDefaults = UserDefaults.standard
   
   // MARK: - Initializer
   
   init() {
     if galleries.isEmpty {
-      // Creates an empty gallery
-      galleries.append(makeGallery())
+      addNewGallery()
     }
   }
   
   // MARK: - Imperatives
+  
+  /// Tries to access and retrieve the galleries stored at
+  /// the specified key in the user defaults.
+  private func getGalleriesBy(key: String) -> [ImageGallery]? {
+    if let galleriesData = userDefaults.value(forKey: key) as? Data {
+      if let galleries = try? JSONDecoder().decode([ImageGallery].self, from: galleriesData) {
+        return galleries
+      }
+    }
+    
+    return nil
+  }
+  
+  /// Tries to store the passed galleries at the key.
+  private func setGalleries(_ gallery: [ImageGallery], at key: String) {
+    do {
+      try? userDefaults.setValue(
+        JSONEncoder().encode(gallery),
+        forKey: key
+      )
+      userDefaults.synchronize()
+    }
+  }
   
   /// Adds a new gallery into the store.
   mutating func addNewGallery() {
