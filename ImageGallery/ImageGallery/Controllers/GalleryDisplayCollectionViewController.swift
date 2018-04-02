@@ -23,6 +23,7 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
   var gallery: ImageGallery! {
     didSet {
       title = gallery?.title
+      collectionView?.reloadData()
     }
   }
   
@@ -46,6 +47,9 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
   private var flowLayout: UICollectionViewFlowLayout? {
     return collectionView?.collectionViewLayout as? UICollectionViewFlowLayout
   }
+  
+  /// The trash bar button to delete an image using drag.
+  @IBOutlet weak var trashBarButton: UIBarButtonItem!
   
   // MARK: - Life Cycle
   
@@ -113,7 +117,8 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
   
   /// Inserts the provided image at the provided indexPath.
   private func insertImage(_ image: ImageGallery.Image, at indexPath: IndexPath) {
-    gallery?.images.insert(image, at: indexPath.item)
+    gallery!.images.insert(image, at: indexPath.item)
+    galleriesStore?.updateGallery(gallery!)
   }
   
   // MARK: - Collection view data source
@@ -192,6 +197,10 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
                       dropSessionDidUpdate session: UIDropSession,
                       withDestinationIndexPath destinationIndexPath: IndexPath?
     ) -> UICollectionViewDropProposal {
+    guard gallery != nil else {
+      return UICollectionViewDropProposal(operation: .forbidden)
+    }
+    
     // Determines if the drag was initiated from this app, in case of reordering.
     let isDragFromThisApp = (session.localDragSession?.localContext as? UICollectionView) == collectionView
     

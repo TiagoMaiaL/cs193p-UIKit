@@ -22,14 +22,14 @@ struct ImageGalleryStore {
   /// The available image galleries.
   private(set) var galleries: [ImageGallery] {
     didSet {
-      setGalleries(galleries, at: StorageKeys.galleries)
+      storeGalleries(galleries, at: StorageKeys.galleries)
     }
   }
   
   /// The deleted galleries.
   private(set) var deletedGalleries: [ImageGallery] {
     didSet {
-      setGalleries(deletedGalleries, at: StorageKeys.deletedGalleries)
+      storeGalleries(deletedGalleries, at: StorageKeys.deletedGalleries)
     }
   }
   
@@ -70,8 +70,9 @@ struct ImageGalleryStore {
   }
   
   /// Tries to store the passed galleries at the key.
-  private func setGalleries(_ gallery: [ImageGallery], at key: String) {
+  private func storeGalleries(_ gallery: [ImageGallery], at key: String) {
     do {
+      print("calling store")
       try? userDefaults.setValue(
         JSONEncoder().encode(gallery),
         forKey: key
@@ -82,11 +83,11 @@ struct ImageGalleryStore {
   
   /// Adds a new gallery into the store.
   mutating func addNewGallery() {
-    galleries.append(makeGallery())
+    galleries.insert(makeGallery(), at: 0)
   }
   
   private func makeGallery() -> ImageGallery {
-    let galleryNames = galleries.map { gallery in
+    let galleryNames = (galleries + deletedGalleries).map { gallery in
       return gallery.title
     }
     return ImageGallery(
@@ -100,6 +101,12 @@ struct ImageGalleryStore {
     if let galleryIndex = galleries.index(of: gallery) {
       galleries[galleryIndex] = gallery
     }
+    
+    NotificationCenter.default.post(
+      name: Notification.Name.galleryUpdated,
+      object: self,
+      userInfo: [Notification.Name.galleryUpdated : gallery]
+    )
   }
   
   /// Removes the gallery from the stored ones.
@@ -108,7 +115,15 @@ struct ImageGalleryStore {
   mutating func removeGallery(_ gallery: ImageGallery) {
     if let galleryIndex = galleries.index(of: gallery) {
       deletedGalleries.append(galleries.remove(at: galleryIndex))
+      if galleries.isEmpty {
+        addNewGallery()
+      }
 
+      NotificationCenter.default.post(
+        name: Notification.Name.galleryDeleted,
+        object: self,
+        userInfo: [Notification.Name.galleryDeleted : gallery]
+      )
     } else if let deletedGalleryIndex = deletedGalleries.index(of: gallery) {
       deletedGalleries.remove(at: deletedGalleryIndex)
     }
@@ -121,4 +136,9 @@ struct ImageGalleryStore {
     }
   }
   
+}
+
+extension Notification.Name {
+  static let galleryUpdated = Notification.Name(rawValue: "galleryUpdated")
+  static let galleryDeleted = Notification.Name(rawValue: "galleryDeleted")
 }

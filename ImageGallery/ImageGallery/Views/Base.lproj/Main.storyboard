@@ -26,7 +26,7 @@
         <!--Galleries-->
         <scene sceneID="4O5-mM-avs">
             <objects>
-                <tableViewController id="I1E-Rj-5JE" customClass="GallerySelectionTableViewController" customModule="ImageGallery" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController clearsSelectionOnViewWillAppear="NO" id="I1E-Rj-5JE" customClass="GallerySelectionTableViewController" customModule="ImageGallery" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="50" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="6Q0-8G-JwU">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -204,7 +204,12 @@
                             <outletCollection property="gestureRecognizers" destination="chG-ye-TbL" appends="YES" id="XFK-tp-oqI"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" id="i80-Ol-s7p"/>
+                    <navigationItem key="navigationItem" id="i80-Ol-s7p">
+                        <barButtonItem key="rightBarButtonItem" systemItem="trash" id="wCr-Wn-0rY"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="trashBarButton" destination="wCr-Wn-0rY" id="Dwd-Zv-GlT"/>
+                    </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="K3b-pF-8DS" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <pinchGestureRecognizer id="chG-ye-TbL">

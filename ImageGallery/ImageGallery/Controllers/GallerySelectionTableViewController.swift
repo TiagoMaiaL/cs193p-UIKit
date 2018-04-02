@@ -22,7 +22,6 @@ class GallerySelectionTableViewController: UITableViewController, GallerySelecti
   var galleriesStore: ImageGalleryStore? {
     didSet {
       tableView?.reloadData()
-      detailController?.gallery = galleriesStore?.galleries.first
     }
   }
   
@@ -44,8 +43,24 @@ class GallerySelectionTableViewController: UITableViewController, GallerySelecti
   
   // MARK: - Life cycle
   
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
+  deinit {
+    NotificationCenter.default.removeObserver(self)
+  }
+  
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(didReceiveDeleteNotification(_:)),
+      name: Notification.Name.galleryDeleted,
+      object: nil
+    )
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    selectFirstGallery()
   }
   
   // MARK: - Navigation
@@ -82,7 +97,36 @@ class GallerySelectionTableViewController: UITableViewController, GallerySelecti
     }
   }
   
+  // MARK: - Notification
+  
+  @objc func didReceiveDeleteNotification(_ notification: Notification) {
+    if let deletedGallery = notification.userInfo?[Notification.Name.galleryDeleted] as? ImageGallery {
+      if detailController?.gallery == deletedGallery {
+        Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { _ in
+          self.selectFirstGallery()
+        }
+      }
+    }
+  }
+  
   // MARK: - Imperatives
+  
+  /// Selects the first gallery.
+  private func selectFirstGallery() {
+    let availableSection = Section.available.rawValue
+    
+    guard !galleriesSource[availableSection].isEmpty else { return }
+    
+    let selectionIndexPath = IndexPath(row: 0, section: availableSection)
+    
+    tableView.selectRow(
+      at: selectionIndexPath,
+      animated: true,
+      scrollPosition: UITableViewScrollPosition.top
+    )
+    
+    detailController?.gallery = galleriesSource[availableSection][0]
+  }
   
   private func getGallery(at indexPath: IndexPath) -> ImageGallery? {
     return galleriesSource[indexPath.section][indexPath.row]
@@ -133,6 +177,11 @@ class GallerySelectionTableViewController: UITableViewController, GallerySelecti
   
   // MARK: - Table view delegate
   
+  override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+    let section = Section(rawValue: indexPath.section)
+    return section == .available
+  }
+  
   override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
     if section == 1 {
       return "Recently Deleted"
@@ -147,7 +196,7 @@ class GallerySelectionTableViewController: UITableViewController, GallerySelecti
     if section == .deleted {
       var actions = [UIContextualAction]()
       
-      let recoverAction = UIContextualAction(style: .normal, title: "recover") { (action, view, _) in
+      let recoverAction = UIContextualAction(style: .normal, title: "Recover") { (action, view, _) in
         if let deletedGallery = self.getGallery(at: indexPath) {
           self.galleriesStore?.recoverGallery(deletedGallery)
           self.tableView.reloadData()
