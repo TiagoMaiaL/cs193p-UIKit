@@ -72,7 +72,6 @@ struct ImageGalleryStore {
   /// Tries to store the passed galleries at the key.
   private func storeGalleries(_ gallery: [ImageGallery], at key: String) {
     do {
-      print("calling store")
       try? userDefaults.setValue(
         JSONEncoder().encode(gallery),
         forKey: key

@@ -120,8 +120,9 @@ class GallerySelectionTableViewController: UITableViewController, GallerySelecti
       scrollPosition: UITableViewScrollPosition.top
     )
     
-    // T
-    detailController?.gallery = galleriesSource[availableSection][0]
+    let selectedCell = tableView.cellForRow(at: selectionIndexPath)
+    
+    performSegue(withIdentifier: "selectionSegue", sender: selectedCell)
   }
   
   private func getGallery(at indexPath: IndexPath) -> ImageGallery? {

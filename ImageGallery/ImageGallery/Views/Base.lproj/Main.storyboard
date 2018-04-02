@@ -56,7 +56,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="titleTextField" destination="Mae-gH-0SG" id="cQw-oQ-dLw"/>
-                                    <segue destination="E0V-0e-aac" kind="showDetail" id="cem-NY-kBB"/>
+                                    <segue destination="E0V-0e-aac" kind="showDetail" identifier="selectionSegue" id="cem-NY-kBB"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -204,12 +204,7 @@
                             <outletCollection property="gestureRecognizers" destination="chG-ye-TbL" appends="YES" id="XFK-tp-oqI"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" id="i80-Ol-s7p">
-                        <barButtonItem key="rightBarButtonItem" systemItem="trash" id="wCr-Wn-0rY"/>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="trashBarButton" destination="wCr-Wn-0rY" id="Dwd-Zv-GlT"/>
-                    </connections>
+                    <navigationItem key="navigationItem" id="i80-Ol-s7p"/>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="K3b-pF-8DS" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <pinchGestureRecognizer id="chG-ye-TbL">

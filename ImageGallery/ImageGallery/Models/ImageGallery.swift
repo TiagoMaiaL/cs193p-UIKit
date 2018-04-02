@@ -12,7 +12,17 @@ import Foundation
 struct ImageGallery: Hashable, Codable {
   
   /// Model representing a gallery's image.
-  struct Image: Codable {
+  struct Image: Hashable, Codable {
+    
+    // MARK: - Hashable
+    
+    var hashValue: Int {
+      return imagePath?.hashValue ?? 0
+    }
+    
+    static func ==(lhs: ImageGallery.Image, rhs: ImageGallery.Image) -> Bool {
+      return lhs.imagePath == rhs.imagePath
+    }
     
     // MARK: - Properties
     

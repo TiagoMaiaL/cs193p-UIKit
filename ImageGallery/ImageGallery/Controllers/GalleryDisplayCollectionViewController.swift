@@ -10,7 +10,7 @@ import UIKit
 
 private let reuseIdentifier = "imageCell"
 
-class GalleryDisplayCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDropDelegate, UICollectionViewDragDelegate {
+class GalleryDisplayCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDropDelegate, UICollectionViewDragDelegate, UIDropInteractionDelegate {
 
   // MARK: - Properties
   
@@ -52,10 +52,24 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
     return collectionView?.collectionViewLayout as? UICollectionViewFlowLayout
   }
   
-  /// The trash bar button to delete an image using drag.
-  @IBOutlet weak var trashBarButton: UIBarButtonItem!
-  
   // MARK: - Life Cycle
+  
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    
+    let trashButton = UIButton()
+    trashButton.setImage(UIImage(named: "icon_trash"), for: .normal)
+    
+    let dropInteraction = UIDropInteraction(delegate: self)
+    trashButton.addInteraction(dropInteraction)
+    
+    let barItem = UIBarButtonItem(customView: trashButton)
+    
+    navigationItem.rightBarButtonItem = barItem
+    
+    barItem.customView!.widthAnchor.constraint(equalToConstant: 25).isActive = true
+    barItem.customView!.heightAnchor.constraint(equalToConstant: 25).isActive = true
+  }
   
   override func loadView() {
     super.loadView()
@@ -276,4 +290,22 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
     }
   }
   
+  // MARK: - UIDropInteraction delegate
+  
+  func dropInteraction(_ interaction: UIDropInteraction, canHandle session: UIDropSession) -> Bool {
+    return session.canLoadObjects(ofClass: URL.self)
+  }
+  
+  func dropInteraction(_ interaction: UIDropInteraction, sessionDidUpdate session: UIDropSession) -> UIDropProposal {
+    return UIDropProposal(operation: .move)
+  }
+  
+  func dropInteraction(_ interaction: UIDropInteraction, performDrop session: UIDropSession) {
+    guard let item = session.items.first else { return }
+    guard let droppedImage = item.localObject as? ImageGallery.Image else { return }
+    guard let index = gallery.images.index(of: droppedImage) else { return }
+    
+    gallery.images.remove(at: index)
+    galleriesStore?.updateGallery(gallery)
+  }
 }
