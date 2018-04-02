@@ -58,11 +58,6 @@ class GallerySelectionTableViewController: UITableViewController, GallerySelecti
     )
   }
   
-  override func viewDidAppear(_ animated: Bool) {
-    super.viewDidAppear(animated)
-    selectFirstGallery()
-  }
-  
   // MARK: - Navigation
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -125,6 +120,7 @@ class GallerySelectionTableViewController: UITableViewController, GallerySelecti
       scrollPosition: UITableViewScrollPosition.top
     )
     
+    // T
     detailController?.gallery = galleriesSource[availableSection][0]
   }
   

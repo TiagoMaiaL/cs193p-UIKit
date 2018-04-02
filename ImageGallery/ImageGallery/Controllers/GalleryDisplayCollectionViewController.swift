@@ -17,7 +17,11 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
   /// The galleries' store.
   /// - Note: The store is used to update the current gallery
   ///         every time a new image is added.
-  var galleriesStore: ImageGalleryStore?
+  var galleriesStore: ImageGalleryStore? {
+    didSet {
+      gallery = galleriesStore?.galleries.first
+    }
+  }
   
   /// The gallery to be displayed.
   var gallery: ImageGallery! {
@@ -52,10 +56,6 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
   @IBOutlet weak var trashBarButton: UIBarButtonItem!
   
   // MARK: - Life Cycle
-  
-  override func viewDidLoad() {
-    super.viewDidLoad()
-  }
   
   override func loadView() {
     super.loadView()
