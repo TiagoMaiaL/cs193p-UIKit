@@ -58,6 +58,21 @@ class GallerySelectionTableViewController: UITableViewController, GallerySelecti
     )
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    
+    if let selectedGallery = detailController?.gallery {
+      if let index = galleriesStore?.galleries.index(of: selectedGallery) {
+        let selectionIndexPath = IndexPath(row: index, section: Section.available.rawValue)
+        tableView.selectRow(
+          at: selectionIndexPath,
+          animated: true,
+          scrollPosition: .none
+        )
+      }
+    }
+  }
+  
   // MARK: - Navigation
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -132,12 +147,10 @@ class GallerySelectionTableViewController: UITableViewController, GallerySelecti
   // MARK: - Table view data source
   
   override func numberOfSections(in tableView: UITableView) -> Int {
-//    print("sections: - \(galleriesSource.count)")
     return galleriesSource.count
   }
   
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//    print("rows: - \(galleriesSource[section].count) in section: - \(section)")
     return galleriesSource[section].count
   }
   
@@ -158,12 +171,8 @@ class GallerySelectionTableViewController: UITableViewController, GallerySelecti
     switch editingStyle {
     case .delete:
       if let deletedGallery = getGallery(at: indexPath) {
-
         self.galleriesStore?.removeGallery(deletedGallery)
         tableView.reloadData()
-
-        // TODO: Make animations work.
-//        tableView.deleteRows(at: [indexPath], with: .fade)
       }
       break
 
