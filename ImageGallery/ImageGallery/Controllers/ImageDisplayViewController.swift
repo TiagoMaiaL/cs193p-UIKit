@@ -23,12 +23,6 @@ class ImageDisplayViewController: UIViewController, UIScrollViewDelegate {
     }
   }
   
-  /// The height constraint used to keep the image centered after the zoom.
-  @IBOutlet weak var scrollViewHeight: NSLayoutConstraint!
-  
-  /// The width constraint used to keep the image centered after the zoom.
-  @IBOutlet weak var scrollViewWidth: NSLayoutConstraint!
-  
   /// The image being displayed.
   var image: ImageGallery.Image!
   

@@ -125,8 +125,6 @@
                     <connections>
                         <outlet property="imageView" destination="No2-G0-TUh" id="Wfg-Hq-0hB"/>
                         <outlet property="scrollView" destination="KV8-FR-CYk" id="Kz5-4j-PeX"/>
-                        <outlet property="scrollViewHeight" destination="ui6-kc-5R0" id="aGQ-gC-O0b"/>
-                        <outlet property="scrollViewWidth" destination="6SL-dM-qTa" id="88P-6J-2NY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3qR-ei-QrQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
