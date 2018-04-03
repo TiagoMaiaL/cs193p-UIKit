@@ -54,9 +54,16 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
   
   // MARK: - Life Cycle
   
+  deinit {
+    NotificationCenter.default.removeObserver(self)
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    // In order to implement the drop interaction in the navigation bar button,
+    // a custom view had to be added, since a UIBarButtonItem is not a
+    // view and doesn't handle interactions.
     let trashButton = UIButton()
     trashButton.setImage(UIImage(named: "icon_trash"), for: .normal)
     
@@ -69,6 +76,14 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
     
     barItem.customView!.widthAnchor.constraint(equalToConstant: 25).isActive = true
     barItem.customView!.heightAnchor.constraint(equalToConstant: 25).isActive = true
+    
+    // Starts observing for gallery updates.
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(didReceiveUpdateNotification(_:)),
+      name: NSNotification.Name.galleryUpdated,
+      object: nil
+    )
   }
   
   override func loadView() {
@@ -99,6 +114,16 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
       return selectedImage.imageData != nil
     } else {
       return false
+    }
+  }
+  
+  // MARK: - Notifications
+  
+  @objc func didReceiveUpdateNotification(_ notification: Notification) {
+    if let gallery = notification.userInfo?[Notification.Name.galleryUpdated] as? ImageGallery {
+      if gallery == self.gallery {
+        title = gallery.title
+      }
     }
   }
   
