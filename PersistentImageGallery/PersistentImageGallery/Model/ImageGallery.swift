@@ -46,7 +46,7 @@ struct ImageGallery: Hashable, Codable {
   // MARK: - Properties
   
   /// The gallery's identifier.
-  let identifier: String = UUID().uuidString
+  let identifier: String
   
   /// The gallery's images.
   var images: [Image]
@@ -54,6 +54,29 @@ struct ImageGallery: Hashable, Codable {
   /// The gallery's title.
   var title: String
   
+  /// This instance's encoded value.
+  var json: Data? {
+    return try? JSONEncoder().encode(self)
+  }
+  
+  // MARK: - Initializers
+  
+  init(images: [Image], title: String) {
+    identifier = UUID().uuidString
+    self.images = images
+    self.title = title
+  }
+  
+  /// Returns the instance from the passed json data.
+  /// - Parameter json: The json data used to instantiate the instance.
+  init?(json: Data) {
+    if let decodedSelf = try? JSONDecoder().decode(ImageGallery.self, from: json) {
+      self = decodedSelf
+    } else {
+      return nil
+    }
+  }
+
   // MARK: - Hashable
   
   var hashValue: Int {

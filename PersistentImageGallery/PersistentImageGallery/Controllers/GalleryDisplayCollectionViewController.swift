@@ -14,15 +14,6 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
 
   // MARK: - Properties
   
-  /// The galleries' store.
-  /// - Note: The store is used to update the current gallery
-  ///         every time a new image is added.
-  var galleriesStore: ImageGalleryStore? {
-    didSet {
-      gallery = galleriesStore?.galleries.first
-    }
-  }
-  
   /// The gallery to be displayed.
   var gallery: ImageGallery! {
     didSet {
@@ -76,14 +67,6 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
     
     barItem.customView!.widthAnchor.constraint(equalToConstant: 25).isActive = true
     barItem.customView!.heightAnchor.constraint(equalToConstant: 25).isActive = true
-    
-    // Starts observing for gallery updates.
-    NotificationCenter.default.addObserver(
-      self,
-      selector: #selector(didReceiveUpdateNotification(_:)),
-      name: NSNotification.Name.galleryUpdated,
-      object: nil
-    )
   }
   
   override func loadView() {
@@ -117,16 +100,6 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
     }
   }
   
-  // MARK: - Notifications
-  
-  @objc func didReceiveUpdateNotification(_ notification: Notification) {
-    if let gallery = notification.userInfo?[Notification.Name.galleryUpdated] as? ImageGallery {
-      if gallery == self.gallery {
-        title = gallery.title
-      }
-    }
-  }
-  
   // MARK: - Actions
   
   @IBAction func didPinch(_ sender: UIPinchGestureRecognizer) {
@@ -157,7 +130,6 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
   /// Inserts the provided image at the provided indexPath.
   private func insertImage(_ image: ImageGallery.Image, at indexPath: IndexPath) {
     gallery!.images.insert(image, at: indexPath.item)
-    galleriesStore?.updateGallery(gallery!)
   }
   
   // MARK: - Collection view data source
@@ -331,6 +303,5 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
     guard let index = gallery.images.index(of: droppedImage) else { return }
     
     gallery.images.remove(at: index)
-    galleriesStore?.updateGallery(gallery)
   }
 }
