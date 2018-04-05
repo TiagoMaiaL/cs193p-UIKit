@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		47DCF9322073CBCC000BB492 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DCF9312073CBCC000BB492 /* AppDelegate.swift */; };
-		47DCF9342073CBCC000BB492 /* DocumentBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DCF9332073CBCC000BB492 /* DocumentBrowserViewController.swift */; };
+		47DCF9342073CBCC000BB492 /* ImageGalleryDocumentBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DCF9332073CBCC000BB492 /* ImageGalleryDocumentBrowserViewController.swift */; };
 		47DCF9362073CBCC000BB492 /* DocumentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DCF9352073CBCC000BB492 /* DocumentViewController.swift */; };
 		47DCF9382073CBCC000BB492 /* ImageGalleryDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DCF9372073CBCC000BB492 /* ImageGalleryDocument.swift */; };
 		47DCF93B2073CBCC000BB492 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47DCF9392073CBCC000BB492 /* Main.storyboard */; };
@@ -35,7 +35,7 @@
 /* Begin PBXFileReference section */
 		47DCF92E2073CBCC000BB492 /* PersistentImageGallery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PersistentImageGallery.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		47DCF9312073CBCC000BB492 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		47DCF9332073CBCC000BB492 /* DocumentBrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentBrowserViewController.swift; sourceTree = "<group>"; };
+		47DCF9332073CBCC000BB492 /* ImageGalleryDocumentBrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGalleryDocumentBrowserViewController.swift; sourceTree = "<group>"; };
 		47DCF9352073CBCC000BB492 /* DocumentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentViewController.swift; sourceTree = "<group>"; };
 		47DCF9372073CBCC000BB492 /* ImageGalleryDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGalleryDocument.swift; sourceTree = "<group>"; };
 		47DCF93A2073CBCC000BB492 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -91,7 +91,7 @@
 		47DCF9302073CBCC000BB492 /* PersistentImageGallery */ = {
 			isa = PBXGroup;
 			children = (
-				47DCF9332073CBCC000BB492 /* DocumentBrowserViewController.swift */,
+				47DCF9332073CBCC000BB492 /* ImageGalleryDocumentBrowserViewController.swift */,
 				47DCF9352073CBCC000BB492 /* DocumentViewController.swift */,
 				47DCF9372073CBCC000BB492 /* ImageGalleryDocument.swift */,
 				47DCF9392073CBCC000BB492 /* Main.storyboard */,
@@ -256,7 +256,7 @@
 				47DCF9382073CBCC000BB492 /* ImageGalleryDocument.swift in Sources */,
 				47DCF9362073CBCC000BB492 /* DocumentViewController.swift in Sources */,
 				47DCF95C207521CC000BB492 /* ImageGallery.swift in Sources */,
-				47DCF9342073CBCC000BB492 /* DocumentBrowserViewController.swift in Sources */,
+				47DCF9342073CBCC000BB492 /* ImageGalleryDocumentBrowserViewController.swift in Sources */,
 				47DCF9602075227C000BB492 /* ImageCollectionViewCell.swift in Sources */,
 				47DCF95E207521D1000BB492 /* Utilities.swift in Sources */,
 				47DCF9322073CBCC000BB492 /* AppDelegate.swift in Sources */,

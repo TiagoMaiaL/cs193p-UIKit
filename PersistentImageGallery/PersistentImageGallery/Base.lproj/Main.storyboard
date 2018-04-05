@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="OFy-Kh-MmR">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="FfZ-XD-XnK">
     <device id="ipad9_7" orientation="landscape">
         <adaptation id="fullscreen"/>
     </device>
@@ -13,7 +13,7 @@
         <!--Image Display View Controller-->
         <scene sceneID="e1t-zd-OFk">
             <objects>
-                <viewController id="jCa-x1-KcV" customClass="ImageDisplayViewController" customModule="ImageGallery" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="jCa-x1-KcV" customClass="ImageDisplayViewController" customModule="PersistentImageGallery" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ud5-x7-CNc">
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -61,7 +61,7 @@
         <!--Gallery Display Collection View Controller-->
         <scene sceneID="0P2-Gz-MkQ">
             <objects>
-                <collectionViewController id="cP0-Lu-eeE" customClass="GalleryDisplayCollectionViewController" customModule="ImageGallery" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController id="cP0-Lu-eeE" customClass="GalleryDisplayCollectionViewController" customModule="PersistentImageGallery" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="3vc-D8-7uT">
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -74,7 +74,7 @@
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="imageCell" id="4IL-n2-Gk3" customClass="ImageCollectionViewCell" customModule="ImageGallery" customModuleProvider="target">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="imageCell" id="4IL-n2-Gk3" customClass="ImageCollectionViewCell" customModule="PersistentImageGallery" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="200" height="300"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
@@ -124,10 +124,25 @@
             </objects>
             <point key="canvasLocation" x="835" y="175"/>
         </scene>
+        <!--Image Gallery Document Browser View Controller-->
+        <scene sceneID="zAp-cr-zJ8">
+            <objects>
+                <viewController id="FfZ-XD-XnK" customClass="ImageGalleryDocumentBrowserViewController" customModule="PersistentImageGallery" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="qqi-XE-kVw">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="aA8-8b-lg8"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pPx-8W-7UN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-625" y="175"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="mOd-pa-yJW">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="OFy-Kh-MmR" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="GalleryViewerNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="OFy-Kh-MmR" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="ubq-1b-EGE">
                         <rect key="frame" x="0.0" y="20" width="1024" height="44"/>

@@ -14,6 +14,10 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
 
   // MARK: - Properties
   
+  /// The gallery document being presented by this controller.
+  var galleryDocument: ImageGalleryDocument?
+  
+  // TODO: Remove this gallery file and use the document one.
   /// The gallery to be displayed.
   var gallery: ImageGallery! {
     didSet {
