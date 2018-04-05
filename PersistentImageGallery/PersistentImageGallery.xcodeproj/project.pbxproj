@@ -91,11 +91,8 @@
 		47DCF9302073CBCC000BB492 /* PersistentImageGallery */ = {
 			isa = PBXGroup;
 			children = (
-				47DCF9332073CBCC000BB492 /* ImageGalleryDocumentBrowserViewController.swift */,
 				47DCF9352073CBCC000BB492 /* DocumentViewController.swift */,
-				47DCF9372073CBCC000BB492 /* ImageGalleryDocument.swift */,
 				47DCF9392073CBCC000BB492 /* Main.storyboard */,
-				47DCF93E2073CBCC000BB492 /* LaunchScreen.storyboard */,
 				47DCF9412073CBCC000BB492 /* Info.plist */,
 				47DCF962207522EA000BB492 /* Model */,
 				47DCF961207522CB000BB492 /* Views */,
@@ -133,6 +130,7 @@
 		47DCF9652075231C000BB492 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				47DCF9332073CBCC000BB492 /* ImageGalleryDocumentBrowserViewController.swift */,
 				47DCF9632075230C000BB492 /* GalleryDisplayCollectionViewController.swift */,
 				47DCF959207521BF000BB492 /* ImageDisplayViewController.swift */,
 			);
@@ -143,8 +141,10 @@
 			isa = PBXGroup;
 			children = (
 				47DCF9312073CBCC000BB492 /* AppDelegate.swift */,
-				47DCF93C2073CBCC000BB492 /* Assets.xcassets */,
+				47DCF9372073CBCC000BB492 /* ImageGalleryDocument.swift */,
 				47DCF95D207521D1000BB492 /* Utilities.swift */,
+				47DCF93C2073CBCC000BB492 /* Assets.xcassets */,
+				47DCF93E2073CBCC000BB492 /* LaunchScreen.storyboard */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";

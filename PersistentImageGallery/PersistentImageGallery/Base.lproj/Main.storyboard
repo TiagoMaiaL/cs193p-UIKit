@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="FfZ-XD-XnK">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="FfZ-XD-XnK">
     <device id="ipad9_7" orientation="landscape">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -101,9 +101,7 @@
                                 <connections>
                                     <outlet property="activityIndicator" destination="suZ-s1-qQB" id="NEf-mN-ZRG"/>
                                     <outlet property="imageView" destination="wbW-Jv-SUu" id="yOx-v6-EAg"/>
-                                    <segue destination="jCa-x1-KcV" kind="show" id="7Xv-Wf-X9D">
-                                        <nil key="action"/>
-                                    </segue>
+                                    <segue destination="jCa-x1-KcV" kind="show" id="7Xv-Wf-X9D"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -113,7 +111,13 @@
                             <outletCollection property="gestureRecognizers" destination="K2H-Iw-rMJ" appends="YES" id="YOW-S1-PrV"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" id="h7Y-VW-5e8"/>
+                    <navigationItem key="navigationItem" id="h7Y-VW-5e8">
+                        <barButtonItem key="leftBarButtonItem" systemItem="done" id="NrD-bA-yJu">
+                            <connections>
+                                <action selector="didTapDone:" destination="cP0-Lu-eeE" id="sh7-Zp-Pu8"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="v7i-fe-XxF" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <pinchGestureRecognizer id="K2H-Iw-rMJ">

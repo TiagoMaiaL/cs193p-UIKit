@@ -53,6 +53,15 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
     NotificationCenter.default.removeObserver(self)
   }
   
+  override func loadView() {
+    super.loadView()
+    collectionView!.dragDelegate = self
+    collectionView!.dropDelegate = self
+    
+    flowLayout?.minimumLineSpacing = 5
+    flowLayout?.minimumInteritemSpacing = 5
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -73,13 +82,16 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
     barItem.customView!.heightAnchor.constraint(equalToConstant: 25).isActive = true
   }
   
-  override func loadView() {
-    super.loadView()
-    collectionView!.dragDelegate = self
-    collectionView!.dropDelegate = self
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
     
-    flowLayout?.minimumLineSpacing = 5
-    flowLayout?.minimumInteritemSpacing = 5
+    galleryDocument?.open { success in
+      if success {
+        self.gallery = self.galleryDocument!.gallery
+      } else {
+        // TODO: Present an alert to the user.
+      }
+    }
   }
   
   // MARK: - Navigation
@@ -124,6 +136,12 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
     }
   }
   
+  @IBAction func didTapDone(_ sender: UIBarButtonItem) {
+    dismiss(animated: true) {
+      // TODO: Save the document.
+    }
+  }
+  
   // MARK: - Imperatives
   
   /// Returns the image at the provided indexPath.
@@ -133,7 +151,7 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
   
   /// Inserts the provided image at the provided indexPath.
   private func insertImage(_ image: ImageGallery.Image, at indexPath: IndexPath) {
-    gallery!.images.insert(image, at: indexPath.item)
+    gallery.images.insert(image, at: indexPath.item)
   }
   
   // MARK: - Collection view data source
