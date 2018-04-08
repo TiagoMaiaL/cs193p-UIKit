@@ -10,14 +10,20 @@ import UIKit
 
 private let reuseIdentifier = "imageCell"
 
-class GalleryDisplayCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDropDelegate, UICollectionViewDragDelegate, UIDropInteractionDelegate {
-
+class GalleryDisplayCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDropDelegate, UICollectionViewDragDelegate, UIDropInteractionDelegate, ImageRequestManagerDelegate {
+  
   // MARK: - Properties
+  
+  /// The image request manager used by this controller.
+  var imageRequestManager: ImageRequestManager? {
+    didSet {
+      imageRequestManager?.delegate = self
+    }
+  }
   
   /// The gallery document being presented by this controller.
   var galleryDocument: ImageGalleryDocument?
   
-  // TODO: Remove this gallery file and use the document one.
   /// The gallery to be displayed.
   var gallery: ImageGallery! {
     didSet {
@@ -69,7 +75,7 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
     // a custom view had to be added, since a UIBarButtonItem is not a
     // view and doesn't handle interactions.
     let trashButton = UIButton()
-    trashButton.setImage(UIImage(named: "icon_trash"), for: .normal)
+    trashButton.setImage(#imageLiteral(resourceName: "icon_trash"), for: .normal)
     
     let dropInteraction = UIDropInteraction(delegate: self)
     trashButton.addInteraction(dropInteraction)
@@ -296,10 +302,9 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
           if let url = provider?.imageURL {
             draggedImage.imagePath = url
 
-            // Downloads the image from the fetched url.
-            URLSession(configuration: .default).dataTask(with: url) { (data, response, error) in
+            self.imageRequestManager?.request(at: url) { data in
               DispatchQueue.main.async {
-                if let data = data, let _ = UIImage(data: data) {
+                if let _ = UIImage(data: data) {
                   placeholderContext.commitInsertion { indexPath in
                     draggedImage.imageData = data
                     self.insertImage(draggedImage, at: indexPath)
@@ -309,7 +314,8 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
                   placeholderContext.deletePlaceholder()
                 }
               }
-            }.resume()
+            }
+
           }
         }
         
@@ -335,4 +341,17 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
     
     gallery.images.remove(at: index)
   }
+  
+  // MARK: - ImageRequestManager delegate
+  
+  func didReceiveReponseData(_ data: Data, at url: URL) {}
+  
+  func didReceiveErrorResponse(_ response: URLResponse) {
+    // TODO: Present error to the user.
+  }
+  
+  func didReceiveClientError(_ error: Error) {
+    // TODO: Present error to the user.
+  }
+  
 }

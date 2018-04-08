@@ -45,7 +45,9 @@ class ImageRequestManager {
   // MARK: - Imperatives
   
   /// Requests an image at the provided URL.
-  func request(at url: URL) {
+  /// - Note: If a completion handler is provided,
+  ///         the delegate method is not called.
+  func request(at url: URL, completion: Optional<(Data) -> ()> = nil) {
     let task = session.dataTask(with: url) { (data, response, transportError) in
       
       guard transportError == nil else {
@@ -55,13 +57,19 @@ class ImageRequestManager {
       
       guard let httpResponse = response as? HTTPURLResponse,
         (200...299).contains(httpResponse.statusCode) else {
-          // TODO: Check for the response's mime type as well.
           self.delegate?.didReceiveErrorResponse(response!)
           return
       }
-      
-      self.delegate?.didReceiveReponseData(data!, at: url)
+
+      if ["image/jpeg", "image/png"].contains(httpResponse.mimeType) {
+        if let completion = completion {
+          completion(data!)
+        } else {
+          self.delegate?.didReceiveReponseData(data!, at: url)
+        }
+      }
     }
+
     task.resume()
   }
   
