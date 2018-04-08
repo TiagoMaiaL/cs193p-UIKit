@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		474C15F6207A727000DE4930 /* ImageRequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474C15F5207A727000DE4930 /* ImageRequestManager.swift */; };
 		47DCF9322073CBCC000BB492 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DCF9312073CBCC000BB492 /* AppDelegate.swift */; };
 		47DCF9342073CBCC000BB492 /* ImageGalleryDocumentBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DCF9332073CBCC000BB492 /* ImageGalleryDocumentBrowserViewController.swift */; };
 		47DCF9362073CBCC000BB492 /* DocumentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DCF9352073CBCC000BB492 /* DocumentViewController.swift */; };
@@ -33,6 +34,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		474C15F5207A727000DE4930 /* ImageRequestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRequestManager.swift; sourceTree = "<group>"; };
 		47DCF92E2073CBCC000BB492 /* PersistentImageGallery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PersistentImageGallery.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		47DCF9312073CBCC000BB492 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		47DCF9332073CBCC000BB492 /* ImageGalleryDocumentBrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGalleryDocumentBrowserViewController.swift; sourceTree = "<group>"; };
@@ -70,6 +72,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		474C15F7207A729100DE4930 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				474C15F5207A727000DE4930 /* ImageRequestManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
 		47DCF9252073CBCC000BB492 = {
 			isa = PBXGroup;
 			children = (
@@ -94,9 +104,10 @@
 				47DCF9352073CBCC000BB492 /* DocumentViewController.swift */,
 				47DCF9392073CBCC000BB492 /* Main.storyboard */,
 				47DCF9412073CBCC000BB492 /* Info.plist */,
-				47DCF962207522EA000BB492 /* Model */,
-				47DCF961207522CB000BB492 /* Views */,
 				47DCF9652075231C000BB492 /* Controllers */,
+				47DCF961207522CB000BB492 /* Views */,
+				47DCF962207522EA000BB492 /* Model */,
+				474C15F7207A729100DE4930 /* Managers */,
 				47DCF96620752338000BB492 /* Supporting Files */,
 			);
 			path = PersistentImageGallery;
@@ -255,6 +266,7 @@
 				47DCF95A207521C0000BB492 /* ImageDisplayViewController.swift in Sources */,
 				47DCF9382073CBCC000BB492 /* ImageGalleryDocument.swift in Sources */,
 				47DCF9362073CBCC000BB492 /* DocumentViewController.swift in Sources */,
+				474C15F6207A727000DE4930 /* ImageRequestManager.swift in Sources */,
 				47DCF95C207521CC000BB492 /* ImageGallery.swift in Sources */,
 				47DCF9342073CBCC000BB492 /* ImageGalleryDocumentBrowserViewController.swift in Sources */,
 				47DCF9602075227C000BB492 /* ImageCollectionViewCell.swift in Sources */,

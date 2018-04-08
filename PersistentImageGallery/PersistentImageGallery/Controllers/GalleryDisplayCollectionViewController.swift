@@ -87,7 +87,10 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
     
     galleryDocument?.open { success in
       if success {
-        self.gallery = self.galleryDocument!.gallery
+        if self.gallery == nil {
+          self.gallery = self.galleryDocument!.gallery
+          self.gallery.title = self.galleryDocument!.localizedName
+        }
       } else {
         // TODO: Present an alert to the user.
       }
@@ -95,7 +98,7 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
   }
   
   // MARK: - Navigation
-   
+  
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if let destination = segue.destination as? ImageDisplayViewController {
       let cell = sender as! UICollectionViewCell
@@ -137,8 +140,14 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
   }
   
   @IBAction func didTapDone(_ sender: UIBarButtonItem) {
-    dismiss(animated: true) {
-      // TODO: Save the document.
+    galleryDocument?.gallery = gallery
+    galleryDocument?.updateChangeCount(.done)
+    galleryDocument?.close() { success in
+      if success == false {
+        // TODO: Present an alert to the user.
+      }
+      
+      self.dismiss(animated: true)
     }
   }
   
