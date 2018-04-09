@@ -25,12 +25,15 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
   var galleryDocument: ImageGalleryDocument?
   
   /// The gallery to be displayed.
-  var gallery: ImageGallery! {
+  private var gallery: ImageGallery! {
     didSet {
       title = gallery?.title
       collectionView?.reloadData()
     }
   }
+  
+  /// The dictionary caching all requested images.
+  private var cachedImages = [ImageGallery.Image : UIImage]()
   
   /// The maximum collection view's item width.
   private var maximumItemWidth: CGFloat? {
@@ -109,8 +112,8 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
     if let destination = segue.destination as? ImageDisplayViewController {
       let cell = sender as! UICollectionViewCell
       if let indexPath = collectionView?.indexPath(for: cell),
-         let selectedImage = getImage(at: indexPath) {
-        destination.image = selectedImage
+         let selectedImageModel = getImage(at: indexPath) {
+        destination.image = cachedImages[selectedImageModel]
       }
     }
   }
@@ -118,8 +121,8 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
   override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
     let cell = sender as! UICollectionViewCell
     if let indexPath = collectionView?.indexPath(for: cell),
-       let selectedImage = getImage(at: indexPath) {
-      return selectedImage.imageData != nil
+       let selectedImageModel = getImage(at: indexPath) {
+      return cachedImages[selectedImageModel] != nil
     } else {
       return false
     }
@@ -178,16 +181,26 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
   override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
     
-    guard let galleryImage = getImage(at: indexPath) else {
+    guard let galleryImageModel = getImage(at: indexPath) else {
       return cell
     }
     
     if let imageCell = cell as? ImageCollectionViewCell {
-      if let data = galleryImage.imageData, let image = UIImage(data: data) {
+      if let image = cachedImages[galleryImageModel] {
         imageCell.imageView.image = image
         imageCell.isLoading = false
       } else {
         imageCell.isLoading = true
+        
+        // If we don't have an image, request and cache it.
+        imageRequestManager?.request(at: galleryImageModel.imagePath!) { data in
+          if let loadedImage = UIImage(data: data) {
+            DispatchQueue.main.async {
+              self.cachedImages[galleryImageModel] = loadedImage
+              self.collectionView?.reloadData()
+            }
+          }
+        }
       }
     }
     
@@ -304,9 +317,9 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
 
             self.imageRequestManager?.request(at: url) { data in
               DispatchQueue.main.async {
-                if let _ = UIImage(data: data) {
+                if let loadedImage = UIImage(data: data) {
                   placeholderContext.commitInsertion { indexPath in
-                    draggedImage.imageData = data
+                    self.cachedImages[draggedImage] = loadedImage
                     self.insertImage(draggedImage, at: indexPath)
                   }
                 } else {

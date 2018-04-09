@@ -24,7 +24,11 @@ class ImageDisplayViewController: UIViewController, UIScrollViewDelegate {
   }
   
   /// The image being displayed.
-  var image: ImageGallery.Image!
+  var image: UIImage! {
+    didSet {
+      imageView?.image = image
+    }
+  }
   
   // MARK: - Life cycle
   
@@ -34,10 +38,7 @@ class ImageDisplayViewController: UIViewController, UIScrollViewDelegate {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    
-    if let data = image?.imageData {
-      imageView?.image = UIImage(data: data)
-    }
+    imageView.image = image
   }
   
   // MARK: - scroll view delegate

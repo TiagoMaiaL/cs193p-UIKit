@@ -32,9 +32,6 @@ struct ImageGallery: Hashable, Codable {
     /// The image's aspect ratio.
     var aspectRatio: Double
     
-    /// The fetched image's data.
-    var imageData: Data?
-    
     /// MARK: - Initializer
     
     init(imagePath: URL?, aspectRatio: Double) {
