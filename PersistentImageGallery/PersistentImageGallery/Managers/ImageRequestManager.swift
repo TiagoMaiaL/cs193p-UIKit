@@ -31,8 +31,13 @@ class ImageRequestManager {
   var delegate: ImageRequestManagerDelegate?
 
   private lazy var configuration: URLSessionConfiguration = {
+    // 80 MB for the image caching.
+    let cache = URLCache(memoryCapacity: 2 * 1024 * 1024, diskCapacity: 80 * 1024 * 1024, diskPath: nil)
+    
     let configuration = URLSessionConfiguration.default
-    // TODO: Configure the cache policy and the cache object here.
+    configuration.urlCache = cache
+    configuration.requestCachePolicy = .returnCacheDataElseLoad
+    
     return configuration
   }()
   
@@ -50,7 +55,7 @@ class ImageRequestManager {
   func request(at url: URL, completion: Optional<(Data) -> ()> = nil) {
     let task = session.dataTask(with: url) { (data, response, transportError) in
       
-      guard transportError == nil else {
+      guard transportError == nil, let data = data else {
         self.delegate?.didReceiveClientError(transportError!)
         return
       }
@@ -63,9 +68,9 @@ class ImageRequestManager {
 
       if ["image/jpeg", "image/png"].contains(httpResponse.mimeType) {
         if let completion = completion {
-          completion(data!)
+          completion(data)
         } else {
-          self.delegate?.didReceiveReponseData(data!, at: url)
+          self.delegate?.didReceiveReponseData(data, at: url)
         }
       }
     }
