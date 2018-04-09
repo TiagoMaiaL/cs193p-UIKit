@@ -64,11 +64,13 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
   
   override func loadView() {
     super.loadView()
+    
+    collectionView!.dragInteractionEnabled = true
     collectionView!.dragDelegate = self
     collectionView!.dropDelegate = self
     
-    flowLayout?.minimumLineSpacing = 5
-    flowLayout?.minimumInteritemSpacing = 5
+    flowLayout!.minimumLineSpacing = 5
+    flowLayout!.minimumInteritemSpacing = 5
   }
   
   override func viewDidLoad() {

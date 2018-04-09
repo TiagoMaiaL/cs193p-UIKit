@@ -22,26 +22,32 @@ class ImageGalleryDocumentBrowserViewController: UIDocumentBrowserViewController
     super.viewDidLoad()
     
     delegate = self
-    allowsDocumentCreation = true
     allowsPickingMultipleItems = false
     browserUserInterfaceStyle = .dark
 
-    // Creates the template file:
-    let fileManager = FileManager.default
-    
-    templateURL = try? fileManager.url(
-      for: .applicationSupportDirectory,
-      in: .userDomainMask,
-      appropriateFor: nil,
-      create: true
-      ).appendingPathComponent("untitled.json")
-    
-    if let templateURL = templateURL {
-      fileManager.createFile(atPath: templateURL.path, contents: Data())
+    // Only allows the creation of documents when running on ipad devices.
+    if UIDevice.current.userInterfaceIdiom == .pad {
+      allowsDocumentCreation = true
       
-      // Writes an empty image gallery into the template file:
-      let emptyGallery = ImageGallery(images: [], title: "Untitled")
-      _ = try? JSONEncoder().encode(emptyGallery).write(to: templateURL)
+      // Creates the template file:
+      let fileManager = FileManager.default
+      
+      templateURL = try? fileManager.url(
+        for: .applicationSupportDirectory,
+        in: .userDomainMask,
+        appropriateFor: nil,
+        create: true
+        ).appendingPathComponent("untitled.json")
+      
+      if let templateURL = templateURL {
+        fileManager.createFile(atPath: templateURL.path, contents: Data())
+        
+        // Writes an empty image gallery into the template file:
+        let emptyGallery = ImageGallery(images: [], title: "Untitled")
+        _ = try? JSONEncoder().encode(emptyGallery).write(to: templateURL)
+      }
+    } else {
+      allowsDocumentCreation = false
     }
   }
   
