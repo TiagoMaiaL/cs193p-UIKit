@@ -24,11 +24,12 @@ class ImageGalleryDocumentBrowserViewController: UIDocumentBrowserViewController
     delegate = self
     allowsPickingMultipleItems = false
     browserUserInterfaceStyle = .dark
-
+    
+    allowsDocumentCreation = false
+    
     // Only allows the creation of documents when running on ipad devices.
     if UIDevice.current.userInterfaceIdiom == .pad {
-      allowsDocumentCreation = true
-      
+
       // Creates the template file:
       let fileManager = FileManager.default
       
@@ -37,17 +38,15 @@ class ImageGalleryDocumentBrowserViewController: UIDocumentBrowserViewController
         in: .userDomainMask,
         appropriateFor: nil,
         create: true
-        ).appendingPathComponent("untitled.json")
+        ).appendingPathComponent("untitled.imagegallery")
       
       if let templateURL = templateURL {
-        fileManager.createFile(atPath: templateURL.path, contents: Data())
+        allowsDocumentCreation = fileManager.createFile(atPath: templateURL.path, contents: Data())
         
         // Writes an empty image gallery into the template file:
-        let emptyGallery = ImageGallery(images: [], title: "Untitled")
+        let emptyGallery = ImageGallery(images: [], title: "untitled")
         _ = try? JSONEncoder().encode(emptyGallery).write(to: templateURL)
       }
-    } else {
-      allowsDocumentCreation = false
     }
   }
   
