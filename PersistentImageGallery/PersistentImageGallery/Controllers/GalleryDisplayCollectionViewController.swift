@@ -10,16 +10,12 @@ import UIKit
 
 private let reuseIdentifier = "imageCell"
 
-class GalleryDisplayCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDropDelegate, UICollectionViewDragDelegate, UIDropInteractionDelegate, ImageRequestManagerDelegate {
+class GalleryDisplayCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDropDelegate, UICollectionViewDragDelegate, UIDropInteractionDelegate {
   
   // MARK: - Properties
   
   /// The image request manager used by this controller.
-  var imageRequestManager: ImageRequestManager? {
-    didSet {
-      imageRequestManager?.delegate = self
-    }
-  }
+  var imageRequestManager: ImageRequestManager?
   
   /// The gallery document being presented by this controller.
   var galleryDocument: ImageGalleryDocument?
@@ -103,7 +99,9 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
           self.gallery.title = self.galleryDocument!.localizedName
         }
       } else {
-        // TODO: Present an alert to the user.
+        self.presentWarningWith(title: "Error", message: "Document can't be viewed.") {
+          self.dismiss(animated: true)
+        }
       }
     }
   }
@@ -159,15 +157,24 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
     
     galleryDocument?.updateChangeCount(.done)
     galleryDocument?.close() { success in
-      if success == false {
-        // TODO: Present an alert to the user.
+      if !success {
+        self.presentWarningWith(title: "Error", message: "The document can't be saved.") {
+          self.dismiss(animated: true)
+        }
+      } else {
+        self.dismiss(animated: true)
       }
-      
-      self.dismiss(animated: true)
     }
   }
   
   // MARK: - Imperatives
+  
+  private func presentWarningWith(title: String, message: String, andHandler handler: Optional<() -> ()> = nil) {
+    let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+    alert.addAction(UIAlertAction(title: "Ok", style: .default))
+    
+    present(alert, animated: true, completion: handler)
+  }
   
   /// Returns the image at the provided indexPath.
   private func getImage(at indexPath: IndexPath) -> ImageGallery.Image? {
@@ -200,12 +207,16 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
         imageCell.isLoading = true
         
         // If we don't have an image, request and cache it.
-        imageRequestManager?.request(at: galleryImageModel.imagePath!) { data in
+        imageRequestManager?.request(at: galleryImageModel.imagePath!, withCompletionHandler: { data in
           if let loadedImage = UIImage(data: data) {
             DispatchQueue.main.async {
               self.cachedImages[galleryImageModel] = loadedImage
               self.collectionView?.reloadData()
             }
+          }
+        }) { (transportError, response) in
+          DispatchQueue.main.async {
+            self.presentWarningWith(title: "Error", message: "The image couldn't be fetched. Verify your internet connection.")
           }
         }
       }
@@ -308,7 +319,6 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
         var draggedImage = ImageGallery.Image(imagePath: nil, aspectRatio: 1)
         
         // Loads the image.
-        // TODO: Check if it's possible to add the placeholder only after figuring out what's the aspect ratio.
         _ = item.dragItem.itemProvider.loadObject(ofClass: UIImage.self){ (provider, error) in
           DispatchQueue.main.async {
             if let image = provider as? UIImage {
@@ -322,20 +332,19 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
           if let url = provider?.imageURL {
             draggedImage.imagePath = url
 
-            self.imageRequestManager?.request(at: url) { data in
+            self.imageRequestManager?.request(at: url, withCompletionHandler: { data in
               DispatchQueue.main.async {
-                if let loadedImage = UIImage(data: data) {
-                  placeholderContext.commitInsertion { indexPath in
-                    self.cachedImages[draggedImage] = loadedImage
-                    self.insertImage(draggedImage, at: indexPath)
-                  }
-                } else {
-                  // There was an error. Remove the placeholder.
-                  placeholderContext.deletePlaceholder()
+                placeholderContext.commitInsertion { indexPath in
+                  self.cachedImages[draggedImage] = UIImage(data: data)
+                  self.insertImage(draggedImage, at: indexPath)
                 }
               }
+            }) { (transportError, response) in
+              DispatchQueue.main.async {
+                self.presentWarningWith(title: "Error", message: "The image couldn't be added because it failed being fetched. Verify your internet connection.")
+                placeholderContext.deletePlaceholder()
+              }
             }
-
           }
         }
         
@@ -360,18 +369,6 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
     guard let index = gallery.images.index(of: droppedImage) else { return }
     
     gallery.images.remove(at: index)
-  }
-  
-  // MARK: - ImageRequestManager delegate
-  
-  func didReceiveReponseData(_ data: Data, at url: URL) {}
-  
-  func didReceiveErrorResponse(_ response: URLResponse) {
-    // TODO: Present error to the user.
-  }
-  
-  func didReceiveClientError(_ error: Error) {
-    // TODO: Present error to the user.
   }
   
 }

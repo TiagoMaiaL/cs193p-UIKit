@@ -8,31 +8,17 @@
 
 import Foundation
 
-/// The ImageRequestManager's delegate.
-protocol ImageRequestManagerDelegate {
-  
-  /// Method called when the response returns successfully.
-  func didReceiveReponseData(_ data: Data, at url: URL)
-  
-  /// Method called when there's an error reported by the server.
-  func didReceiveErrorResponse(_ response: URLResponse)
-  
-  /// Method called when there's a transport error.
-  func didReceiveClientError(_ error: Error)
-}
-
 /// Class in charge of requesting the provided images
 /// from the internet and cache them.
 class ImageRequestManager {
   
   // MARK: - Properties
-  
-  /// The manager's delegate.
-  var delegate: ImageRequestManagerDelegate?
 
+  /// The session configuration object used to determine the cache
+  /// policy and the disk space available.
   private lazy var configuration: URLSessionConfiguration = {
     // 80 MB for the image caching.
-    let cache = URLCache(memoryCapacity: 2 * 1024 * 1024, diskCapacity: 80 * 1024 * 1024, diskPath: nil)
+    let cache = URLCache(memoryCapacity: 0, diskCapacity: 80 * 1024 * 1024, diskPath: nil)
     
     let configuration = URLSessionConfiguration.default
     configuration.urlCache = cache
@@ -50,29 +36,26 @@ class ImageRequestManager {
   // MARK: - Imperatives
   
   /// Requests an image at the provided URL.
-  /// - Note: If a completion handler is provided,
-  ///         the delegate method is not called.
-  func request(at url: URL, completion: Optional<(Data) -> ()> = nil) {
+  func request(
+    at url: URL,
+    withCompletionHandler completion: @escaping (Data) -> (),
+    andErrorHandler onError: @escaping (Error?, URLResponse?) -> ()
+  ) {
     let task = session.dataTask(with: url) { (data, response, transportError) in
       
       guard transportError == nil, let data = data else {
-        self.delegate?.didReceiveClientError(transportError!)
+        onError(transportError, nil)
         return
       }
       
       guard let httpResponse = response as? HTTPURLResponse,
-        (200...299).contains(httpResponse.statusCode) else {
-          self.delegate?.didReceiveErrorResponse(response!)
+        (200...299).contains(httpResponse.statusCode),
+        ["image/jpeg", "image/png"].contains(httpResponse.mimeType) else {
+          onError(nil, response)
           return
       }
 
-      if ["image/jpeg", "image/png"].contains(httpResponse.mimeType) {
-        if let completion = completion {
-          completion(data)
-        } else {
-          self.delegate?.didReceiveReponseData(data, at: url)
-        }
-      }
+      completion(data)
     }
 
     task.resume()
