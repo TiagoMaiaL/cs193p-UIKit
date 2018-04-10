@@ -12,6 +12,9 @@ class ImageGalleryDocument: UIDocument {
   
   // MARK: - Properties
   
+  /// The document thumbnail.
+  var thumbnail: UIImage?
+  
   /// The gallery stored by this document.
   var gallery: ImageGallery?
   
@@ -25,6 +28,15 @@ class ImageGalleryDocument: UIDocument {
     if let data = contents as? Data {
       gallery = ImageGallery(json: data)
     }
+  }
+  
+  override func fileAttributesToWrite(to url: URL, for saveOperation: UIDocumentSaveOperation) throws -> [AnyHashable : Any] {
+    var attributes = try super.fileAttributesToWrite(to: url, for: saveOperation)
+    if let thumbnail = thumbnail {
+      attributes[URLResourceKey.thumbnailDictionaryKey] = [URLThumbnailDictionaryItem.NSThumbnail1024x1024SizeKey : thumbnail]
+    }
+    
+    return attributes
   }
 }
 

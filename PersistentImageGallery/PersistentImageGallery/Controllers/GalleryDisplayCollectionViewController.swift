@@ -152,6 +152,11 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
   
   @IBAction func didTapDone(_ sender: UIBarButtonItem) {
     galleryDocument?.gallery = gallery
+    
+    if !cachedImages.isEmpty {
+      galleryDocument?.thumbnail = cachedImages.first?.value
+    }
+    
     galleryDocument?.updateChangeCount(.done)
     galleryDocument?.close() { success in
       if success == false {
