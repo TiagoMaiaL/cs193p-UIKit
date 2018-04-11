@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		474C15F6207A727000DE4930 /* ImageRequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474C15F5207A727000DE4930 /* ImageRequestManager.swift */; };
+		4755A2CE207E66F1007C4225 /* UIViewController+Alerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4755A2CD207E66F1007C4225 /* UIViewController+Alerts.swift */; };
 		47DCF9322073CBCC000BB492 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DCF9312073CBCC000BB492 /* AppDelegate.swift */; };
 		47DCF9342073CBCC000BB492 /* ImageGalleryDocumentBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DCF9332073CBCC000BB492 /* ImageGalleryDocumentBrowserViewController.swift */; };
 		47DCF9382073CBCC000BB492 /* ImageGalleryDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DCF9372073CBCC000BB492 /* ImageGalleryDocument.swift */; };
@@ -34,6 +35,7 @@
 
 /* Begin PBXFileReference section */
 		474C15F5207A727000DE4930 /* ImageRequestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRequestManager.swift; sourceTree = "<group>"; };
+		4755A2CD207E66F1007C4225 /* UIViewController+Alerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Alerts.swift"; sourceTree = "<group>"; };
 		47DCF92E2073CBCC000BB492 /* PersistentImageGallery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PersistentImageGallery.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		47DCF9312073CBCC000BB492 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		47DCF9332073CBCC000BB492 /* ImageGalleryDocumentBrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGalleryDocumentBrowserViewController.swift; sourceTree = "<group>"; };
@@ -141,6 +143,7 @@
 				47DCF9332073CBCC000BB492 /* ImageGalleryDocumentBrowserViewController.swift */,
 				47DCF9632075230C000BB492 /* GalleryDisplayCollectionViewController.swift */,
 				47DCF959207521BF000BB492 /* ImageDisplayViewController.swift */,
+				4755A2CD207E66F1007C4225 /* UIViewController+Alerts.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -263,6 +266,7 @@
 				47DCF95A207521C0000BB492 /* ImageDisplayViewController.swift in Sources */,
 				47DCF9382073CBCC000BB492 /* ImageGalleryDocument.swift in Sources */,
 				474C15F6207A727000DE4930 /* ImageRequestManager.swift in Sources */,
+				4755A2CE207E66F1007C4225 /* UIViewController+Alerts.swift in Sources */,
 				47DCF95C207521CC000BB492 /* ImageGallery.swift in Sources */,
 				47DCF9342073CBCC000BB492 /* ImageGalleryDocumentBrowserViewController.swift in Sources */,
 				47DCF9602075227C000BB492 /* ImageCollectionViewCell.swift in Sources */,

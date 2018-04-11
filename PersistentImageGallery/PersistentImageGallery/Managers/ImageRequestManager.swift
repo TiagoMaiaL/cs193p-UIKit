@@ -14,23 +14,15 @@ class ImageRequestManager {
   
   // MARK: - Properties
 
-  /// The session configuration object used to determine the cache
-  /// policy and the disk space available.
-  private lazy var configuration: URLSessionConfiguration = {
-    // 80 MB for the image caching.
+  /// The session used to make each data task.
+  private(set) lazy var session: URLSession = {
     let cache = URLCache(memoryCapacity: 0, diskCapacity: 80 * 1024 * 1024, diskPath: nil)
     
     let configuration = URLSessionConfiguration.default
     configuration.urlCache = cache
     configuration.requestCachePolicy = .returnCacheDataElseLoad
     
-    return configuration
-  }()
-  
-  /// The session used to make each data task.
-  private(set) lazy var session: URLSession = {
-    let session = URLSession(configuration: configuration, delegate: nil, delegateQueue: nil)
-    return session
+    return URLSession(configuration: configuration, delegate: nil, delegateQueue: nil)
   }()
   
   // MARK: - Imperatives

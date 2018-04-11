@@ -56,6 +56,8 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
   
   deinit {
     NotificationCenter.default.removeObserver(self)
+    imageRequestManager?.session.invalidateAndCancel()
+    imageRequestManager = nil
   }
   
   override func loadView() {
@@ -169,13 +171,6 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
   
   // MARK: - Imperatives
   
-  private func presentWarningWith(title: String, message: String, andHandler handler: Optional<() -> ()> = nil) {
-    let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-    alert.addAction(UIAlertAction(title: "Ok", style: .default))
-    
-    present(alert, animated: true, completion: handler)
-  }
-  
   /// Returns the image at the provided indexPath.
   private func getImage(at indexPath: IndexPath) -> ImageGallery.Image? {
     return gallery?.images[indexPath.item]
@@ -207,16 +202,16 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
         imageCell.isLoading = true
         
         // If we don't have an image, request and cache it.
-        imageRequestManager?.request(at: galleryImageModel.imagePath!, withCompletionHandler: { data in
+        imageRequestManager?.request(at: galleryImageModel.imagePath!, withCompletionHandler: { [weak self] data in
           if let loadedImage = UIImage(data: data) {
             DispatchQueue.main.async {
-              self.cachedImages[galleryImageModel] = loadedImage
-              self.collectionView?.reloadData()
+              self?.cachedImages[galleryImageModel] = loadedImage
+              self?.collectionView?.reloadData()
             }
           }
-        }) { (transportError, response) in
+        }) { [weak self] (transportError, response) in
           DispatchQueue.main.async {
-            self.presentWarningWith(title: "Error", message: "The image couldn't be fetched. Verify your internet connection.")
+            self?.presentWarningWith(title: "Error", message: "The image couldn't be fetched. Verify your internet connection.")
           }
         }
       }
@@ -332,22 +327,22 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
           if let url = provider?.imageURL {
             draggedImage.imagePath = url
 
-            self.imageRequestManager?.request(at: url, withCompletionHandler: { data in
+            self.imageRequestManager?.request(at: url, withCompletionHandler: { [weak self] data in
               DispatchQueue.main.async {
                 placeholderContext.commitInsertion { indexPath in
-                  self.cachedImages[draggedImage] = UIImage(data: data)
-                  self.insertImage(draggedImage, at: indexPath)
+                  self?.cachedImages[draggedImage] = UIImage(data: data)
+                  self?.insertImage(draggedImage, at: indexPath)
                 }
               }
-            }) { (transportError, response) in
+            }) { [weak self] (transportError, response) in
               DispatchQueue.main.async {
-                self.presentWarningWith(title: "Error", message: "The image couldn't be added because it failed being fetched. Verify your internet connection.")
+                self?.presentWarningWith(title: "Error", message: "The image couldn't be added because it failed being fetched. Verify your internet connection.")
                 placeholderContext.deletePlaceholder()
               }
             }
           }
         }
-        
+
       }
 
     }

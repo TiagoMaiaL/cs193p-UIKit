@@ -66,8 +66,7 @@ class ImageGalleryDocumentBrowserViewController: UIDocumentBrowserViewController
   }
   
   func documentBrowser(_ controller: UIDocumentBrowserViewController, failedToImportDocumentAt documentURL: URL, error: Error?) {
-    // Make sure to handle the failed import appropriately, e.g., by presenting an error message to the user.
-    // TODO:
+    presentWarningWith(title: "Error", message: "The document can't be opened")
   }
   
   // MARK: Document Presentation

@@ -36,7 +36,7 @@
                                 </connections>
                             </scrollView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="iDK-yo-d0f" firstAttribute="trailing" secondItem="BaJ-4S-ydn" secondAttribute="trailing" id="54h-01-frO"/>
                             <constraint firstItem="BaJ-4S-ydn" firstAttribute="width" relation="lessThanOrEqual" secondItem="Ud5-x7-CNc" secondAttribute="width" priority="250" id="70g-UT-CSE"/>
@@ -65,7 +65,7 @@
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="3vc-D8-7uT">
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <gestureRecognizers/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="fEE-x5-H3A">
                             <size key="itemSize" width="200" height="300"/>
@@ -89,7 +89,7 @@
                                         </activityIndicatorView>
                                     </subviews>
                                 </view>
-                                <color key="backgroundColor" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.93725490570000003" green="0.93725490570000003" blue="0.95686274770000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="wbW-Jv-SUu" firstAttribute="leading" secondItem="4IL-n2-Gk3" secondAttribute="leading" id="28C-4f-Gts"/>
                                     <constraint firstAttribute="trailing" secondItem="wbW-Jv-SUu" secondAttribute="trailing" id="5Vi-VU-BCu"/>
