@@ -87,6 +87,7 @@ class GallerySelectionTableViewController: UITableViewController, GallerySelecti
         if let navigationController = segue.destination as? UINavigationController {
           if let displayController = navigationController.visibleViewController as? GalleryDisplayCollectionViewController {
             displayController.gallery = selectedGallery
+            displayController.galleriesStore = galleriesStore
           }
         }
       }
@@ -97,6 +98,7 @@ class GallerySelectionTableViewController: UITableViewController, GallerySelecti
   
   @IBAction func didTapAddMore(_ sender: UIBarButtonItem) {
     galleriesStore?.addNewGallery()
+    tableView.reloadData()
   }
   
   @IBAction func didDoubleTap(_ sender: UITapGestureRecognizer) {

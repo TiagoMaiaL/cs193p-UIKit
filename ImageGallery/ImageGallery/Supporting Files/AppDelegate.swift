@@ -24,6 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     if let galleryDisplayController = (window?.rootViewController as? UISplitViewController)?.viewControllers.last?.contents as? GalleryDisplayCollectionViewController {
       galleryDisplayController.galleriesStore = galleriesStore
+      galleryDisplayController.gallery = galleriesStore.galleries.first
     }
     
     return true

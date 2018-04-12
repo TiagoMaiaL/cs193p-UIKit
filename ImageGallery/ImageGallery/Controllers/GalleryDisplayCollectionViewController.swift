@@ -17,11 +17,7 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
   /// The galleries' store.
   /// - Note: The store is used to update the current gallery
   ///         every time a new image is added.
-  var galleriesStore: ImageGalleryStore? {
-    didSet {
-      gallery = galleriesStore?.galleries.first
-    }
-  }
+  var galleriesStore: ImageGalleryStore?
   
   /// The gallery to be displayed.
   var gallery: ImageGallery! {
@@ -157,6 +153,7 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
   /// Inserts the provided image at the provided indexPath.
   private func insertImage(_ image: ImageGallery.Image, at indexPath: IndexPath) {
     gallery!.images.insert(image, at: indexPath.item)
+    print("Updated \(gallery!.images.count)")
     galleriesStore?.updateGallery(gallery!)
   }
   

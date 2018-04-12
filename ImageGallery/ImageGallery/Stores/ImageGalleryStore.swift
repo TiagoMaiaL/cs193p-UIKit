@@ -9,7 +9,7 @@
 import Foundation
 
 /// The class responsible for managing each gallery model.
-struct ImageGalleryStore {
+class ImageGalleryStore {
   
   /// The keys used to store the models within UserDefaults.
   private struct StorageKeys {
@@ -81,7 +81,7 @@ struct ImageGalleryStore {
   }
   
   /// Adds a new gallery into the store.
-  mutating func addNewGallery() {
+  func addNewGallery() {
     galleries.insert(makeGallery(), at: 0)
   }
   
@@ -96,22 +96,23 @@ struct ImageGalleryStore {
   }
   
   /// Updates the passed gallery into the store.
-  mutating func updateGallery(_ gallery: ImageGallery) {
+  func updateGallery(_ gallery: ImageGallery) {
     if let galleryIndex = galleries.index(of: gallery) {
       galleries[galleryIndex] = gallery
+      storeGalleries(galleries, at: StorageKeys.galleries)
+      
+      NotificationCenter.default.post(
+        name: Notification.Name.galleryUpdated,
+        object: self,
+        userInfo: [Notification.Name.galleryUpdated : gallery]
+      )
     }
-    
-    NotificationCenter.default.post(
-      name: Notification.Name.galleryUpdated,
-      object: self,
-      userInfo: [Notification.Name.galleryUpdated : gallery]
-    )
   }
   
   /// Removes the gallery from the stored ones.
   /// If the passed gallery is already deleted,
   /// it's permanently removed from the store.
-  mutating func removeGallery(_ gallery: ImageGallery) {
+  func removeGallery(_ gallery: ImageGallery) {
     if let galleryIndex = galleries.index(of: gallery) {
       deletedGalleries.append(galleries.remove(at: galleryIndex))
       if galleries.isEmpty {
@@ -129,7 +130,7 @@ struct ImageGalleryStore {
   }
   
   /// Recovers the passed gallery, if it's a deleted one.
-  mutating func recoverGallery(_ gallery: ImageGallery) {
+  func recoverGallery(_ gallery: ImageGallery) {
     if let deletedIndex = deletedGalleries.index(of: gallery) {
       galleries.append(deletedGalleries.remove(at: deletedIndex))
     }
