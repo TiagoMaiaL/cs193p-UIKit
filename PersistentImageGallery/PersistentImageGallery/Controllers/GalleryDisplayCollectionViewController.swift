@@ -202,7 +202,7 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
         imageCell.isLoading = true
         
         // If we don't have an image, request and cache it.
-        imageRequestManager?.request(at: galleryImageModel.imagePath!, withCompletionHandler: { [weak self] data in
+        imageRequestManager?.request(at: galleryImageModel.imagePath!.imageURL, withCompletionHandler: { [weak self] data in
           if let loadedImage = UIImage(data: data) {
             DispatchQueue.main.async {
               self?.cachedImages[galleryImageModel] = loadedImage
@@ -327,7 +327,7 @@ class GalleryDisplayCollectionViewController: UICollectionViewController, UIColl
           if let url = provider?.imageURL {
             draggedImage.imagePath = url
 
-            self.imageRequestManager?.request(at: url, withCompletionHandler: { [weak self] data in
+            self.imageRequestManager?.request(at: url.imageURL, withCompletionHandler: { [weak self] data in
               DispatchQueue.main.async {
                 placeholderContext.commitInsertion { indexPath in
                   self?.cachedImages[draggedImage] = UIImage(data: data)

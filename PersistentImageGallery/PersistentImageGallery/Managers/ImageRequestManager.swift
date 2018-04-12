@@ -16,7 +16,7 @@ class ImageRequestManager {
 
   /// The session used to make each data task.
   private(set) lazy var session: URLSession = {
-    let cache = URLCache(memoryCapacity: 0, diskCapacity: 80 * 1024 * 1024, diskPath: nil)
+    let cache = URLCache(memoryCapacity: 4 * 1024 * 1024, diskCapacity: 80 * 1024 * 1024, diskPath: nil)
     
     let configuration = URLSessionConfiguration.default
     configuration.urlCache = cache
