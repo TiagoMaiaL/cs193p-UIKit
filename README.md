@@ -42,3 +42,7 @@ width="500"/>
 <img src="./Images/persistent-image-gallery/persistent-image-gallery.png" alt="Persistent image gallery" width="400"/>
 <img src="./Images/persistent-image-gallery/persitent-image-gallery-animals.png" alt="Persistent image gallery images screen" width="400"/>
 <img src="./Images/persistent-image-gallery/persistent-image-gallery-details.png" alt="Persistent image gallery details screen" width="400"/>
+
+## Final project
+
+My final project is currently being developed at the following repository: https://github.com/TiagoMaiaL/Active.
