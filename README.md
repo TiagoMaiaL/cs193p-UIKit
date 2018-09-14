@@ -45,4 +45,4 @@ width="500"/>
 
 ## Final project
 
-My final project is currently being developed at the following repository: https://github.com/TiagoMaiaL/Active.
+My final project is currently being developed at the following repository: https://github.com/TiagoMaiaL/Habit-Calendar.
