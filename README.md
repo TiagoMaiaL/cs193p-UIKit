@@ -46,3 +46,5 @@ width="500"/>
 ## Final project
 
 My final project is located at the following repository: https://github.com/TiagoMaiaL/Habit-Calendar.
+
+### Was this repository useful to you? If so, give it a star, so other students can more easily find it.
